@@ -1,0 +1,47 @@
+.pageAccueil {
+    background-color: bisque;
+    background-image: url('../../img/foto.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    /* opacity: 0.75; */
+}
+
+.titreAccueil {
+    text-align: center;
+    color: var(--blanc-color);
+}
+
+.boutonsDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.logo img {
+    width: 300px;
+    height: auto;
+}
+
+.btn {
+    width: 200px;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.btnConnexion {
+    background-color: var(--rouge-color);
+    color: var(--blanc-color);
+}
+
+.btnInscrption {
+    background-color: var(--blanc-color);
+    color: var(--rouge-color);
+}
