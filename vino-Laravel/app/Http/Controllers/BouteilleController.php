@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bouteille;
+use App\Http\Resources\BouteilleResource;
+use App\Http\Resources\BouteilleCollection;
 use Illuminate\Http\Request;
 
 class BouteilleController extends Controller
@@ -12,7 +14,7 @@ class BouteilleController extends Controller
      */
     public function index()
     {
-        //
+        return new BouteilleCollection(Bouteille::all());
     }
 
     /**
@@ -36,7 +38,7 @@ class BouteilleController extends Controller
      */
     public function show(Bouteille $bouteille)
     {
-        //
+        return new BouteilleResource($bouteille);
     }
 
     /**
