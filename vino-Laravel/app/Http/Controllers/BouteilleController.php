@@ -73,7 +73,7 @@ class BouteilleController extends Controller
                 'prix' => $request->prix ,
                 'description' => $request->description,
                 'annee' => $request->annee,
-                'code_saq' => $request->codeSaq,
+                'code_saq' => $request->code_saq,
                 'url_saq' => $request->url_saq,
                 'url_img' => $request->url_img,
                 'pays_id' => $request->pays_id,
