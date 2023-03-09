@@ -1,7 +1,7 @@
 import './Accueil.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logoVino from '../../img/vinoLogo_rouge.svg';
+import logoVino from '../../img/vinoLogo-rouge.svg';
 
 export default class Accueil extends React.Component {
     constructor(props) {
