@@ -10,13 +10,19 @@ class Cellier extends Model
   use HasFactory;
   protected $fillable = [
     'nom',
-    'users_id'
+    'user_id'
   ];
 
   public function cellierHasUser()
   {
-    // return $this->belongsTo(User::class);
-    return $this->hasOne('App\Models\User', 'id', 'user_id');
+    return $this->belongsTo(User::class);
+    // return $this->hasOne('App\Models\User', 'id', 'user_id');
+  }
+
+  public function cellierHasBouteille()
+  {
+    // return $this->hasMany('App\Models\Bouteille', 'cellier_id', 'id');
+    return $this->hasMany(Bouteille::class);
   }
 
   

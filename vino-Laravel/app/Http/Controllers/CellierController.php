@@ -33,7 +33,7 @@ class CellierController extends Controller
   {
 $dataValide = $request->validate([
   'nom' => 'required|string|max:50',
-  'users_id' => 'required|integer|exists:users,id',
+  'user_id' => 'required|integer|exists:users,id',
 
   ]);
   $newCellier = Cellier::create($dataValide);

@@ -41,4 +41,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // public function userHasCellier()
+    // {
+    //   return $this->hasMany(Cellier::class);
+    // }
+
+    // public function userHasBouteille()
+    // {
+    //   return $this->hasMany(Bouteille::class);
+    // }
 }
