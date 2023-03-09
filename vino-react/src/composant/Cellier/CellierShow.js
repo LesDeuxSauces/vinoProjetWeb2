@@ -1,11 +1,11 @@
-import './CellierEdit.css';
+import './Cellier.css';
 
-function CellierEdit() {
+function CellierShow() {
   return (
-    <div className="CellierEdit">
+    <div className="CellierShow">
      
     </div>
   );
 }
 
-export default CellierEdit;
+export default CellierShow;
