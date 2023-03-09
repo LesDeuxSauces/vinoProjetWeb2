@@ -22,11 +22,11 @@ class BouteilleResource extends JsonResource
             'description' => $this->description,
             'taux' => $this->taux,
             'annee' => $this->annee,
-            'codeSaq' => $this->code_saq,
-            'urlSaq' => $this->url_saq,
-            'urlImage' => $this->url_image,
-            'paysId' => $this->pays_id,
-            'typesId' => $this->types_id,
+            'code_saq' => $this->code_saq,
+            'url_saq' => $this->url_saq,
+            'url_image' => $this->url_image,
+            'pays_id' => $this->pays_id,
+            'type_id' => $this->type_id,
         ];
     }
 }

@@ -9,6 +9,21 @@ class Bouteille extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'id' ,
+        'nom' ,
+        'format' ,
+        'prix' ,
+        'description' ,
+        'annee' ,
+        'code_saq' ,
+        'url_saq' ,
+        'url_image' ,
+        'pays_id' ,
+        'type_id' ,
+    ];
+
+
     public function bouteilleHasCellier()
     {
         // return $this->belongsTo('App\Models\Cellier', 'cellier_id', 'id');
