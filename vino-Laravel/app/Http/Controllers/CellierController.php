@@ -15,7 +15,6 @@ class CellierController extends Controller
   public function index()
   {
     $celliers = Cellier::all();
-    // return view('cellier.index', ['celliers' => $celliers]);
     return response()->json($celliers);
   }
 
@@ -27,20 +26,6 @@ class CellierController extends Controller
     return view('cellier.create');
   }
 
-  /**
-   * Store a newly created resource in storage.
-   */
-  //   public function store(Request $request)
-  //   {
-  // $dataValide = $request->validate([
-  //   'nom' => 'required|string|max:50',
-  //   'user_id' => 'required|integer|exists:users,id',
-
-  //   ]);
-  //   $newCellier = Cellier::create($dataValide);
-  //   return redirect(route('cellier.index'));
-  //   // return redirect(route('cellier.show', $newCellier->id)); // si on veut rediriger vers la page du cellier que l'on vient de créer.
-  //   }
 
   public function store(Request $request)
   {
@@ -58,18 +43,27 @@ class CellierController extends Controller
   /**
    * Display the specified resource.
    */
-  public function show(Cellier $cellier)
-  {
-    // return view('cellier.show', ['cellier' => $cellier]);
-    return response()->json($cellier);
-  }
+/**
+ * Display the specified resource.
+ */
+public function show(Cellier $cellier)
+{
+    $bouteilles = $cellier->cellierHasBouteille()->withPivot('quantite')->get()->toArray();
+
+    return response()->json([
+        'cellier' => $cellier,
+        'bouteilles' => $bouteilles
+    ]);
+}
+
+  
 
   /**
    * Show the form for editing the specified resource.
    */
   public function edit(Cellier $cellier)
   {
-    return view('cellier.edit', ['cellier' => $cellier]);
+    //
   }
 
   /**
@@ -77,11 +71,7 @@ class CellierController extends Controller
    */
   public function update(Request $request, Cellier $cellier)
   {
-    // $cellier->update([
-    //   'nom' => $request->nom,
-    // ]);
-
-    // return redirect(route('cellier.show', $cellier->id));
+    //
   }
 
   /**
@@ -89,7 +79,6 @@ class CellierController extends Controller
    */
   public function destroy(Cellier $cellier)
   {
-    $cellier->delete();
-    return redirect(route('cellier.index'));
+    //
   }
 }

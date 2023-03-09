@@ -10,7 +10,7 @@ function CellierList() {
       .then(reponse => reponse.json())
       .then(data => {
         setCelliers(data);
-        console.log(data);
+        // console.log(data);
       })
       .catch(error => console.error(error));
   }, []);
@@ -29,7 +29,7 @@ function CellierList() {
       ) : (
         <p>Aucun cellier trouvé</p>
       )}
-      <Link to="/cellier/create">Créer un nouveau cellier</Link>
+      {/* <Link to="/cellier/create">Créer un nouveau cellier</Link> */}
     </div>
   );
 }
