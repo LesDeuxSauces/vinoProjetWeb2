@@ -15,7 +15,8 @@ class CellierController extends Controller
   public function index()
   {
     $celliers = Cellier::all();
-    return view('cellier.index', ['celliers' => $celliers]);
+    // return view('cellier.index', ['celliers' => $celliers]);
+    return response()->json($celliers);
   }
 
   /**
@@ -29,24 +30,38 @@ class CellierController extends Controller
   /**
    * Store a newly created resource in storage.
    */
+  //   public function store(Request $request)
+  //   {
+  // $dataValide = $request->validate([
+  //   'nom' => 'required|string|max:50',
+  //   'user_id' => 'required|integer|exists:users,id',
+
+  //   ]);
+  //   $newCellier = Cellier::create($dataValide);
+  //   return redirect(route('cellier.index'));
+  //   // return redirect(route('cellier.show', $newCellier->id)); // si on veut rediriger vers la page du cellier que l'on vient de créer.
+  //   }
+
   public function store(Request $request)
   {
-$dataValide = $request->validate([
-  'nom' => 'required|string|max:50',
-  'user_id' => 'required|integer|exists:users,id',
+    $dataValide = $request->validate([
+      'nom' => 'required|string|max:50',
+      'user_id' => 'required|integer|exists:users,id',
+    ]);
 
-  ]);
-  $newCellier = Cellier::create($dataValide);
-  return redirect(route('cellier.index'));
-  // return redirect(route('cellier.show', $newCellier->id)); // si on veut rediriger vers la page du cellier que l'on vient de créer.
+    $newCellier = Cellier::create($dataValide);
+
+    return response()->json(['cellier' => $newCellier], 201);
   }
+
 
   /**
    * Display the specified resource.
    */
   public function show(Cellier $cellier)
   {
-    return view('cellier.show', ['cellier' => $cellier]);
+    // return view('cellier.show', ['cellier' => $cellier]);
+    return response()->json($cellier);
   }
 
   /**
