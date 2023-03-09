@@ -9,7 +9,7 @@
       <label for="nom">Nom :</label>
       <input type="text" id="nom" name="nom" required>
     </div>
-    <input type="hidden" id="users_id" name="users_id" value="1">
+    <input type="hidden" id="user_id" name="user_id" value="1">
     <button type="submit">Créer</button>
   </form>
   <a href="{{ route('cellier.index') }}">Retour au cellier</a>
