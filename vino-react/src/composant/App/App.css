@@ -1,3 +1,10 @@
+:root {
+  --rouge-color: #801433;
+  --blanc-color: #fcfcfa;
+  --noir-color: #1d1d1b;
+  --brun-color: #76491e;
+}
+
 .App {
   text-align: center;
 }
