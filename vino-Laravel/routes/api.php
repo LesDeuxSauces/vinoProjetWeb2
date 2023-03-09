@@ -15,16 +15,20 @@ use App\Http\Controllers\UserController;
 |
 */
 
+// Route de test pour vérifier que l'utilisateur est authentifié
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Routes pour les bouteilles
 Route::group([ 'namespace' => 'App\Http\Controllers'], function() {
     Route::apiResource('bouteille', BouteilleController::class);
 });
 
-// Routes publiques
-Route::post('/register', [AuthController::class, 'register']);
+// Routes pour les celliers
+Route::group([ 'namespace' => 'App\Http\Controllers'], function() {
+  Route::apiResource('cellier', CellierController::class);
+});
 
 // Routes protégées par sanctum
 Route::group([ 'middleware' => ['auth:sanctum']], function() {
@@ -32,13 +36,5 @@ Route::group([ 'middleware' => ['auth:sanctum']], function() {
     Route::put('/user/{user}', [UserController::class, 'update']);
 });
 
-
-
-Route::group([ 'namespace' => 'App\Http\Controllers'], function() {
-  Route::apiResource('cellier', CellierController::class);
-});
-
-// Route::group([ 'namespace' => 'App\Http\Controllers'], function() {
-//   Route::apiResource('cellier/create', CellierController::class);
-// });
-
+// Route Publique, pour enregistrer un utilisateur
+Route::post('/register', [AuthController::class, 'register']);
