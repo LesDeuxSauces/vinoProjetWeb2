@@ -21,8 +21,7 @@ class Cellier extends Model
 
   public function cellierHasBouteille()
   {
-    // return $this->hasMany('App\Models\Bouteille', 'cellier_id', 'id');
-    return $this->hasMany(Bouteille::class);
+      return $this->belongsToMany(Bouteille::class, 'celliers_has_bouteilles');
   }
 
   
