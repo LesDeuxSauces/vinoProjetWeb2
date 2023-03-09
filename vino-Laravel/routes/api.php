@@ -23,8 +23,14 @@ Route::group([ 'namespace' => 'App\Http\Controllers'], function() {
     Route::apiResource('bouteille', BouteilleController::class);
 });
 
-//Route::post('/users-create', 'UserController@store');
-Route::post('/users-create', [UserController::class, 'store']);
+// Routes publiques
+Route::post('/register', [AuthController::class, 'register']);
+
+// Routes protégées par sanctum
+Route::group([ 'middleware' => ['auth:sanctum']], function() {
+    Route::delete('/user/{user}', [UserController::class, 'destroy']);
+    Route::put('/user/{user}', [UserController::class, 'update']);
+});
 
 
 

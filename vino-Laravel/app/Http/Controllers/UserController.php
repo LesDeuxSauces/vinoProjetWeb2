@@ -40,7 +40,7 @@ class UserController extends Controller
 
         return response()->json([
             'user' => $user,
-            'message' => 'User created successfully!'
+            'message' => 'Utilisateur créer'
         ], 201);
     }
 
@@ -65,7 +65,13 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        // $user = User::find($user->id);
+        $user->update($request->all());
+
+        return response()->json([
+            'user' => $user,
+            'message' => 'Modification effectuée'
+        ], 201);
     }
 
     /**
@@ -73,6 +79,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+    
+        return response()->json(['message' => 'Utilisateur supprimé'], 200);
     }
 }
