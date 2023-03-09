@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('code_saq')->nullable();
             $table->string('url_saq',255)->nullable();
             $table->string('url_img',255)->nullable();
-            $table->foreignId('pay_id')->constrained('pays')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('pays_id')->constrained('pays')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('type_id')->constrained('types')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
 
