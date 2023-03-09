@@ -1,4 +1,4 @@
-import './CellierEdit.css';
+import './Cellier.css';
 
 function CellierEdit() {
   return (
