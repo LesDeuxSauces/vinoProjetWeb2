@@ -20,8 +20,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group([ 'namespace' => 'App\Http\Controllers'], function() {
-    Route::apiResource('bouteilles', BouteilleController::class);
+    Route::apiResource('bouteille', BouteilleController::class);
 });
 
 //Route::post('/users-create', 'UserController@store');
 Route::post('/users-create', [UserController::class, 'store']);
+
+
+
+Route::group([ 'namespace' => 'App\Http\Controllers'], function() {
+  Route::apiResource('cellier', CellierController::class);
+});
+
+// Route::group([ 'namespace' => 'App\Http\Controllers'], function() {
+//   Route::apiResource('cellier/create', CellierController::class);
+// });
+
