@@ -18,7 +18,7 @@ class Bouteille extends Model
         'annee' ,
         'code_saq' ,
         'url_saq' ,
-        'url_image' ,
+        'url_img' ,
         'pays_id' ,
         'type_id' ,
     ];
