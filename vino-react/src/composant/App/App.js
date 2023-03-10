@@ -1,7 +1,6 @@
 import './App.css';
 import React from 'react';
 import Entete from '../Entete/Entete';
-import Footer from '../Footer/Footer';
 import Bouteille from '../Bouteille/Bouteille';
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import Accueil from '../Accueil/Accueil';
@@ -13,12 +12,14 @@ export default class App extends React.Component {
 
   constructor() {
     super();
-  }
 
+  }
   render() {
+    const pageAccueil = window.location.pathname === "/";
+    const pageConnexion = window.location.pathname === "/connexion";
     return (
       <Router id="App">
-        <Entete />
+        {pageAccueil ? null : <Entete />}
         <Routes className="AppBody">
           <Route path="/" element={<Accueil />} />
           <Route path="/cellier" element={<CellierList />} />
@@ -26,10 +27,10 @@ export default class App extends React.Component {
           <Route path="/cellier/create" element={<CellierCreate />} />
           <Route path="/bouteille/:id" element={<Bouteille />} />
         </Routes>
-        <Footer />
       </Router>
     );
   }
+
 
 }
 
