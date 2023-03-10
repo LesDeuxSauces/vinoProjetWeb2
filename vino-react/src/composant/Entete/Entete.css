@@ -1,0 +1,19 @@
+.entete {
+    background-color: var(--rouge-color);
+}
+
+.entete__wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding:10px;
+}
+
+.entete__logo {
+    width: 150px;
+}
+
+.entete__icone {
+    width: 40px;
+}
