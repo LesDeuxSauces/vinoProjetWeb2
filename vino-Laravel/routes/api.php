@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,5 +37,7 @@ Route::group([ 'middleware' => ['auth:sanctum']], function() {
     Route::put('/user/{user}', [UserController::class, 'update']);
 });
 
-// Route Publique, pour enregistrer un utilisateur
+// Routes Publique, pour enregistrer et connecter un utilisateur
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'authentification']);
+
