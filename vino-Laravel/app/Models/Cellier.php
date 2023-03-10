@@ -21,7 +21,7 @@ class Cellier extends Model
 
   public function cellierHasBouteille()
   {
-      return $this->belongsToMany(Bouteille::class, 'celliers_has_bouteilles');
+      return $this->belongsToMany(Bouteille::class, 'celliers_has_bouteilles')->withPivot('quantite');
   }
 
   
