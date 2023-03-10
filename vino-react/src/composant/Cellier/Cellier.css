@@ -10,6 +10,9 @@
     border-style: hidden;
     border-bottom: 1px solid var(--gris-pale-color);
     outline: none;
+    font-size: 18px;
+    padding: 5px;
+    width: 33vw;
 }
 
 .recherche__wrapper input:focus {
@@ -28,6 +31,7 @@
     justify-content: center;
     gap: 10px;
     margin: 20px 10px;
+    padding: 10px;
 }
 
 .filtre__btn {
@@ -87,6 +91,13 @@
 
 
 .bouteille__ajouter {
-    text-align: end;
+    text-align: right;
     margin: 10px;
+    margin-left:auto;
+
+}
+
+.bouteille__ajouter img{
+    width: 60px;
+    margin: 5px;
 }
