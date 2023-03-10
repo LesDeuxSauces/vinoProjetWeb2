@@ -40,4 +40,5 @@ Route::group([ 'middleware' => ['auth:sanctum']], function() {
 // Routes Publique, pour enregistrer et connecter un utilisateur
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'authentification']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');;
 
