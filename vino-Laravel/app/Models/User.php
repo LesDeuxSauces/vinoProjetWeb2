@@ -42,10 +42,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // public function userHasCellier()
-    // {
-    //   return $this->hasMany(Cellier::class);
-    // }
+    public function userHasCellier()
+    {
+      return $this->hasMany(Cellier::class);
+    }
 
     // public function userHasBouteille()
     // {
