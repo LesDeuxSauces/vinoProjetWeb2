@@ -66,19 +66,13 @@ export default function CellierShow() {
   }
 
 
-
-
-
   return (
-
-
     <div class="container">
       <div class="recherche">
-        <h1>{cellier.nom}</h1>
-
+        <h1>Mon Cellier {cellier.nom}</h1>
         <div class="recherche__wrapper">
-          <input type="text" name="recherche" id="recherche" />
-          <img class="recherche__icone" src="./img/magnifying-glass-11-svgrepo-com.svg" alt="" />
+          <input type="text" name="recherche" id="recherche" placeholder="&#x1F50E;&#xFE0E;" />
+          {/* <img class="recherche__icone" src="./img/magnifying-glass-11-svgrepo-com.svg" alt="" /> */}
         </div>
       </div>
       <div class="filtre">
