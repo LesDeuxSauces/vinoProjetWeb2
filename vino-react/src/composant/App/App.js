@@ -1,7 +1,6 @@
 import './App.css';
 import React from 'react';
 import Entete from '../Entete/Entete';
-import Footer from '../Footer/Footer';
 import BouteilleList from '../Bouteille/BouteilleList';
 import BouteilleShow from '../Bouteille/BouteilleShow';
 import BouteilleCreate from '../Bouteille/BouteilleCreate';
@@ -18,9 +17,11 @@ export default class App extends React.Component {
   }
 
   render() {
+    const pageAccueil = window.location.pathname === "/";
+    const pageConnexion = window.location.pathname === "/connexion";
     return (
       <Router id="App">
-        <Entete />
+        {pageAccueil ? null : <Entete />}
         <Routes className="AppBody">
           <Route path="/" element={<Accueil />} />
           <Route path="/cellier" element={<CellierList />} />
@@ -30,7 +31,6 @@ export default class App extends React.Component {
           <Route path="/bouteille/create" element={<BouteilleCreate />} />
           <Route path="/bouteille/:id" element={<BouteilleShow />} />
         </Routes>
-        <Footer />
       </Router>
     );
   }
