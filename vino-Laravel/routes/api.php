@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CellierController;
+use App\Http\Controllers\BouteilleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,9 +29,13 @@ Route::group([ 'namespace' => 'App\Http\Controllers'], function() {
 });
 
 
+Route::group([ 'namespace' => 'App\Http\Controllers'], function() {
+    Route::apiResource('cellier', CellierController::class);
+  });
+
 // Routes protégées par sanctum
 Route::group([ 'middleware' => ['auth:sanctum']], function() {
-    Route::post('/celliers', [CellierController::class, 'store']);
+    // Route::post('/celliers', [CellierController::class, 'store']); -- mis en commentaire pour pouvoir afficher la liste des celliers
     Route::post('/users/{user}/celliers/{cellier}/bouteilles', [[BouteilleController::class, 'store']]);
 });
 

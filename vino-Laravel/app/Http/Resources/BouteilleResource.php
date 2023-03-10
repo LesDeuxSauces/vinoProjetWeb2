@@ -20,11 +20,10 @@ class BouteilleResource extends JsonResource
             'format' => $this->format,
             'prix' => $this->prix,
             'description' => $this->description,
-            'taux' => $this->taux,
             'annee' => $this->annee,
             'code_saq' => $this->code_saq,
             'url_saq' => $this->url_saq,
-            'url_image' => $this->url_image,
+            'url_img' => $this->url_img,
             'pays_id' => $this->pays_id,
             'type_id' => $this->type_id,
         ];

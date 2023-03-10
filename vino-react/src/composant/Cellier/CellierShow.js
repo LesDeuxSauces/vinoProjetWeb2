@@ -89,10 +89,8 @@ export default function CellierShow() {
         <Link to="/Cellier" ><img src={iconeAjouter} alt="" /></Link> 
         {/* Changer la route du Link quand la route pour ajouter une bouteille sera prête */}
       </div>
-      {/* <h2>Ajouter une bouteille de vin à mon cellier</h2>
-      <form onSubmit={handleAjouteBouteille}>
-        <button type="submit">Ajouter</button>
-      </form> */}
+      <Link to={'/bouteille/create/'}> Ajouter une bouteille </Link>
+
     </div>
 
   );

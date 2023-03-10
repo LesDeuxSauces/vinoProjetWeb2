@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import {Link} from 'react-router-dom';
 import "./Bouteille.css";
 
-function Bouteille() {
+export default  function BouteilleList() {
     const [bouteilles, setBouteiller] = useState([]);
 
     useEffect(() => {
@@ -38,8 +39,9 @@ function Bouteille() {
                     <p>Aucun bouteille trouvé</p>
                 )}
             </div>
+            <Link to={'/bouteille/create'}> Ajouter une bouteille </Link>
         </div>
     );
 }
 
-export default Bouteille;
+
