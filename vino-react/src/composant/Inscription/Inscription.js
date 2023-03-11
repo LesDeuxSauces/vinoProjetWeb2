@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "./Inscription.css";
 
 export default function Inscription(props) {
-  
+
   const api_url = "http://127.0.0.1:8000/api/";
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,6 +28,7 @@ export default function Inscription(props) {
 
     const responseCode = await response.json();
     console.log("reponse ajout utilsateur:", responseCode);
+    navigate('/connexion');
   }
 
   const nameChangeHandler = (event) => {
