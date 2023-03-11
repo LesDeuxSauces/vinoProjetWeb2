@@ -38,10 +38,12 @@ class CellierController extends Controller
 
     $cellier = new Cellier;
     $cellier->nom = $request->input('nom');
-    $cellier->user_id = $user->id;
+    // $cellier->user_id = $user->id;
+    $cellier->user_id = 1; // pour le moment, j'ai forcé l'id de l'utilisateur à 1
     $cellier->save();
 
     return response()->json(['message' => 'Cellier '.$cellier->nom.' crée avec succès', 'cellier' => $cellier]);
+    
     // $dataValide = $request->validate([
     //   'nom' => 'required|string|max:50',
     //   'user_id' => 'required|integer|exists:users,id',

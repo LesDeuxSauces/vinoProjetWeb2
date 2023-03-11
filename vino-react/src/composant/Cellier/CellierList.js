@@ -29,7 +29,7 @@ function CellierList() {
       ) : (
         <p>Aucun cellier trouvé</p>
       )}
-      {/* <Link to="/cellier/create">Créer un nouveau cellier</Link> */}
+      <Link to="/cellier/create">Créer un nouveau cellier</Link>
     </div>
   );
 }
