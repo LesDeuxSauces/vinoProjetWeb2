@@ -1,7 +1,7 @@
 import './Cellier.css';
 import React, { useState, useEffect } from "react";
 
-export default function CellierCreate() { // on crée un composant pour créer un cellier
+export default function CellierCreate() {
   const [nom, setNom] = useState(''); // on crée un état pour le nom du cellier
 
   function handleSubmit(evt) { // gestion de l'envoi du formulaire
@@ -15,7 +15,7 @@ export default function CellierCreate() { // on crée un composant pour créer u
     })
       .then(reponse => reponse.json())
       .then(data => {
-        console.log(data); // on affiche les données reçues
+        console.log(data);
       })
       .catch(error => console.error(error));
   }
@@ -24,7 +24,7 @@ export default function CellierCreate() { // on crée un composant pour créer u
     setNom(evt.target.value); // on met à jour l'état du nom du cellier
   }
 
-  return ( // on retourne le formulaire
+  return (
     <div>
       <h1>Créer un nouveau cellier</h1>
       <form onSubmit={handleSubmit}>
