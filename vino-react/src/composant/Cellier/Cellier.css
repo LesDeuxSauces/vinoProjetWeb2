@@ -1,4 +1,75 @@
 
+/******************/
+/*    Cellier     */
+/******************/
+
+.cellier {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    row-gap: 40px;
+    column-gap: 20px;
+    width: 100%;
+    justify-items: center;
+    margin: 20px 10px;
+    list-style-type: none;
+}
+
+.cellier a {
+    text-decoration: none;
+}
+
+.cellier__titre {
+    margin: 30px 10px;
+    text-align: center;
+}
+
+.cellier__carte {
+    width: 350px;
+    height: 200px;
+    background-image: url('../../img/cellier-1.jpg');
+    background-size: contain;
+    display: flex;
+    flex-direction: column-reverse;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 10px 0px, rgba(255, 255, 255, 0.8) -6px -2px 10px 0px;
+}
+
+.cellier__infos{
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--rouge-color);
+    justify-self: flex-end;
+    width: 100%;
+    padding:10px 20px;
+}
+
+.cellier__infos--nom {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 20px;
+    color: var(--blanc-color);
+    text-transform: capitalize;
+}
+
+.cellier__infos--edit {
+    width: 25px;
+}
+
+.cellier__ajouter {
+    text-align: right;
+    margin: 20px;
+}
+
+.cellier__ajouter img {
+    width: 60px;
+}
+
+
+/******************/
+/*   Bouteille    */
+/******************/
+
+
 .recherche {
     display: flex;
     justify-content: space-between;
@@ -67,6 +138,7 @@
     align-items: center;
     padding: 10px;
     border: 2px solid var(--gris-pale-color);
+    border-radius: 15px;
     box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 10px 0px, rgba(255, 255, 255, 0.8) -6px -2px 10px 0px;
 }
 
@@ -93,11 +165,11 @@
 .bouteille__ajouter {
     text-align: right;
     margin: 10px;
-    margin-left:auto;
+    margin-left: auto;
 
 }
 
-.bouteille__ajouter img{
+.bouteille__ajouter img {
     width: 60px;
     margin: 5px;
 }
@@ -108,67 +180,67 @@ CellierCreate
 ******************************** */
 
 .titreCellier {
-  color: #800330;
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
-  text-align: center;
-  margin-top: 30px;
+    color: #800330;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    text-align: center;
+    margin-top: 30px;
 }
 
 .formCellier {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 6rem
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6rem
 }
 
 .inputNom {
-  border: none;
-  border-bottom: 2px solid #ddd;
-  outline: none;
-  font-size: 1.2rem;
-  padding: 0.5rem;
-  width: 100%;
-  background-color: transparent;
+    border: none;
+    border-bottom: 2px solid #ddd;
+    outline: none;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    width: 100%;
+    background-color: transparent;
 }
 
 .inputNom::placeholder {
-  color: #aaa;
+    color: #aaa;
 }
 
 .boutonsDiv {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .btn {
-  width: 100%;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  cursor: pointer;
+    width: 100%;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    cursor: pointer;
 }
 
 .btnCreer {
-  background-color: #800330;
-  color: #fff;
+    background-color: #800330;
+    color: #fff;
 }
 
 .btnCreer:hover {
-  opacity: 0.9;
+    opacity: 0.9;
 }
 
 .btnRetourListe {
-  background-color: #fff;
-  color: #e74c3c;
-  border: 2px solid #e74c3c;
+    background-color: #fff;
+    color: #e74c3c;
+    border: 2px solid #e74c3c;
 }
 
 .btnRetourListe:hover {
-  opacity: 0.9;
+    opacity: 0.9;
 }
