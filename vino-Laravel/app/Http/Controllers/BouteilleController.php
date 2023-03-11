@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Bouteille;
 use App\Http\Resources\BouteilleResource;
 use App\Http\Resources\BouteilleCollection;
+use App\Models\Cellier;
+use App\Models\CelliersHasBouteilles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -65,6 +67,9 @@ class BouteilleController extends Controller
             'url_img' => 'min:2',
             'pays_id' => 'required|numeric',
             'type_id' => 'required|numeric',
+            'quantite' => 'numeric',
+            'cellier_id'=> 'required|numeric',
+
            ]);
            // 422, input error dans la validation 
            if ($validation->fails()){
@@ -74,6 +79,7 @@ class BouteilleController extends Controller
                 'errors'=> $validation->messages()
             ],422);
            } else {
+                $bouteille = new Bouteille;
                 $bouteille = Bouteille::create([
                     'nom' => $request->nom,
                     'format' => $request->format ,
@@ -86,7 +92,17 @@ class BouteilleController extends Controller
                     'pays_id' => $request->pays_id,
                     'type_id' => $request->type_id,
                 ]);
+
+                $cellierHasBouteille = CelliersHasBouteilles::create([
+
+                    'quantite'=>$request->quantite,
+                    'bouteille_id' =>$bouteille->id,
+                    'cellier_id'=>$request->cellier_id
+
+                ]);
     
+              
+
                 if($bouteille){
                     return response()->json([
                         'status'=> 200,

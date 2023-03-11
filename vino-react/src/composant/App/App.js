@@ -32,7 +32,7 @@ export default class App extends React.Component {
           <Route path="/cellier/:id" element={<CellierShow />} />
           <Route path="/cellier/create" element={<CellierCreate />} />
           <Route path="/bouteille" element={<BouteilleList />} />
-          <Route path="/bouteille/create" element={<BouteilleCreate />} />
+          <Route path="/bouteille/create/:idCellier" element={<BouteilleCreate />} />
           <Route path="/bouteille/:id" element={<BouteilleShow />} />
         </Routes>
       </Router>

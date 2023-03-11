@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./Bouteille.css";
 import { useParams } from 'react-router-dom';
 export default function BouteilleCreate() {
-    const { cellierId } = useParams();
-
+    const { idCellier } = useParams();
+   console.log(idCellier, "id del cellier");
     const [bouteilleValeur, setBouteilleValeur] = React.useState({
         nom: "",
         format: "",
@@ -15,6 +15,7 @@ export default function BouteilleCreate() {
         url_img: "",
         pays_id: "",
         type_id: "",
+        quantite:""
     });
 
     function handleSubmit(e) {
@@ -51,6 +52,7 @@ export default function BouteilleCreate() {
 
    async function ajouterBouteille(){
       
+       bouteilleValeur.cellier_id = idCellier;
       console.log(bouteilleValeur);
     
         const options = {
@@ -150,8 +152,16 @@ export default function BouteilleCreate() {
                 <input
                     id="type_id"
                     name="type_id"
-                    type="numer"
+                    type="number"
                     value={bouteilleValeur.type_id}
+                    onChange={handleChange}
+                />
+                <label htmlFor="quantite">quantite</label>
+                <input
+                    id="quantite"
+                    name="quantite"
+                    type="number"
+                    value={bouteilleValeur.quantite}
                     onChange={handleChange}
                 />
                 <button type="submit" onClick={ajouterBouteille} >ajouter bouteille</button>
