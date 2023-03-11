@@ -39,6 +39,7 @@ Route::group([ 'namespace' => 'App\Http\Controllers'], function() {
 Route::group([ 'middleware' => ['auth:sanctum']], function() {
     // Route::post('/celliers', [CellierController::class, 'store']); -- mis en commentaire pour pouvoir afficher la liste des celliers
     Route::post('/users/{user}/celliers/{cellier}/bouteilles', [[BouteilleController::class, 'store']]);
+    Route::get('/celliers', [CellierController::class, 'getCelliersUser']);
 });
 
 Route::group([ 'middleware' => ['auth:sanctum']], function() {

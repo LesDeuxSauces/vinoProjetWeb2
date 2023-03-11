@@ -26,6 +26,13 @@ class CellierController extends Controller
     return view('cellier.create');
   }
 
+  public function getCelliersUser()
+{
+    $user_id = auth()->user()->id;
+    $celliers = Cellier::where('user_id', $user_id)->get();
+    return response()->json($celliers);
+}
+
 
   public function store(Request $request)
   {
