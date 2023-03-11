@@ -89,7 +89,7 @@ export default function CellierShow() {
         <Link to="/Cellier" ><img src={iconeAjouter} alt="" /></Link> 
         {/* Changer la route du Link quand la route pour ajouter une bouteille sera prête */}
       </div>
-      <Link to={'/bouteille/create/'}> Ajouter une bouteille </Link>
+      <Link to={'/cellier'}>Retour aux celliers</Link>
 
     </div>
 
