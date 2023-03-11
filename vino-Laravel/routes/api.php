@@ -6,6 +6,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CellierController;
 use App\Http\Controllers\BouteilleController;
+use App\Http\Controllers\CelliersHasBouteillesController;
+use App\Models\CelliersHasBouteilles;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,11 +30,11 @@ Route::group([ 'namespace' => 'App\Http\Controllers'], function() {
     Route::apiResource('bouteille', BouteilleController::class);
 });
 
-
+// Route pour les cellier 
 Route::group([ 'namespace' => 'App\Http\Controllers'], function() {
     Route::apiResource('cellier', CellierController::class);
   });
-
+  
 // Routes protégées par sanctum
 Route::group([ 'middleware' => ['auth:sanctum']], function() {
     // Route::post('/celliers', [CellierController::class, 'store']); -- mis en commentaire pour pouvoir afficher la liste des celliers
@@ -48,4 +50,5 @@ Route::group([ 'middleware' => ['auth:sanctum']], function() {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'authentification']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');;
+
 
