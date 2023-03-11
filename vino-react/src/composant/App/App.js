@@ -6,6 +6,7 @@ import BouteilleShow from '../Bouteille/BouteilleShow';
 import BouteilleCreate from '../Bouteille/BouteilleCreate';
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import Accueil from '../Accueil/Accueil';
+import Inscription from '../Inscription/Inscription';
 import CellierList from '../Cellier/CellierList';
 import CellierCreate from '../Cellier/CellierCreate';
 import CellierShow from '../Cellier/CellierShow';
@@ -24,6 +25,7 @@ export default class App extends React.Component {
         {pageAccueil ? null : <Entete />}
         <Routes className="AppBody">
           <Route path="/" element={<Accueil />} />
+          <Route path="/inscription" element={<Inscription />} />
           <Route path="/cellier" element={<CellierList />} />
           <Route path="/cellier/:id" element={<CellierShow />} />
           <Route path="/cellier/create" element={<CellierCreate />} />
