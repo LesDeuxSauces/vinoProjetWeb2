@@ -21,7 +21,7 @@ export default class Accueil extends React.Component {
                 </div>
                 <div className="boutonsDiv">
                     <div>
-                        <Link to="/Cellier" ><button className="btn btnConnexion">Se connecter</button></Link>
+                        <Link to="/Connexion" ><button className="btn btnConnexion">Se connecter</button></Link>
                     </div>
                     <div>
                         <Link to="/Inscription" ><button className="btn btnInscription">S'inscrire</button></Link>
