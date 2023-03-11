@@ -1,5 +1,6 @@
 import './Cellier.css';
 import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 
 export default function CellierCreate() {
   const [nom, setNom] = useState(''); // on crée un état pour le nom du cellier
@@ -16,6 +17,8 @@ export default function CellierCreate() {
       .then(reponse => reponse.json())
       .then(data => {
         console.log(data);
+        // Rediriger l'utilisateur vers la page de liste des celliers
+        window.location.pathname = '/Cellier'; // on redirige l'utilisateur vers la page de liste des celliers
       })
       .catch(error => console.error(error));
   }
@@ -26,12 +29,17 @@ export default function CellierCreate() {
 
   return (
     <div>
-      <h1>Créer un nouveau cellier</h1>
-      <form onSubmit={handleSubmit}>
+      <div className="titreCellier">Créer un nouveau Cellier</div>
+      <form className="formCellier" onSubmit={handleSubmit}>
         <div>
-          <label>Nom : <input type="text" id="nom" name="nom" value={nom} onChange={handleNomChange} required /></label>
+          <label>
+            <input className="inputNom" type="text" id="nom" name="nom" value={nom} onChange={handleNomChange} placeholder="Nom" required />
+          </label>
         </div>
-        <button type="submit">Créer</button>
+        <div className="boutonsDiv">
+          <button className="btn btnCreer" type="submit">Créer votre cellier</button>
+          <Link to="/Cellier" className="btn btnRetourListe">Retour à la liste des celliers</Link>
+        </div>
       </form>
     </div>
   );
