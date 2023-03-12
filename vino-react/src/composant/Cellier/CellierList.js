@@ -4,7 +4,7 @@ import './Cellier.css';
 import iconeEdit from '../../img/edit-icone-blanc.svg';
 import iconeAjout from '../../img/icone-ajout.svg';
 
-function CellierList() {
+export default function CellierList() {
   const [celliers, setCelliers] = useState([]);
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/cellier')
@@ -118,5 +118,3 @@ function CellierList() {
 //     </div>
 //   );
 // }
-
-export default CellierList;
