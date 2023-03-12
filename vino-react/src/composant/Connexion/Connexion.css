@@ -87,3 +87,9 @@
 .connexion__bouton a:hover {
     opacity: 0.9;
 }
+
+.logo__connection--hover:hover{
+  transform: scale(1.1);
+  transition-duration: 0.2s;
+  cursor: pointer;
+}

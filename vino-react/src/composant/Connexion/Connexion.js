@@ -55,32 +55,34 @@ export default function Connexion() {
 
   return (
 
-<section>
-    <div>
-      <div className="connexion__header">
-        <img src={logoVino} alt="Vino Logo" />
-        <div className="connexion__titre">Connexion</div>
+    <section>
+      <div>
+        <div className="connexion__header">
+          <Link to="/">
+            <img className="logo__connection--hover" src={logoVino} alt="Vino Logo" />
+          </Link>
+          <div className="connexion__titre">Connexion</div>
+        </div>
+        <form className="connexion__form" onSubmit={submitHandler}>
+          <div>
+            <label>
+              <img src="" alt="" />
+              <input className="connexion__input" type="text" value={email} onChange={emailChangeHandler} placeholder="Email" required />
+            </label>
+          </div>
+          <div>
+            <label>
+              <img src="" alt="" />
+              <input className="connexion__input" type="text" value={password} onChange={passwordChangeHandler} placeholder="Mot de passe" required />
+            </label>
+          </div>
+          <div className="connexion__bouton">
+            <button className="connexion__bouton--btn" type="submit">Se connecter</button>
+            <p>Vous n'avez pas de compte ? <Link to="/inscription" className="">Cliquez ici</Link> </p>
+          </div>
+        </form>
       </div>
-      <form className="connexion__form" onSubmit={submitHandler}>
-        <div>
-          <label>
-            <img src="" alt="" />
-            <input className="connexion__input" type="text" value={email} onChange={emailChangeHandler} placeholder="Email" required />
-          </label>
-        </div>
-        <div>
-          <label>
-            <img src="" alt="" />
-            <input className="connexion__input" type="text" value={password} onChange={passwordChangeHandler} placeholder="Mot de passe" required />
-          </label>
-        </div>
-        <div className="connexion__bouton">
-          <button className="connexion__bouton--btn" type="submit">Se connecter</button>
-          <p>Vous n'avez pas de compte ? <Link to="/inscription" className="">Cliquez ici</Link> </p>
-        </div>
-      </form>
-    </div>
-  </section>
+    </section>
   );
 
 }
