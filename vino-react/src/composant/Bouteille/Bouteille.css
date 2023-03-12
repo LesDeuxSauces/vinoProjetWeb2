@@ -1,5 +1,50 @@
-.formbouteille form{
+/* .formbouteille form{
     display: flex;
     flex-direction: column;
     padding: 1rem;
+} */
+
+.ajouter__bouteille--titre {
+    color: var(--rouge-color);
+    font-size: 1.7rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 55px;
+}
+
+
+.ajouter__bouteille--form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.ajouter__bouteille--form h2 {
+    font-size: 2rem;
+}
+
+.ajouter__bouteille--form input {
+    border:none;
+    border-bottom: 0.0625rem solid var(--gris-pale-color);
+    outline: none;
+    font-size: 1rem;
+    padding: 0.5rem;
+    width: 100%;
+    background-color: transparent;
+}
+
+.ajouter__bouteille--form input::placeholder {
+    color:var(--gris-pale-color)
+}
+
+.ajouter__bouteille--form--row{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+   
 }

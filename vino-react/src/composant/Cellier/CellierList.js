@@ -17,18 +17,18 @@ export default function CellierList() {
   }, []);
 
   return (
-    <div class="container">
-      <div class="cellier__titre">
+    <div className="container">
+      <div className="cellier__titre">
         <h1>Mes celliers</h1>
       </div>
       {celliers.length > 0 ? (
         <ul class="cellier">
           {celliers.map(cellier => (
             <Link to={"/cellier/" + cellier.id}>
-              <li class="cellier__carte" key={cellier.id}>
-                <div class="cellier__infos">
-                  <p class="cellier__infos--nom">{cellier.nom}</p>
-                  <img class="cellier__infos--edit" src={iconeEdit} alt="Editer" />
+              <li className="cellier__carte" key={cellier.id}>
+                <div className="cellier__infos">
+                  <p className="cellier__infos--nom">{cellier.nom}</p>
+                  <img className="cellier__infos--edit" src={iconeEdit} alt="Editer" />
                 </div>
               </li>
             </Link>
@@ -37,7 +37,7 @@ export default function CellierList() {
       ) : (
         <p>Aucun cellier trouvé</p>
       )}
-      <div class="cellier__ajouter">
+      <div className="cellier__ajouter">
         <Link to="/cellier/create">
           <img className='cellier__ajouter_style' src={iconeAjout} alt="Ajouter" />
         </Link>
