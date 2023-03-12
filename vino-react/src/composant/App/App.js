@@ -24,9 +24,7 @@ export default class App extends React.Component {
     const pageInscription = window.location.pathname === "/inscription";
     return (
       <Router id="App">
-        {!pageAccueil ? null : <Entete />}
-        {!pageConnexion ? null : <Entete />}
-        {!pageInscription ? null : <Entete />}
+        {(pageAccueil || pageConnexion || pageInscription) ? null : <Entete />}
         <Routes className="AppBody">
           <Route path="/" element={<Accueil />} />
           <Route path="/inscription" element={<Inscription />} />
