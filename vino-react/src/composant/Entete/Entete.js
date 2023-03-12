@@ -7,18 +7,18 @@ import { Link } from 'react-router-dom';
 
 function Entete() {
     return (
-        <header class="entete">
-            <div class="entete__wrapper">
+        <header className="entete">
+            <div className="entete__wrapper">
                 <div>
-                    <img class="entete__icone" src={iconeBurger} alt="" />
+                    <img className="entete__icone" src={iconeBurger} alt="" />
                 </div>
                 <div>
                     <Link to="/">
-                        <img class="entete__logo" src={logoVino} alt="" />
+                        <img className="entete__logo" src={logoVino} alt="" />
                     </Link>
                 </div>
                 <div>
-                    <img class="entete__icone" src={iconeUser} alt="" />
+                    <img className="entete__icone" src={iconeUser} alt="" />
                 </div>
             </div>
         </header>
