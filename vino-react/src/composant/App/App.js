@@ -11,20 +11,29 @@ import CellierList from '../Cellier/CellierList';
 import CellierCreate from '../Cellier/CellierCreate';
 import CellierShow from '../Cellier/CellierShow';
 import Connexion from '../Connexion/Connexion';
+import { useLocation } from 'react-router-dom';
 
-export default class App extends React.Component {
+function AppRoutes() {
+  const location = useLocation();
 
-  constructor() {
-    super();
-  }
-
-  render() {
-    const pageAccueil = window.location.pathname === "/";
-    const pageConnexion = window.location.pathname === "/connexion";
-    const pageInscription = window.location.pathname === "/inscription";
+  if (location.pathname === '/' || location.pathname === '/connexion' || location.pathname === '/inscription' || location.pathname === '/Connexion' || location.pathname === '/Inscription') {
     return (
-      <Router id="App">
-        {(pageAccueil || pageConnexion || pageInscription) ? null : <Entete />}
+      <Routes className="AppBody">
+        <Route path="/" element={<Accueil />} />
+        <Route path="/inscription" element={<Inscription />} />
+        <Route path="/connexion" element={<Connexion />} />
+        <Route path="/cellier" element={<CellierList />} />
+        <Route path="/cellier/:id" element={<CellierShow />} />
+        <Route path="/cellier/create" element={<CellierCreate />} />
+        <Route path="/bouteille" element={<BouteilleList />} />
+        <Route path="/bouteille/create/:idCellier" element={<BouteilleCreate />} />
+        <Route path="/bouteille/:id" element={<BouteilleShow />} />
+      </Routes>
+    );
+  } else {
+    return (
+      <>
+        <Entete />
         <Routes className="AppBody">
           <Route path="/" element={<Accueil />} />
           <Route path="/inscription" element={<Inscription />} />
@@ -36,9 +45,15 @@ export default class App extends React.Component {
           <Route path="/bouteille/create/:idCellier" element={<BouteilleCreate />} />
           <Route path="/bouteille/:id" element={<BouteilleShow />} />
         </Routes>
-      </Router>
+      </>
     );
   }
-
 }
 
+export default function App() {
+  return (
+    <Router id="App">
+      <AppRoutes />
+    </Router>
+  );
+}
