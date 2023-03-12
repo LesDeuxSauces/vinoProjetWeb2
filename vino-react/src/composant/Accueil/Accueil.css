@@ -41,7 +41,17 @@
     color: var(--blanc-color);
 }
 
-.btnInscrption {
+.btnInscription {
     background-color: var(--blanc-color);
     color: var(--rouge-color);
+}
+
+.btnConnexion:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+.btnInscription:hover {
+  opacity: 0.9;
+  cursor: pointer;
 }

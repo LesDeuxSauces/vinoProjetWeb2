@@ -39,7 +39,7 @@ function CellierList() {
       )}
       <div class="cellier__ajouter">
         <Link to="/cellier/create">
-          <img src={iconeAjout} alt="Ajouter" />
+          <img className='cellier__ajouter_style' src={iconeAjout} alt="Ajouter" />
         </Link>
       </div>
     </div>

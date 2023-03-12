@@ -10,7 +10,7 @@ export default function CellierShow() {
   const { id } = useParams();
   const [bouteilles, setBouteilles] = useState([]);
   const idCellier = id;
-  console.log(idCellier,'este es la bodega');
+  console.log(idCellier, 'este es la bodega');
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/cellier/' + id)
       .then(reponse => reponse.json())
@@ -87,13 +87,14 @@ export default function CellierShow() {
         {afficherBouteilles()}
       </ul>
       <div class="bouteille__ajouter">
-        <Link to="/Cellier" ><img src={iconeAjouter} alt="" /></Link> 
+        <Link to={'/bouteille/create/' + idCellier}><img className='bouteille__ajouter--hover' src={iconeAjouter} alt="" /></Link>
         {/* Changer la route du Link quand la route pour ajouter une bouteille sera prête */}
       </div>
 
-      <Link to={'/bouteille/create/'+ idCellier}> Ajouter une bouteille </Link>
 
-      <Link to={'/cellier'}>Retour aux celliers</Link>
+        <br />
+        <Link to="/Cellier" className="cellier__btn--style ajout__btn--position cellier__btn--retour">Retour à la liste des celliers</Link>
+
 
 
     </div>

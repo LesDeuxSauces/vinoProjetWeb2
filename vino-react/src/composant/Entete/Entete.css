@@ -1,19 +1,29 @@
 .entete {
-    background-color: var(--rouge-color);
+  background-color: var(--rouge-color);
 }
 
 .entete__wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding:10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
 }
 
 .entete__logo {
-    width: 150px;
+  width: 150px;
+}
+
+.entete__logo:hover {
+  transform: scale(1.1);
+  transition-duration: 0.2s;
 }
 
 .entete__icone {
-    width: 40px;
+  width: 40px;
+}
+
+.entete__icone:hover{
+  transform: scale(1.1);
+  transition-duration: 0.2s;
 }

@@ -29,16 +29,16 @@ export default function CellierCreate() {
 
   return (
     <div>
-      <div className="titreCellier">Créer un nouveau Cellier</div>
-      <form className="formCellier" onSubmit={handleSubmit}>
+      <div className="cellier__titre">Créer un nouveau Cellier</div>
+      <form className="cellier__form" onSubmit={handleSubmit}>
         <div>
           <label>
-            <input className="inputNom" type="text" id="nom" name="nom" value={nom} onChange={handleNomChange} placeholder="Nom" required />
+            <input className="cellier__input--nom" type="text" id="nom" name="nom" value={nom} onChange={handleNomChange} placeholder="Nom" required />
           </label>
         </div>
-        <div className="boutonsDiv">
-          <button className="btn btnCreer" type="submit">Créer votre cellier</button>
-          <Link to="/Cellier" className="btn btnRetourListe">Retour à la liste des celliers</Link>
+        <div className="cellier__btn--div">
+          <button className="cellier__btn--style cellier__btn--creer" type="submit">Créer votre cellier</button>
+          <Link to="/Cellier" className="cellier__btn--style cellier__btn--retour">Retour à la liste des celliers</Link>
         </div>
       </form>
     </div>

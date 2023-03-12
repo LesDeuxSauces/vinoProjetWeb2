@@ -1,246 +1,282 @@
-
 /******************/
 /*    Cellier     */
 /******************/
 
 .cellier {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    row-gap: 40px;
-    column-gap: 20px;
-    width: 100%;
-    justify-items: center;
-    margin: 20px 10px;
-    list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  row-gap: 40px;
+  column-gap: 20px;
+  width: 100%;
+  justify-items: center;
+  margin: 20px 10px;
+  list-style-type: none;
 }
 
 .cellier a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .cellier__titre {
-    margin: 30px 10px;
-    text-align: center;
+  margin: 30px 10px;
+  text-align: center;
 }
 
 .cellier__carte {
-    width: 350px;
-    height: 200px;
-    background-image: url('../../img/cellier-1.jpg');
-    background-size: contain;
-    display: flex;
-    flex-direction: column-reverse;
-    border-radius: 25px;
-    overflow: hidden;
-    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 10px 0px, rgba(255, 255, 255, 0.8) -6px -2px 10px 0px;
+  width: 350px;
+  height: 200px;
+  background-image: url("../../img/cellier-1.jpg");
+  background-size: cover;
+  display: flex;
+  flex-direction: column-reverse;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 10px 0px,
+    rgba(255, 255, 255, 0.8) -6px -2px 10px 0px;
 }
 
-.cellier__infos{
-    display: flex;
-    justify-content: space-between;
-    background-color: var(--rouge-color);
-    justify-self: flex-end;
-    width: 100%;
-    padding:10px 20px;
+.cellier__carte:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+.cellier__infos {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--rouge-color);
+  justify-self: flex-end;
+  width: 100%;
+  padding: 10px 20px;
 }
 
 .cellier__infos--nom {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 20px;
-    color: var(--blanc-color);
-    text-transform: capitalize;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 20px;
+  color: var(--blanc-color);
+  text-transform: capitalize;
 }
 
 .cellier__infos--edit {
-    width: 25px;
+  width: 25px;
 }
 
 .cellier__ajouter {
-    text-align: right;
-    margin: 20px;
+  text-align: right;
+  margin: 20px;
 }
 
 .cellier__ajouter img {
-    width: 60px;
+  width: 60px;
 }
 
+.cellier__ajouter_style:hover {
+  transform: scale(1.1);
+  transition-duration: 0.2s;
+}
 
 /******************/
 /*   Bouteille    */
 /******************/
 
-
 .recherche {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px 10px;
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 10px;
 }
 
 .recherche__wrapper input {
-    border: none;
-    border-style: hidden;
-    border-bottom: 1px solid var(--gris-pale-color);
-    outline: none;
-    font-size: 18px;
-    padding: 5px;
-    width: 33vw;
+  border: none;
+  border-style: hidden;
+  border-bottom: 1px solid var(--gris-pale-color);
+  outline: none;
+  font-size: 18px;
+  padding: 5px;
+  width: 33vw;
 }
 
 .recherche__wrapper input:focus {
-    border-bottom-style: solid;
+  border-bottom-style: solid;
 }
 
 .recherche__icone {
-    width: 30px;
+  width: 30px;
 }
 
-
 .filtre {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin: 20px 10px;
-    padding: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 10px;
+  padding: 10px;
 }
 
 .filtre__btn {
-    width: 130px;
-    padding: 5px 10px;
-    border: 2px solid var(--rouge-color);
-    border-radius: 30px;
-    background-color: var(--blanc-color);
-    color: var(--rouge-color);
-    font-size: 20px;
-    font-weight: bold;
-    font-family: 'Source Sans Pro', sans-serif;
+  width: 130px;
+  padding: 5px 10px;
+  border: 2px solid var(--rouge-color);
+  border-radius: 30px;
+  background-color: var(--blanc-color);
+  color: var(--rouge-color);
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Source Sans Pro", sans-serif;
 }
-
 
 .bouteille {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    row-gap: 40px;
-    column-gap: 20px;
-    width: 100%;
-    justify-items: center;
-    margin: 20px 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  row-gap: 40px;
+  column-gap: 20px;
+  width: 100%;
+  justify-items: center;
+  margin: 20px 10px;
 }
 
-
 .bouteille__carte {
-    width: 250px;
-    height: 250px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    border: 2px solid var(--gris-pale-color);
-    border-radius: 15px;
-    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 10px 0px, rgba(255, 255, 255, 0.8) -6px -2px 10px 0px;
+  width: 250px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border: 2px solid var(--gris-pale-color);
+  border-radius: 15px;
+  box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 10px 0px,
+    rgba(255, 255, 255, 0.8) -6px -2px 10px 0px;
+}
+
+.bouteille__carte:hover {
+  opacity: 0.9;
+  cursor: pointer;
 }
 
 .bouteille__img {
-    height: 120px;
-    margin: auto;
+  height: 120px;
+  margin: auto;
 }
 
 .bouteille__nom {
-    font-size: 18px;
-    font-weight: bold;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .bouteille__type {
-    font-size: 16px;
-    font-weight: 600;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .bouteille p {
-    text-align: center;
+  text-align: center;
 }
 
-
 .bouteille__ajouter {
-    text-align: right;
-    margin: 10px;
-    margin-left: auto;
-
+  text-align: right;
+  margin: 10px;
+  margin-left: auto;
 }
 
 .bouteille__ajouter img {
-    width: 60px;
-    margin: 5px;
+  width: 60px;
+  margin: 5px;
 }
 
+.bouteille__ajouter--hover:hover {
+  transform: scale(1.1);
+  transition-duration: 0.2s;
+}
 
 /* ********************************
-CellierCreate
+Creer un cellier
 ******************************** */
 
-.titreCellier {
-    color: #800330;
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 2rem;
-    text-align: center;
-    margin-top: 30px;
+.cellier__titre {
+  color: var(--rouge-color);
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 35px;
+  margin-bottom: 65px;
 }
 
-.formCellier {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 6rem
+.cellier__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6rem;
 }
 
-.inputNom {
-    border: none;
-    border-bottom: 2px solid #ddd;
-    outline: none;
-    font-size: 1.2rem;
-    padding: 0.5rem;
-    width: 100%;
-    background-color: transparent;
+.cellier__input--nom {
+  border: none;
+  border-bottom: 2px solid #ddd;
+  outline: none;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  width: 100%;
+  background-color: transparent;
 }
 
-.inputNom::placeholder {
-    color: #aaa;
+.cellier__input--nom::placeholder {
+  color: #aaa;
 }
 
-.boutonsDiv {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+.cellier__btn--div {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
 }
 
-.btn {
-    width: 100%;
-    border: none;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    cursor: pointer;
+.cellier__btn--style {
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
-.btnCreer {
-    background-color: #800330;
-    color: #fff;
+.cellier__btn--creer {
+  background-color: var(--rouge-color);
+  color: var(--blanc-color);
 }
 
-.btnCreer:hover {
-    opacity: 0.9;
+.cellier__btn--creer:hover {
+  opacity: 0.9;
+  cursor: pointer;
 }
 
-.btnRetourListe {
-    background-color: #fff;
-    color: #e74c3c;
-    border: 2px solid #e74c3c;
+.cellier__btn--retour {
+  background-color: var(--blanc-color);
+  color: var(--rouge-color);
+  align-items: center;
 }
 
-.btnRetourListe:hover {
-    opacity: 0.9;
+.cellier__btn--retour:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+
+
+/*******************************************/
+/*    Cellier detail / cellierShow     */
+/*******************************************/
+
+.ajout__btn--style {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: 60%;
+}
+.ajout__btn--position {
+  display: flex;
+  justify-content: center;
 }
