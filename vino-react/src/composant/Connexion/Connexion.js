@@ -76,7 +76,7 @@ export default function Connexion() {
         </div>
         <div className="connexion__bouton">
           <button className="connexion__bouton--btn" type="submit">Se connecter</button>
-          <p>Vous n'avez pas de compte ? <Link to="/connexion" className="">Cliquez ici</Link> </p>
+          <p>Vous n'avez pas de compte ? <Link to="/inscription" className="">Cliquez ici</Link> </p>
         </div>
       </form>
     </div>
