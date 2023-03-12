@@ -238,6 +238,7 @@ Creer un cellier
   font-size: 1.2rem;
   text-transform: uppercase;
   cursor: pointer;
+  text-align: center;
 }
 
 .cellier__btn--creer {
@@ -251,7 +252,6 @@ Creer un cellier
 }
 
 .cellier__btn--retour {
-  background-color: var(--blanc-color);
   color: var(--rouge-color);
   align-items: center;
 }

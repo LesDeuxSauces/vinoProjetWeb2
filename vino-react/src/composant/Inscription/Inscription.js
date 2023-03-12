@@ -54,36 +54,38 @@ export default function Inscription(props) {
 
   return (
     <section>
-    <div>
-      <div className="inscription__header">
-        <img src={logoVino} alt="Vino Logo" />
-        <div className="inscription__titre">Créer un compte</div>
+      <div>
+        <div className="inscription__header">
+          <Link to="/">
+            <img className="logo__inscription--hover" src={logoVino} alt="Vino Logo" />
+          </Link>
+          <div className="inscription__titre">Créer un compte</div>
+        </div>
+        <form className="inscription__form" onSubmit={submitHandler}>
+          <div>
+            <label>
+              <img src="" alt="" />
+              <input className="inscription__input" type="text" value={name} onChange={nameChangeHandler} placeholder="Nom" required />
+            </label>
+          </div>
+          <div>
+            <label>
+              <img src="" alt="" />
+              <input className="inscription__input" type="text" value={email} onChange={emailChangeHandler} placeholder="&#9993; Email" required />
+            </label>
+          </div>
+          <div>
+            <label>
+              <img src="" alt="" />
+              <input className="inscription__input" type="text" value={password} onChange={passwordChangeHandler} placeholder="Mot de passe" required />
+            </label>
+          </div>
+          <div className="inscription__bouton">
+            <button className="inscription__bouton--btn" type="submit">S'inscrire</button>
+            <p>Déjà inscrit ? <Link to="/connexion" className="">Cliquez ici</Link> </p>
+          </div>
+        </form>
       </div>
-      <form className="inscription__form" onSubmit={submitHandler}>
-        <div>
-          <label>
-            <img src="" alt="" />
-            <input className="inscription__input" type="text" value={name} onChange={nameChangeHandler} placeholder="Nom" required />
-          </label>
-        </div>
-        <div>
-          <label>
-            <img src="" alt="" />
-            <input className="inscription__input" type="text" value={email} onChange={emailChangeHandler} placeholder="&#9993; Email" required />
-          </label>
-        </div>
-        <div>
-          <label>
-            <img src="" alt="" />
-            <input className="inscription__input" type="text" value={password} onChange={passwordChangeHandler} placeholder="Mot de passe" required />
-          </label>
-        </div>
-        <div className="inscription__bouton">
-          <button className="inscription__bouton--btn" type="submit">S'inscrire</button>
-          <p>Déjà inscrit ? <Link to="/connexion" className="">Cliquez ici</Link> </p>
-        </div>
-      </form>
-    </div>
-  </section>
+    </section>
   );
 }
