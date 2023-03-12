@@ -53,8 +53,8 @@ export default function CellierShow() {
             <p class="bouteille__nom">{bouteille.nom}</p>
             <p class="bouteille__type">{bouteille.type}</p>
             <p class="bouteille__annee">{bouteille.annee}</p>
-            {/* <p class="bouteille__prix">{bouteille.prix} $</p> */}
             <p class="bouteille__format">{bouteille.format} ml</p>
+            <p class="bouteille__prix">{bouteille.prix.toFixed(2)} $</p>
           </div>
         </li>
 
@@ -88,7 +88,6 @@ export default function CellierShow() {
       </ul>
       <div class="bouteille__ajouter">
         <Link to={'/bouteille/create/' + idCellier}><img className='bouteille__ajouter--hover' src={iconeAjouter} alt="" /></Link>
-        {/* Changer la route du Link quand la route pour ajouter une bouteille sera prête */}
       </div>
 
 
