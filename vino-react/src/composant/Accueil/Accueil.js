@@ -27,7 +27,7 @@ export default class Accueil extends React.Component {
             <Link to="/Inscription" ><button className="btn btnInscription">S'inscrire</button></Link>
           </div>
           <div>
-            <Link to="/Cellier" ><button className="btn btnConnexion">Vers la page cellier</button></Link>
+            <Link to="/Cellier" ><button className="btn btnConnexion">Vers "cellier"</button></Link>
           </div>
         </div>
       </div>
