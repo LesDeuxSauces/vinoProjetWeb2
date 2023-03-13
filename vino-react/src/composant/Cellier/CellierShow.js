@@ -50,7 +50,7 @@ export default function CellierShow() {
             <img src={imageBouteille} alt="Image de la bouteille" class="bouteille__img" />
           </div>
           <div class="bouteille__carte--bottom">
-            <p class="bouteille__nom">{bouteille.nom}</p>
+            <p class="bouteille__nom">{bouteille.nom} ({bouteille.pivot.quantite})</p>
             <p class="bouteille__type">{bouteille.type}</p>
             <p class="bouteille__annee">{bouteille.annee}</p>
             <p class="bouteille__format">{bouteille.format} ml</p>
