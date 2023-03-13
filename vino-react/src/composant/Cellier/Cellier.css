@@ -61,8 +61,8 @@
 }
 
 .cellier__ajouter {
-  text-align: right;
-  margin: 20px;
+  text-align: center;
+  margin: 40px;
 }
 
 .cellier__ajouter img {
@@ -131,7 +131,7 @@
   column-gap: 20px;
   width: 100%;
   justify-items: center;
-  margin: 20px 10px;
+  /* margin: 20px 10px; */
 }
 
 .bouteille__carte {
@@ -173,9 +173,9 @@
 }
 
 .bouteille__ajouter {
-  text-align: right;
-  margin: 10px;
-  margin-left: auto;
+  text-align: center;
+  margin: 20px;
+  margin-top: 40px;
 }
 
 .bouteille__ajouter img {

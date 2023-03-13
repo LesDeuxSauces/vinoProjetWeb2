@@ -91,7 +91,6 @@ export default function CellierShow() {
       </div>
 
 
-        <br />
         <Link to="/Cellier" className="cellier__btn--style ajout__btn--position cellier__btn--retour">Retour à la liste des celliers</Link>
 
 
