@@ -1,5 +1,5 @@
 .inscription__header {
-    background-image: url('../../img/foto.jpg');
+    background-image:  linear-gradient( rgba(0, 0, 0, 0.35) 100%, rgba(0, 0, 0, 0) 10% ), url('../../img/foto.jpg');
     background-size: cover;
     display: flex;
     flex-direction: column;
