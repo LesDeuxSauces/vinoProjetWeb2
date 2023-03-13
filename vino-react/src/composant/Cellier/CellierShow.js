@@ -8,9 +8,8 @@ import iconeAjouter from '../../img/icone-ajout.svg';
 export default function CellierShow() {
   const [cellier, setCellier] = useState({});
   const { id } = useParams();
-  const [bouteilles, setBouteilles] = useState([]);
+  // const [bouteilles, setBouteilles] = useState([]);
   const idCellier = id;
-  console.log(idCellier, 'este es la bodega');
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/cellier/' + id)
       .then(reponse => reponse.json())
@@ -35,12 +34,6 @@ export default function CellierShow() {
 
     if (cellier.bouteilles && cellier.bouteilles.length > 0) {
       listeBouteilles = cellier.bouteilles.map((bouteille) => (
-        // <li className="bouteille" key={bouteille.id}>
-        //   <div>
-        //     <strong>{bouteille.nom}</strong> ({bouteille.format} ml)
-        //   </div>
-        //   <div>Prix: {bouteille.prix} $ - Quantité: {bouteille.pivot.quantite}</div>
-        // </li>
 
         <li class="bouteille__carte" key={bouteille.id}>
           <div class="bouteille__carte--top">
@@ -70,7 +63,7 @@ export default function CellierShow() {
   return (
     <div class="container">
       <div class="recherche">
-        <h1>Mon Cellier {cellier.nom}</h1>
+        <h1>Mon cellier</h1>
         <div class="recherche__wrapper">
           <input type="text" name="recherche" id="recherche" placeholder="&#x1F50E;&#xFE0E;" />
           {/* <img class="recherche__icone" src="./img/magnifying-glass-11-svgrepo-com.svg" alt="" /> */}
