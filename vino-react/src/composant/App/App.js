@@ -12,6 +12,7 @@ import CellierCreate from '../Cellier/CellierCreate';
 import CellierShow from '../Cellier/CellierShow';
 import Connexion from '../Connexion/Connexion';
 import { useLocation } from 'react-router-dom';
+import EnteteMobile from '../EnteteMobile/EnteteMobile';
 
 function AppRoutes() {
   const location = useLocation();
@@ -34,6 +35,7 @@ function AppRoutes() {
     return (
       <>
         <Entete />
+        {/* <EnteteMobile /> */}
         <Routes className="AppBody">
           <Route path="/" element={<Accueil />} />
           <Route path="/inscription" element={<Inscription />} />
