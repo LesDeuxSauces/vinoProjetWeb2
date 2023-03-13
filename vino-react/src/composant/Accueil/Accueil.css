@@ -1,6 +1,6 @@
 .pageAccueil {
-    background-color: bisque;
-    background-image: url('../../img/foto.jpg');
+    background-color: rgb(255, 250, 245);
+    background-image:  linear-gradient( rgba(0, 0, 0, 0.35) 100%, rgba(0, 0, 0, 0) 10% ), url('../../img/foto.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     min-height: 100vh;
@@ -8,12 +8,12 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    /* opacity: 0.75; */
 }
 
 .titreAccueil {
     text-align: center;
     color: var(--blanc-color);
+    text-shadow: 2px 2px 5px var(--noir-color);
 }
 
 .boutonsDiv {
