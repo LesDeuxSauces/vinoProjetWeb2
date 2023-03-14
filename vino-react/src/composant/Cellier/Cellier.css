@@ -284,3 +284,7 @@ Creer un cellier
   display: flex;
   justify-content: center;
 }
+
+.input__ajouterCellier{
+  max-width: 300px;
+}

@@ -121,7 +121,7 @@ export default function BouteilleCreate() {
                         name="type_id"
                         onChange={handleChange}
                     >
-                       <option value="" disabled selected> Séclectionner un type</option>
+                       <option value="" disabled selected> Type</option>
                         {types.map((value) => (
                             <option key={value.id} value={value.id}>
                                 {" "}
@@ -149,7 +149,7 @@ export default function BouteilleCreate() {
                         name="pays_id"
                         onChange={handleChange}
                     >
-                          <option value="" disabled selected> Séclectionner un pays</option>
+                          <option value="" disabled selected> Pays</option>
                         {pays.map((value) => (
                             <option key={value.id} value={value.id}>
                                 {" "}
