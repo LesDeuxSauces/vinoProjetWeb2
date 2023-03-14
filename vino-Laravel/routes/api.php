@@ -52,4 +52,6 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'authentification']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');;
 
-
+// Routes Publique, pour avoir pays et types
+Route::get('/pays',[BouteilleController::class, 'afficherPays']);
+Route::get('/types',[BouteilleController::class, 'afficherTypes']);
