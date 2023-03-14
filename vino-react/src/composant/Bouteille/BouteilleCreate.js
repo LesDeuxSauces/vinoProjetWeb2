@@ -101,21 +101,27 @@ export default function BouteilleCreate() {
                     <h2>Personnalisé</h2>
                 </div>
 
-                <input
-                    id="nom"
-                    name="nom"
-                    type="text"
-                    placeholder="Nom"
-                    value={bouteilleValeur.nom}
-                    onChange={handleChange}
-                    required
-                />
+                <div className="form__group field">
+                    <input
+                        placeholder="Nom"
+                        className="form__field"
+                        id="nom"
+                        name="nom"
+                        type="text"
+                        value={bouteilleValeur.nom}
+                        onChange={handleChange}
+                        required
+                    />
+                    <label className="form__label">Nom</label>
+                </div>
+
                 <div className="ajouter__bouteille--form--row">
                     <select
                         value={bouteilleValeur.type_id}
                         name="type_id"
                         onChange={handleChange}
                     >
+                       <option value="" disabled selected> Séclectionner un type</option>
                         {types.map((value) => (
                             <option key={value.id} value={value.id}>
                                 {" "}
@@ -123,14 +129,19 @@ export default function BouteilleCreate() {
                             </option>
                         ))}
                     </select>
-                    <input
-                        id="annee"
-                        name="annee"
-                        type="text"
-                        placeholder="Millésime"
-                        value={bouteilleValeur.annee}
-                        onChange={handleChange}
-                    />
+
+                    <div className="form__group field">
+                        <input
+                            placeholder="Millésime"
+                            className="form__field"
+                            id="annee"
+                            name="annee"
+                            type="number"
+                            value={bouteilleValeur.annee}
+                            onChange={handleChange}
+                        />
+                        <label className="form__label">Millésime</label>
+                    </div>
                 </div>
                 <div className="ajouter__bouteille--form--row">
                     <select
@@ -138,6 +149,7 @@ export default function BouteilleCreate() {
                         name="pays_id"
                         onChange={handleChange}
                     >
+                          <option value="" disabled selected> Séclectionner un pays</option>
                         {pays.map((value) => (
                             <option key={value.id} value={value.id}>
                                 {" "}
@@ -145,52 +157,75 @@ export default function BouteilleCreate() {
                             </option>
                         ))}
                     </select>
-                    <input
-                        id="format"
-                        name="format"
-                        type="text"
-                        placeholder="Format 750ml, 1L"
-                        value={bouteilleValeur.format}
-                        onChange={handleChange}
-                    />
+
+                    <div className="form__group field">
+                        <input
+                            placeholder="Format 750ml, 1L"
+                            className="form__field"
+                            id="format"
+                            name="format"
+                            type="text"
+                            value={bouteilleValeur.format}
+                            onChange={handleChange}
+                        />
+                        <label className="form__label">Format 750ml, 1L</label>
+                    </div>
                 </div>
                 <div className="ajouter__bouteille--form--row">
-                    <input
-                        id="prix"
-                        name="prix"
-                        type="text"
-                        placeholder="Prix"
-                        value={bouteilleValeur.prix}
-                        onChange={handleChange}
-                    />
+                    <div className="form__group field">
+                        <input
+                            placeholder="Prix"
+                            className="form__field"
+                            id="prix"
+                            name="prix"
+                            type="text"
+                            value={bouteilleValeur.prix}
+                            onChange={handleChange}
+                        />
+                        <label className="form__label">Prix</label>
+                    </div>
 
-                    <input
-                        id="code_saq"
-                        name="code_saq"
-                        type="text"
-                        placeholder="Code Saq"
-                        value={bouteilleValeur.code_saq}
-                        onChange={handleChange}
-                    />
+                    <div className="form__group field">
+                        <input
+                            placeholder="Code SAQ"
+                            className="form__field"
+                            id="code_saq"
+                            name="code_saq"
+                            type="text"
+                            value={bouteilleValeur.code_saq}
+                            onChange={handleChange}
+                        />
+                        <label className="form__label">Code SAQ</label>
+                    </div>
 
-                    <input
-                        id="quantite"
-                        name="quantite"
-                        type="number"
-                        placeholder="Quantité"
-                        value={bouteilleValeur.quantite}
-                        onChange={handleChange}
-                    />
+                    <div className="form__group field">
+                        <input
+                            placeholder="Quantité"
+                            className="form__field"
+                            id="quantite"
+                            name="quantite"
+                            type="number"
+                            value={bouteilleValeur.quantite}
+                            onChange={handleChange}
+                        />
+                        <label className="form__label">Quantité</label>
+                    </div>
                 </div>
 
-                <input
-                    id="description"
-                    name="description"
-                    type="text"
-                    placeholder="Description"
-                    value={bouteilleValeur.description}
-                    onChange={handleChange}
-                />
+                <div className="form__group field">
+                    <input
+                        placeholder="Description"
+                        className="form__field"
+                        id="description"
+                        name="description"
+                        type="text"
+                        value={bouteilleValeur.description}
+                        onChange={handleChange}
+                    />
+                    <label className="form__label" for="">
+                        Description
+                    </label>
+                </div>
 
                 <input
                     id="url_saq"
