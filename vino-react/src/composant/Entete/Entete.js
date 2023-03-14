@@ -6,6 +6,8 @@ import { ReactComponent as CogIcon } from '../../img/cog.svg';
 import { ReactComponent as ChevronIcon } from '../../img/chevron.svg';
 import { ReactComponent as ChevronLeftIcon } from '../../img/chevronLeft.svg';
 import { ReactComponent as BoltIcon } from '../../img/bolt.svg';
+import { ReactComponent as BurgerIcon } from '../../img/menu_burger_blanc.svg';
+// import { ReactComponent as BurgerIcon } from '../../img/menuBurgerRouge.svg';
 import React, { useState, useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
@@ -16,7 +18,7 @@ function Entete() {
             <img className="entete__logo" src={logoVino} alt="" onClick={"/"} />
             </Link> 
 
-            <NavItem icon={<CaretIcon />}>
+            <NavItem icon={<BurgerIcon />}>
                 <DropdownMenu></DropdownMenu>
             </NavItem>
             
@@ -37,7 +39,7 @@ function NavItem(props) {
 
     return (
         <li className="nav-item">
-            <a href="#" className="icon-button" onClick={() => setOpen(!open)}>
+            <a href="#" className="icon-buttonMain" onClick={() => setOpen(!open)}>
                 {props.icon}
             </a>
 

@@ -120,6 +120,32 @@ a {
 }
 
 
+/* Icon Button */
+.icon-buttonMain {
+  --button-size: calc(var(--nav-size) * 0.5);
+  width:60px;
+  height: auto;
+  /* background-color: var(--blanc-color); */
+  /* border-radius: 50%; */
+  padding: 5px;
+  margin: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter 300ms;
+}
+
+.icon-buttonMain:hover {
+  filter: brightness(1.2);
+}
+
+.icon-buttonMain svg { 
+  fill: var(--rouge-color);
+  width: 20px;
+  height: 20px;
+}
+
+
 /* Dropdown Menu */
 
 .dropdown {
@@ -158,6 +184,15 @@ a {
 
 
 .menu-item .icon-button:hover {
+  filter: none;
+}
+
+.menu-item .icon-buttonMain {
+  margin-right: 0.5rem;
+}
+
+
+.menu-item .icon-buttonMain:hover {
   filter: none;
 }
 
