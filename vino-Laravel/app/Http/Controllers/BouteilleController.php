@@ -6,9 +6,13 @@ use App\Models\Bouteille;
 use App\Http\Resources\BouteilleResource;
 use App\Http\Resources\BouteilleCollection;
 use App\Models\Cellier;
+use App\Models\Pays;
+use App\Models\Types;
+
 use App\Models\CelliersHasBouteilles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
 
 
 class BouteilleController extends Controller
@@ -149,4 +153,24 @@ class BouteilleController extends Controller
     {
         //
     }
+
+    /**
+     * avoir les pays de la base de donnée
+     */
+    public function afficherPays()
+    {
+        $pays = Pays::all();
+        return response()->json(['pays'=>$pays]);
+    }
+
+    /**
+     * avoir les types du vin de la base de donnée
+     */
+    public function afficherTypes()
+    {
+        $types = Types::all();
+        return response()->json(['types'=>$types]);
+    }
+
+
 }
