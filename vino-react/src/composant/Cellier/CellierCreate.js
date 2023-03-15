@@ -1,8 +1,9 @@
 import "./Cellier.css";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function CellierCreate() {
+    const navigate = useNavigate();
     const [nom, setNom] = useState(""); // on crée un état pour le nom du cellier
 
     function handleSubmit(evt) {
@@ -19,7 +20,7 @@ export default function CellierCreate() {
             .then((data) => {
                 console.log(data);
                 // Rediriger l'utilisateur vers la page de liste des celliers
-                window.location.pathname = "/Cellier"; // on redirige l'utilisateur vers la page de liste des celliers
+                navigate('/cellier'); // on redirige l'utilisateur vers la page de liste des celliers 
             })
             .catch((error) => console.error(error));
     }
