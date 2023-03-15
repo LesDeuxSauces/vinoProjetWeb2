@@ -1,36 +1,30 @@
 import './Accueil.css';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import logoVino from '../../img/vinoLogo-rouge.svg';
+import { Link } from 'react-router-dom';
 
-export default class Accueil extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+export default function Accueil() {
+  const [redirect, setRedirect] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setRedirect(true);
+    }, 5000); // Rediriger vers la page de connexion après 5 secondes
+  }, []);
+
+  if (redirect) {
+    window.location.replace('/Connexion');
   }
-  render() {
-    return (
-      <div className="pageAccueil">
-        <div className="logo">
-          <img src={logoVino} ></img>
-        </div>
-        <div className="titreAccueil">
-          <h1>
-            Votre cellier à portée de main
-          </h1>
-        </div>
-        <div className="boutonsDiv">
-          <div>
-            <Link to="/Connexion" ><button className="btn btnConnexion">Se connecter</button></Link>
-          </div>
-          <div>
-            <Link to="/Inscription" ><button className="btn btnInscription">S'inscrire</button></Link>
-          </div>
-          <div>
-            <Link to="/Cellier" ><button className="btn btnConnexion">Vers "cellier"</button></Link>
-          </div>
-        </div>
+
+  return (
+    <div className="pageAccueil">
+      <div className="logo">
+        <img src={logoVino} alt="logo Vino"></img>
       </div>
-    );
-  }
+      <div className="titreAccueil">
+        <h1>Bienvenue sur Vino</h1>
+        <h2>Votre cellier à portée de main</h2>
+      </div>
+    </div>
+  );
 }
