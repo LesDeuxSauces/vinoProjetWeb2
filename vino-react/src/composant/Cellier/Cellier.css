@@ -31,8 +31,7 @@
   flex-direction: column-reverse;
   border-radius: 25px;
   overflow: hidden;
-  box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 10px 0px,
-    rgba(255, 255, 255, 0.8) -6px -2px 10px 0px;
+  box-shadow: #80033080 0px 3px 8px 0px;
 }
 
 .cellier__carte:hover {
@@ -148,8 +147,7 @@
   padding: 10px;
   border: 2px solid var(--gris-pale-color);
   border-radius: 15px;
-  box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 10px 0px,
-    rgba(255, 255, 255, 0.8) -6px -2px 10px 0px;
+  box-shadow: rgba(136, 165, 191, 0.48) 0px 3px 8px 0px;
 }
 
 .bouteille__carte:hover {
