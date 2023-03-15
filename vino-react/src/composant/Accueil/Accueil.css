@@ -6,8 +6,9 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: center;
+    gap: 50px;
 }
 
 .titreAccueil {
@@ -25,6 +26,7 @@
 .logo img {
     width: 300px;
     height: auto;
+    margin-top: 50%;
 }
 
 .btn {
