@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Bouteille.css";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function BouteilleCreate() {
+    const navigate = useNavigate();
     const { idCellier } = useParams();
     const [pays, setPays] = useState([]);
     const [types, setTypes] = useState([]);
@@ -84,7 +85,7 @@ export default function BouteilleCreate() {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                window.location.pathname = "/Cellier/" + idCellier;
+                navigate('/cellier/' + idCellier);
             })
             .catch((error) => {
                 console.log(error);
