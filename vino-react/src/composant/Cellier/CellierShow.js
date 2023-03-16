@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import './Cellier.css';
 import imageBouteille from '../../img/AlbertBichot-Chablis.png';
 import iconeAjouter from '../../img/icone-ajout.svg';
 
 
 export default function CellierShow() {
+  const navigate = useNavigate();
   const [cellier, setCellier] = useState({});
   const { id } = useParams();
   // const [bouteilles, setBouteilles] = useState([]);
@@ -28,6 +29,29 @@ export default function CellierShow() {
   }
 
 
+  function handleDelete(e, id) {
+    let cellier_id = idCellier;
+    let bouteille_id = id;
+    let url = `//127.0.0.1:8000/api/celliers_has_bouteilles?cellier_id=${cellier_id}&bouteille_id=${bouteille_id}`;
+  
+    fetch(url, {  
+        method: "DELETE",
+        headers: {
+          'Content-type': 'application/json'
+        }
+    })
+    .then((response) => {
+        if (!response.ok) {
+          throw new Error('Something went wrong...');
+        } else {
+          navigate('/cellier');
+        }
+    })
+    .catch((e) => {
+        console.log(e);
+    });
+  }
+
 
   function afficherBouteilles() {
     let listeBouteilles = null;
@@ -35,19 +59,20 @@ export default function CellierShow() {
     if (cellier.bouteilles && cellier.bouteilles.length > 0) {
       listeBouteilles = cellier.bouteilles.map((bouteille) => (
 
-        <li class="bouteille__carte" key={bouteille.id}>
-          <div class="bouteille__carte--top">
-            <div class="bouteille__carte--quantite">
+        <li className="bouteille__carte" key={bouteille.id}>
+          <div className="bouteille__carte--top">
+            <div className="bouteille__carte--quantite">
               <img src="" alt="" />
             </div>
-            <img src={imageBouteille} alt="Image de la bouteille" class="bouteille__img" />
+            <img src={imageBouteille} alt="Image de la bouteille" className="bouteille__img" />
           </div>
-          <div class="bouteille__carte--bottom">
-            <p class="bouteille__nom">{bouteille.nom} ({bouteille.pivot.quantite})</p>
-            <p class="bouteille__type">{bouteille.type}</p>
-            <p class="bouteille__annee">{bouteille.annee}</p>
-            <p class="bouteille__format">{bouteille.format} ml</p>
-            <p class="bouteille__prix">{bouteille.prix.toFixed(2)} $</p>
+          <div className="bouteille__carte--bottom">
+            <p className="bouteille__nom">{bouteille.nom} ({bouteille.pivot.quantite})</p>
+            <p className="bouteille__type">{bouteille.type}</p>
+            <p className="bouteille__annee">{bouteille.annee}</p>
+            <p className="bouteille__format">{bouteille.format} ml</p>
+            <p className="bouteille__prix">{bouteille.prix.toFixed(2)} $</p>
+            <p className="bouteille__supprimer" onClick={(e) => handleDelete(e, bouteille.id)}>Supprimer</p>
           </div>
         </li>
 
@@ -61,25 +86,25 @@ export default function CellierShow() {
 
 
   return (
-    <div class="container">
-      <div class="recherche">
+    <div className="container">
+      <div className="recherche">
         <h1>Mon cellier</h1>
-        <div class="recherche__wrapper">
+        <div className="recherche__wrapper">
           <input type="text" name="recherche" id="recherche" placeholder="&#x1F50E;&#xFE0E;" />
-          {/* <img class="recherche__icone" src="./img/magnifying-glass-11-svgrepo-com.svg" alt="" /> */}
+          {/* <img className="recherche__icone" src="./img/magnifying-glass-11-svgrepo-com.svg" alt="" /> */}
         </div>
       </div>
-      <div class="filtre">
-        <button class="filtre__btn">Type</button>
-        <button class="filtre__btn">Favoris</button>
-        <button class="filtre__btn">Nouveautés</button>
-        <button class="filtre__btn">Vide</button>
-        <button class="filtre__btn">Nombre</button>
+      <div className="filtre">
+        <button className="filtre__btn">Type</button>
+        <button className="filtre__btn">Favoris</button>
+        <button className="filtre__btn">Nouveautés</button>
+        <button className="filtre__btn">Vide</button>
+        <button className="filtre__btn">Nombre</button>
       </div>
-      <ul class="bouteille">
+      <ul className="bouteille">
         {afficherBouteilles()}
       </ul>
-      <div class="bouteille__ajouter">
+      <div className="bouteille__ajouter">
         <Link to={'/bouteille/create/' + idCellier}><img className='bouteille__ajouter--hover' src={iconeAjouter} alt="" /></Link>
       </div>
 
