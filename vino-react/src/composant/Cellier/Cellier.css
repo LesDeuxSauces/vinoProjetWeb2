@@ -25,10 +25,11 @@
 .cellier__carte {
   width: 350px;
   height: 200px;
-  background-image: url("../../img/cellier-1.jpg");
-  background-size: cover;
+  /* background-image: url("../../img/cellier-1.jpg");
+  background-size: cover; */
+  background-color: var(--rouge-variant-color);
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   border-radius: 25px;
   overflow: hidden;
   box-shadow: #80033080 0px 3px 8px 0px;
@@ -39,6 +40,19 @@
   cursor: pointer;
 }
 
+.cellier__carte__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+  padding: 0 20px;
+}
+
+.cellier__carte--image {
+  width: 40%;
+  height: auto;
+}
+
 .cellier__infos {
   display: flex;
   justify-content: space-between;
@@ -46,6 +60,18 @@
   justify-self: flex-end;
   width: 100%;
   padding: 10px 20px;
+}
+
+.cellier__infos--quantite {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 20px;
+  color: var(--blanc-color);
+  text-transform: capitalize;
+  /* width: 70px; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .cellier__infos--nom {
