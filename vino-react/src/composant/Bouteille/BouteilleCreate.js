@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function BouteilleCreate() {
+    const api_url = "http://127.0.0.1:8000/api/";
     const navigate = useNavigate();
     const { idCellier } = useParams();
     const [pays, setPays] = useState([]);
@@ -72,25 +73,42 @@ export default function BouteilleCreate() {
         bouteilleValeur.cellier_id = idCellier;
         console.log(bouteilleValeur);
 
-        const options = {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json",
-                accept: "application/json",
-            },
-            body: JSON.stringify(bouteilleValeur),
-        };
+        PostCreateCellierUser(bouteilleValeur);
 
-        fetch("http://127.0.0.1:8000/api/bouteille", options)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                navigate('/cellier/' + idCellier);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+    //     const options = {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-type": "application/json",
+    //             accept: "application/json",
+    //         },
+    //         body: JSON.stringify(bouteilleValeur),
+    //     };
+
+    //     fetch("http://127.0.0.1:8000/api/bouteille", options)
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             console.log(data);
+    //             navigate('/cellier/' + idCellier);
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         });
     }
+
+    async function PostCreateCellierUser(bouteilleValeur) {
+        let entete = new Headers();
+        const token = localStorage.getItem("token");
+        entete.append("Content-Type", "application/json");
+        entete.append("Authorization", "Bearer " + token);
+    
+        const response = await fetch(api_url + "bouteille", {
+          method: "POST",
+          body: JSON.stringify(bouteilleValeur),
+          headers: entete,
+        });
+
+        window.location.pathname = '/cellier/' + idCellier;
+      }
 
     return (
         <div>

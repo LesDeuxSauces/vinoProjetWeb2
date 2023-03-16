@@ -31,10 +31,12 @@ export default function Connexion() {
     });
 
     const responseCode = await response.json();
-    const accessToken = responseCode.access_token;
-    console.log(accessToken);
+    const token = responseCode.access_token;
+
+
+    localStorage.setItem('token', token)
     console.log("reponse connexion utilsateur:", responseCode);
-    navigate("/cellier", { state: { data: accessToken } });
+    navigate("/cellier");
   }
 
   const emailChangeHandler = (event) => {
