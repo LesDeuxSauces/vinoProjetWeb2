@@ -46,6 +46,7 @@ Route::get('celliers_has_bouteilles/quantite', [CelliersHasBouteillesController:
 // Route pour les celliers_has_bouteilles
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
   Route::apiResource('celliers_has_bouteilles', CelliersHasBouteillesController::class);
+  Route::delete('celliers_has_bouteilles', [CelliersHasBouteillesController::class, 'destroy']);
 });
 
 // Routes protégées Celliers

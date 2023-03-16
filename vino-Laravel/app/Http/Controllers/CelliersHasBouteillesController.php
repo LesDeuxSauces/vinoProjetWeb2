@@ -44,9 +44,26 @@ class CelliersHasBouteillesController extends Controller
   /**
    * Remove the specified resource from storage.
    */
-  public function destroy(string $id)
+  public function destroy(Request $request)
   {
-    //
+    $cellier_id = $request->input('cellier_id');
+    $bouteille_id = $request->input('bouteille_id');
+
+    $deletedRows = CelliersHasBouteilles::where('cellier_id', '=', $cellier_id)
+        ->where('bouteille_id', '=', $bouteille_id)
+        ->delete();
+
+    if ($deletedRows > 0) {
+        return response()->json([
+          'status'=> 200,
+          'message'=>'la bouteille a été supprimée'
+      ],200);
+    } else {
+        return response()->json([
+            'status' => 500,
+            'message' => 'La suppression n\'a pas fonctionné'
+        ], 500);
+    }
   }
 
   public function getQuantiteParCellier()
