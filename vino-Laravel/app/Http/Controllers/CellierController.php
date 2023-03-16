@@ -104,4 +104,11 @@ public function show(Cellier $cellier)
   {
     //
   }
+
+
+  public function getCelliersSansBouteille()
+  {
+    $celliers = Cellier::doesntHave('cellierHasBouteille')->get();
+    return response()->json($celliers);
+  }
 }

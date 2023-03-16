@@ -3,36 +3,63 @@ import { Link } from 'react-router-dom';
 import './Cellier.css';
 import iconeEdit from '../../img/edit-icone-blanc.svg';
 import iconeAjout from '../../img/icone-ajout.svg';
+import barilsDeVin from '../../img/barils-de-vin.svg';
+import bouteilleIcone from '../../img/bouteille-icone.svg';
 
 export default function CellierList() {
-  const [celliers, setCelliers] = useState([]);
+  const [celliers, setCelliers] = useState([]); // création d'un state pour les celliers (array vide)
+  const [celliersSansBouteille, setCelliersSansBouteille] = useState([]); // création d'un state pour les celliers sans bouteilles
+
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/cellier')
+    fetch('http://127.0.0.1:8000/api/cellier_sans_bouteilles')
+      .then(reponse => reponse.json())
+      .then(data => {
+        setCelliersSansBouteille(data);
+      })
+      .catch(error => console.error(error));
+
+
+    fetch('http://127.0.0.1:8000/api/celliers_has_bouteilles/quantite')
       .then(reponse => reponse.json())
       .then(data => {
         setCelliers(data);
-        // console.log(data);
       })
       .catch(error => console.error(error));
   }, []);
+
+  const afficherCellier = () => {
+    const tousLesCelliers = [...celliers, ...celliersSansBouteille]; // en utilisant l'opérateur de décomposition içi je fusionne les deux tableaux (src: https://stackoverflow.com/questions/55607431/how-to-merge-two-array-of-objects-with-reactjs)
+
+    return tousLesCelliers.map(cellier => (
+      <Link to={"/cellier/" + cellier.id} key={cellier.id}>
+        <li className="cellier__carte">
+          <div className="cellier__carte__content">
+            <img className="cellier__carte--image" src={barilsDeVin} alt="Barils de vin" />
+            <p className="cellier__infos--quantite">
+              <img className='cellier__carte--image' src={bouteilleIcone} alt="Quantité" />
+              {cellier.total == undefined ? "x 0" : `x ${cellier.total}`}
+            </p>
+          </div>
+          <div className="cellier__infos">
+            <p className="cellier__infos--nom">{cellier.nom}</p>
+            <img className="cellier__infos--edit" src={iconeEdit} alt="Editer" />
+          </div>
+        </li>
+      </Link>
+    ));
+  };
+
+    
+
 
   return (
     <div className="container">
       <div className="cellier__titre">
         <h1>Mes celliers</h1>
       </div>
-      {celliers.length > 0 ? (
+      {(celliers.length > 0 || celliersSansBouteille.length > 0) ? (
         <ul class="cellier">
-          {celliers.map(cellier => (
-            <Link to={"/cellier/" + cellier.id}>
-              <li className="cellier__carte" key={cellier.id}>
-                <div className="cellier__infos">
-                  <p className="cellier__infos--nom">{cellier.nom}</p>
-                  <img className="cellier__infos--edit" src={iconeEdit} alt="Editer" />
-                </div>
-              </li>
-            </Link>
-          ))}
+          {afficherCellier()}
         </ul>
       ) : (
         <p>Aucun cellier trouvé</p>
@@ -45,6 +72,8 @@ export default function CellierList() {
     </div>
   );
 }
+
+
 
 // Code authentification a ne pas effacer
 
