@@ -26,9 +26,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Routes pour les bouteilles
-Route::group(['namespace' => 'App\Http\Controllers'], function () {
-  Route::apiResource('bouteille', BouteilleController::class);
-});
+// Route::group(['namespace' => 'App\Http\Controllers'], function () {
+//   Route::apiResource('bouteille', BouteilleController::class);
+// });
 
 // Route pour les cellier 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
@@ -48,20 +48,21 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
   Route::apiResource('celliers_has_bouteilles', CelliersHasBouteillesController::class);
 });
 
-
-
-
-
-// Routes protégées par sanctum
+// Routes protégées Celliers
 Route::group(['middleware' => ['auth:sanctum']], function () {
-  // Route::post('/celliers', [CellierController::class, 'store']); -- mis en commentaire pour pouvoir afficher la liste des celliers
-  Route::post('/users/{user}/celliers/{cellier}/bouteilles', [[BouteilleController::class, 'store']]);
+  Route::post('/celliers', [CellierController::class, 'store']);
   Route::get('/celliers', [CellierController::class, 'getCelliersUser']);
 });
 
+// Routes protégées User
 Route::group(['middleware' => ['auth:sanctum']], function () {
   Route::delete('/user/{user}', [UserController::class, 'destroy']);
   Route::put('/user/{user}', [UserController::class, 'update']);
+});
+
+// Routes protégées Bouteilles
+Route::group(['middleware' => ['auth:sanctum']], function () {
+  Route::apiResource('bouteille', BouteilleController::class);
 });
 
 // Routes Publique, pour enregistrer et connecter un utilisateur
