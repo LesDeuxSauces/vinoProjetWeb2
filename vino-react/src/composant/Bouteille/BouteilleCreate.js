@@ -13,23 +13,22 @@ export default function BouteilleCreate() {
         nom: "",
         format: "",
         prix: "",
-        description: "",
         annee: "",
         code_saq: "",
         url_saq: "",
         url_img: "",
-        pays_id: "",
+        pays: "",
         type_id: "",
         quantite: "",
     });
 
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/api/pays")
-            .then((response) => response.json())
-            .then((data) => {
-                setPays(data.pays);
-                console.log(pays);
-            });
+        // fetch("http://127.0.0.1:8000/api/pays")
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         setPays(data.pays);
+        //         console.log(pays);
+        //     });
 
         fetch("http://127.0.0.1:8000/api/types")
             .then((response) => response.json())
@@ -73,7 +72,7 @@ export default function BouteilleCreate() {
         bouteilleValeur.cellier_id = idCellier;
         console.log(bouteilleValeur);
 
-        PostCreateCellierUser(bouteilleValeur);
+        PostCellierHasBouteille(bouteilleValeur);
 
     //     const options = {
     //         method: "POST",
@@ -95,7 +94,7 @@ export default function BouteilleCreate() {
     //         });
     }
 
-    async function PostCreateCellierUser(bouteilleValeur) {
+    async function PostCellierHasBouteille(bouteilleValeur) {
         let entete = new Headers();
         const token = localStorage.getItem("token");
         entete.append("Content-Type", "application/json");
@@ -162,20 +161,22 @@ export default function BouteilleCreate() {
                         <label className="form__label">Millésime</label>
                     </div>
                 </div>
+
+
+                <div className="form__group field">
+                        <input
+                            placeholder="Pays"
+                            className="form__field"
+                            id="pays"
+                            name="pays"
+                            type="text"
+                            value={bouteilleValeur.pays}
+                            onChange={handleChange}
+                        />
+                        <label className="form__label">Pays</label>
+                    </div>
                 <div className="ajouter__bouteille--form--row">
-                    <select
-                        value={bouteilleValeur.pays_id}
-                        name="pays_id"
-                        onChange={handleChange}
-                    >
-                          <option value="" disabled selected> Pays</option>
-                        {pays.map((value) => (
-                            <option key={value.id} value={value.id}>
-                                {" "}
-                                {value.nom}
-                            </option>
-                        ))}
-                    </select>
+                  
 
                     <div className="form__group field">
                         <input
@@ -231,20 +232,7 @@ export default function BouteilleCreate() {
                     </div>
                 </div>
 
-                <div className="form__group field">
-                    <input
-                        placeholder="Description"
-                        className="form__field"
-                        id="description"
-                        name="description"
-                        type="text"
-                        value={bouteilleValeur.description}
-                        onChange={handleChange}
-                    />
-                    <label className="form__label" for="">
-                        Description
-                    </label>
-                </div>
+
 
                 <input
                     id="url_saq"
