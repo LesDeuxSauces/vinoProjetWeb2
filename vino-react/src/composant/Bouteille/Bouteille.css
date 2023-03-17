@@ -4,6 +4,11 @@
     padding: 1rem;
 } */
 
+
+.couleur__lien--noir {
+  color: var(--noir-color);
+}
+
 .ajouter__bouteille--titre {
     color: var(--rouge-color);
     font-size: 1.7rem;

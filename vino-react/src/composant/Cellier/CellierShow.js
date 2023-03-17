@@ -4,21 +4,30 @@ import './Cellier.css';
 import imageBouteille from '../../img/AlbertBichot-Chablis.png';
 import iconeAjouter from '../../img/icone-ajout.svg';
 
-
 export default function CellierShow() {
   const navigate = useNavigate();
   const [cellier, setCellier] = useState({});
   const { id } = useParams();
-  // const [bouteilles, setBouteilles] = useState([]);
   const idCellier = id;
+
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/cellier/' + id)
-      .then(reponse => reponse.json())
-      .then(data => {
-        setCellier(data);
-        console.log(data);
-      })
-      .catch(error => console.error(error));
+    const fetchCellier = async () => {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://127.0.0.1:8000/api/cellier/' + id, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      setCellier(data);
+      console.log(data);
+    };
+
+    fetchCellier();
   }, [id]);
 
 
@@ -33,23 +42,23 @@ export default function CellierShow() {
     let cellier_id = idCellier;
     let bouteille_id = id;
     let url = `//127.0.0.1:8000/api/celliers_has_bouteilles?cellier_id=${cellier_id}&bouteille_id=${bouteille_id}`;
-  
-    fetch(url, {  
-        method: "DELETE",
-        headers: {
-          'Content-type': 'application/json'
-        }
+
+    fetch(url, {
+      method: "DELETE",
+      headers: {
+        'Content-type': 'application/json'
+      }
     })
-    .then((response) => {
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Something went wrong...');
+          throw new Error('une erreur est survenue');
         } else {
           navigate('/cellier');
         }
-    })
-    .catch((e) => {
+      })
+      .catch((e) => {
         console.log(e);
-    });
+      });
   }
 
 
@@ -58,24 +67,24 @@ export default function CellierShow() {
 
     if (cellier.bouteilles && cellier.bouteilles.length > 0) {
       listeBouteilles = cellier.bouteilles.map((bouteille) => (
-
-        <li className="bouteille__carte" key={bouteille.id}>
-          <div className="bouteille__carte--top">
-            <div className="bouteille__carte--quantite">
-              <img src="" alt="" />
+        <Link to={`/bouteille/${bouteille.id}`} key={bouteille.id}>
+          <li className="bouteille__carte" key={bouteille.id}>
+            <div className="bouteille__carte--top">
+              <div className="bouteille__carte--quantite">
+                <img src="" alt="" />
+              </div>
+              <img src={imageBouteille} alt="Image de la bouteille" className="bouteille__img" />
             </div>
-            <img src={imageBouteille} alt="Image de la bouteille" className="bouteille__img" />
-          </div>
-          <div className="bouteille__carte--bottom">
-            <p className="bouteille__nom">{bouteille.nom} ({bouteille.pivot.quantite})</p>
-            <p className="bouteille__type">{bouteille.type}</p>
-            <p className="bouteille__annee">{bouteille.annee}</p>
-            <p className="bouteille__format">{bouteille.format} ml</p>
-            <p className="bouteille__prix">{bouteille.prix.toFixed(2)} $</p>
-            <p className="bouteille__supprimer" onClick={(e) => handleDelete(e, bouteille.id)}>Supprimer</p>
-          </div>
-        </li>
-
+            <div className="bouteille__carte--bottom">
+              <p className="bouteille__nom">{bouteille.nom} ({bouteille.pivot.quantite})</p>
+              <p className="bouteille__type">{bouteille.type}</p>
+              <p className="bouteille__annee">{bouteille.annee}</p>
+              <p className="bouteille__format">{bouteille.format} ml</p>
+              <p className="bouteille__prix">{bouteille.prix.toFixed(2)} $</p>
+              <p className="bouteille__supprimer" onClick={(e) => handleDelete(e, bouteille.id)}>Supprimer</p>
+            </div>
+          </li>
+        </Link>
       ));
     } else {
       listeBouteilles = <p>Aucune bouteille disponible</p>;
@@ -109,7 +118,7 @@ export default function CellierShow() {
       </div>
 
 
-        <Link to="/Cellier" className="cellier__btn--style ajout__btn--position cellier__btn--retour">Retour à la liste des celliers</Link>
+      <Link to="/Cellier" className="cellier__btn--style ajout__btn--position cellier__btn--retour">Retour à la liste des celliers</Link>
 
 
 
