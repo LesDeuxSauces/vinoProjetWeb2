@@ -23,19 +23,19 @@ class BouteilleController extends Controller
     public function index()
     {
         $bouteille = Bouteille::all();
-        if($bouteille->count()>0){
+        if ($bouteille->count() > 0) {
 
             return response()->json([
-                'status'=> 200,
-                'bouteilles' => $bouteille 
-            ],200); 
+                'status' => 200,
+                'bouteilles' => $bouteille
+            ], 200);
         } else {
             return response()->json([
-                'status'=> 200,
-                'bouteilles' => 'aucune bouteille n\'a été ajoutée' 
-            ],200); 
+                'status' => 200,
+                'bouteilles' => 'aucune bouteille n\'a été ajoutée'
+            ], 200);
         }
-      
+
         //return new BouteilleCollection(Bouteille::all());
     }
 
@@ -59,67 +59,66 @@ class BouteilleController extends Controller
 
 
 
-        $validation = Validator::make($request->all(),[
+        $validation = Validator::make($request->all(), [
 
             'nom' => 'required',
-            'format' => 'numeric' ,
+            'format' => 'numeric',
             'prix' => 'numeric',
             'description' => 'min:2',
-            'annee' => 'numeric' ,
+            'annee' => 'numeric',
             'code_saq' => 'numeric',
             // 'url_saq' => 'min:2',
             // 'url_img' => 'min:2',
             'pays_id' => 'required|numeric',
             'type_id' => 'required|numeric',
             'quantite' => 'numeric',
-            'cellier_id'=> 'required|numeric',
+            'cellier_id' => 'required|numeric',
 
-           ]);
-           // 422, input error dans la validation 
-           if ($validation->fails()){
-    
+        ]);
+        // 422, input error dans la validation 
+        if ($validation->fails()) {
+
             return response()->json([
-                'status'=> 422,
-                'errors'=> $validation->messages()
-            ],422);
-           } else {
-                $bouteille = new Bouteille;
-                $bouteille = Bouteille::create([
-                    'nom' => $request->nom,
-                    'format' => $request->format ,
-                    'prix' => $request->prix ,
-                    'description' => $request->description,
-                    'annee' => $request->annee,
-                    'code_saq' => $request->code_saq,
-                    'url_saq' => $request->url_saq,
-                    'url_img' => $request->url_img,
-                    'pays_id' => $request->pays_id,
-                    'type_id' => $request->type_id,
-                ]);
+                'status' => 422,
+                'errors' => $validation->messages()
+            ], 422);
+        } else {
+            $bouteille = new Bouteille;
+            $bouteille = Bouteille::create([
+                'nom' => $request->nom,
+                'format' => $request->format,
+                'prix' => $request->prix,
+                'description' => $request->description,
+                'annee' => $request->annee,
+                'code_saq' => $request->code_saq,
+                'url_saq' => $request->url_saq,
+                'url_img' => $request->url_img,
+                'pays_id' => $request->pays_id,
+                'type_id' => $request->type_id,
+            ]);
 
-                $cellierHasBouteille = CelliersHasBouteilles::create([
+            $cellierHasBouteille = CelliersHasBouteilles::create([
 
-                    'quantite'=>$request->quantite,
-                    'bouteille_id' =>$bouteille->id,
-                    'cellier_id'=>$request->cellier_id
+                'quantite' => $request->quantite,
+                'bouteille_id' => $bouteille->id,
+                'cellier_id' => $request->cellier_id
 
-                ]);
-    
-              
+            ]);
 
-                if($bouteille){
-                    return response()->json([
-                        'status'=> 200,
-                        'message'=>'la bouteille a été ajoutée'
-                    ],200);
-                } else {
-                    return response()->json([
-                        'status'=> 500,
-                        'message'=>'l\'ajout n\'a pas fonctionné'
-                    ],500);
-                }
-           }
-   
+
+
+            if ($bouteille) {
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'la bouteille a été ajoutée'
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'l\'ajout n\'a pas fonctionné'
+                ], 500);
+            }
+        }
     }
 
     /**
@@ -160,7 +159,7 @@ class BouteilleController extends Controller
     public function afficherPays()
     {
         $pays = Pays::all();
-        return response()->json(['pays'=>$pays]);
+        return response()->json(['pays' => $pays]);
     }
 
     /**
@@ -169,8 +168,60 @@ class BouteilleController extends Controller
     public function afficherTypes()
     {
         $types = Types::all();
-        return response()->json(['types'=>$types]);
+        return response()->json(['types' => $types]);
     }
 
 
+    /**
+     * avoir les donnes pour scraping
+     */
+    public function bouteilleSAQ(Request $request)
+    {
+        $type_id = '';
+        switch ($request->type) {
+            case 'rouge':
+                $type_id = 1;
+                break;
+            case 'blanc':
+                $type_id = 2;
+                break;
+            case 'rosé':
+                $type_id = 3;
+                break;
+            
+            default:
+                $type_id = '';
+                break;
+        }
+
+        $bouteilleSAQ = new Bouteille;
+        $bouteilleSAQ = Bouteille::create( [
+            'nom' => $request->nom,
+            'format' => $request->format,
+            'prix' => $request->prix,
+            'annee' => $request->annee,
+            'code_saq' => $request->code_saq,
+            'url_saq' => $request->url_saq,
+            'url_img' => $request->url_img,
+            'pays' => $request->pays,
+            'type_id' => $type_id,
+        ]);
+        
+      
+
+
+        if ($bouteilleSAQ) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'la bouteille a été ajoutée',
+                'bouteilleSAQ'=> $bouteilleSAQ
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 500,
+                'message' => 'l\'ajout n\'a pas fonctionné'
+            ], 500);
+        }
+
+    }
 }
