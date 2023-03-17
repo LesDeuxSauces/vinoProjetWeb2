@@ -19,7 +19,7 @@ class Bouteille extends Model
         'code_saq' ,
         'url_saq' ,
         'url_img' ,
-        'pays_id' ,
+        'pays' ,
         'type_id' ,
     ];
 

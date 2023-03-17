@@ -16,12 +16,12 @@ return new class extends Migration
             $table->string('nom',255);
             $table->string('format',255)->nullable();
             $table->float('prix',8,2)->nullable();
-            $table->text('description')->nullable();
+            // $table->text('description')->nullable();
             $table->integer('annee')->nullable();
-            $table->integer('code_saq')->nullable();
+            $table->string('pays',255)->nullable();
+            $table->integer('code_saq')->unique()->nullable();
             $table->string('url_saq',255)->nullable();
             $table->string('url_img',255)->nullable();
-            $table->foreignId('pays_id')->constrained('pays')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('type_id')->constrained('types')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
 

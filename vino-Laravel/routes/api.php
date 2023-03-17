@@ -74,3 +74,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 // Routes Publique, pour avoir pays et types
 Route::get('/pays', [BouteilleController::class, 'afficherPays']);
 Route::get('/types', [BouteilleController::class, 'afficherTypes']);
+
+//Route pour le scraping de la SAQ
+Route::post('scraping',[BouteilleController::class,'bouteilleSAQ']);
