@@ -5,6 +5,7 @@ import {
   BrowserRouter,
   useNavigate,
   Link,
+  json,
 } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import logoVino from "../../img/vinoLogo-rouge.svg";
@@ -23,20 +24,29 @@ export default function Connexion() {
   async function loginUser(userObject) {
     let entete = new Headers();
     entete.append("Content-Type", "application/json");
-
+    console.log(userObject);
     const response = await fetch(api_url + "login", {
       method: "POST",
       body: JSON.stringify(userObject),
+      
       headers: entete,
     });
+
+    console.log(response);
+    if (response.status === 422 || response.status === 401) {
+      return response;
+    }
+
+    if (!response.ok) {
+      throw json({message: 'Impossible d\'identifier l\'utilisateur'}, {status: 500});
+    }
 
     const responseCode = await response.json();
     const token = responseCode.access_token;
 
+    localStorage.setItem("token", token);
 
-    localStorage.setItem('token', token)
-    console.log("reponse connexion utilsateur:", responseCode);
-    navigate("/cellier");
+    return navigate("/cellier");
   }
 
   const emailChangeHandler = (event) => {
@@ -68,7 +78,6 @@ export default function Connexion() {
           <div className="connexion__titre">Connexion</div>
         </div>
         <form className="connexion__form" onSubmit={submitHandler}>
-
           <div className="form__group field">
             <input
               placeholder="Email"
@@ -96,12 +105,8 @@ export default function Connexion() {
             <label className="form__label">Mot de passe</label>
           </div>
 
-
           <div className="connexion__bouton">
-            <button
-              className="connexion__bouton--btn"
-              type="submit"
-            >
+            <button className="connexion__bouton--btn" type="submit">
               Se connecter
             </button>
             <p>
@@ -114,9 +119,10 @@ export default function Connexion() {
         </form>
       </div>
       <div>
-        <Link to="/Cellier" ><button className="btn btnConnexion">Vers "cellier"</button></Link>
+        <Link to="/Cellier">
+          <button className="btn btnConnexion">Vers "cellier"</button>
+        </Link>
       </div>
-    </section >
-
+    </section>
   );
 }

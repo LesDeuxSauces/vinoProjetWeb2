@@ -1,6 +1,6 @@
 import "./Cellier.css";
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, json, redirect } from "react-router-dom";
 
 export default function CellierCreate() {
   const navigate = useNavigate();
@@ -28,10 +28,16 @@ export default function CellierCreate() {
       headers: entete,
     });
 
-    const celliers = await response.json();
 
-    console.log("celliers:", celliers);
-    window.location.pathname = "/Cellier";
+    if(!response.ok){
+        throw json(
+            {message : 'Impossible de créer le cellier.'},
+            {status: 500}
+        );
+    }
+
+    return navigate('/Cellier');
+    // window.location.pathname = "/Cellier";
   }
 
   function handleNomChange(evt) {
