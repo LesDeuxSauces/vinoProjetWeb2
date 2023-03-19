@@ -3,10 +3,17 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import './Cellier.css';
 import imageBouteille from '../../img/AlbertBichot-Chablis.png';
 import iconeAjouter from '../../img/icone-ajout.svg';
+import iconeModifier from '../../img/icone-modifier.svg';
+import iconeSupprimer from '../../img/icone-supprimer.svg';
+import iconeInfos from '../../img/icone-infos.svg';
+import iconeNbrBouteille from '../../img/icone-nbr-bouteille.svg';
+
+
 
 export default function CellierShow() {
   const navigate = useNavigate();
   const [cellier, setCellier] = useState({});
+  const [flip, setFlip] = useState({}); // pour la carte tournante
   const { id } = useParams();
   const idCellier = id;
 
@@ -20,7 +27,6 @@ export default function CellierShow() {
           'Authorization': `Bearer ${token}`,
         },
       });
-
       const data = await response.json();
 
       setCellier(data);
@@ -32,13 +38,93 @@ export default function CellierShow() {
 
 
 
-  function handleAjouteBouteille(evt) {
-    evt.preventDefault();
-    // on va avoiir ici le code pour ajouter une bouteille
+  /**
+   *  Fonction qui permet d'afficher la carte pour chacune des bouteilles
+   * @returns  liste des bouteilles
+   */
+  function afficherBouteilles() {
+    let listeBouteilles = null;
+    if (cellier.bouteilles && cellier.bouteilles.length > 0) {
+      listeBouteilles = cellier.bouteilles.map((bouteille) => {
+        // console.log(bouteille);
+        return (
+          <li className="" key={bouteille.id}>
+            <div
+              className={`flip-container ${flip[bouteille.id] ? "hover" : ""}`}
+              onClick={() => handleFlip(bouteille.id)}
+            >
+              <div className="bouteille__carte--tourner">
+                <div className="bouteille__carte--avant bouteille__carte">
+                  <div className="bouteille__icones">
+
+                    <img className='bouteille__modifier' src={iconeModifier} alt="Modifier la bouteille" onClick={(evt) => handleModifier(evt, bouteille.id)} />
+                    <img className='bouteille__supprimer' src={iconeSupprimer} alt="Supprimer la bouteille" onClick={(evt) => handleDelete(evt, bouteille.id)} />
+                  </div>
+                  <img src={imageBouteille} alt="Image de la bouteille" className="bouteille__img" />
+                  <div>
+                    <p className="bouteille__nom">{bouteille.nom}</p>
+                    <p className="bouteille__type"><img src={iconeNbrBouteille} alt="Nombre de bouteilles" className="icone-nbr-bouteille" /> ({bouteille.pivot.quantite})</p>
+                  </div>
+                </div>
+                <div className="bouteille__carte--arriere bouteille__carte">
+                  <p><strong>・Type:</strong> {getTypeNom(bouteille.type_id)}</p>
+                  <p><strong>・Millésime:</strong> {bouteille.annee}</p>
+                  <p><strong>・Format:</strong> {bouteille.format} ml</p>
+                  <p><strong>・Pays:</strong> {bouteille.pays}</p>
+                  <p><strong>・Prix:</strong> {bouteille.prix.toFixed(2)} $</p>
+                  <img src={iconeInfos} alt="icone infos" className="icone-infos" />
+
+
+                </div>
+              </div>
+            </div>
+          </li>
+        );
+      });
+    } else {
+      listeBouteilles = <p>Aucune bouteille disponible</p>;
+    }
+    return listeBouteilles;
+  }
+
+  /**
+   *  Fonction qui permet de retourner le nom du type de vin
+   * @param {*} type_id  id du type de vin
+   * @returns  nom du type de vin
+   */
+  function getTypeNom(type_id) {
+    switch (type_id) {
+      case 1:
+        return "Rouge";
+      case 2:
+        return "Blanc";
+      case 3:
+        return "Rosé";
+      default:
+        return "Inconnu";
+    }
   }
 
 
-  function handleDelete(e, id) {
+  /**
+ * Fonction qui permet de retourner la carte
+ * @param {*} id 
+ */
+  function handleFlip(id) { // prend en parametre le id de la bouteille
+    setFlip((prevFlip) => ({ // on utilise la fonction setFlip pour modifier le state. (prevFlip est l'état précédent de flip.))
+      ...prevFlip, // on copie l'état précédent de flip
+      [id]: !prevFlip[id], // mise à jour de la propriété avec la clé "id" en inversant la valeur précédente
+    }));
+  }
+
+
+  /**
+   *  Fonction qui permet de supprimer une bouteille
+   * @param {*} evt  événement
+   * @param {*} id  id de la bouteille
+   */
+  function handleDelete(evt, id) {
+    evt.stopPropagation(); // on stoppe la propagation de l'événement
     let cellier_id = idCellier;
     let bouteille_id = id;
     let url = `//127.0.0.1:8000/api/celliers_has_bouteilles?cellier_id=${cellier_id}&bouteille_id=${bouteille_id}`;
@@ -56,42 +142,22 @@ export default function CellierShow() {
           navigate('/cellier');
         }
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((evt) => {
+        console.log(evt);
       });
   }
 
+  /**
+   *  Fonction qui permet d'éditer une bouteille
+   * @param {*} evt  événement
+   * @param {*} id  id de la bouteille
+   */
+  function handleModifier(evt, id) {
+    evt.stopPropagation();
 
-  function afficherBouteilles() {
-    let listeBouteilles = null;
-
-    if (cellier.bouteilles && cellier.bouteilles.length > 0) {
-      listeBouteilles = cellier.bouteilles.map((bouteille) => (
-        <Link to={`/bouteille/${bouteille.id}`} key={bouteille.id}>
-          <li className="bouteille__carte" key={bouteille.id}>
-            <div className="bouteille__carte--top">
-              <div className="bouteille__carte--quantite">
-                <img src="" alt="" />
-              </div>
-              <img src={imageBouteille} alt="Image de la bouteille" className="bouteille__img" />
-            </div>
-            <div className="bouteille__carte--bottom">
-              <p className="bouteille__nom">{bouteille.nom} ({bouteille.pivot.quantite})</p>
-              <p className="bouteille__type">{bouteille.type}</p>
-              <p className="bouteille__annee">{bouteille.annee}</p>
-              <p className="bouteille__format">{bouteille.format} ml</p>
-              <p className="bouteille__prix">{bouteille.prix.toFixed(2)} $</p>
-              <p className="bouteille__supprimer" onClick={(e) => handleDelete(e, bouteille.id)}>Supprimer</p>
-            </div>
-          </li>
-        </Link>
-      ));
-    } else {
-      listeBouteilles = <p>Aucune bouteille disponible</p>;
-    }
-
-    return listeBouteilles;
+    // Votre logique pour gérer l'édition d'une bouteille
   }
+
 
 
   return (
@@ -100,7 +166,7 @@ export default function CellierShow() {
         <h1>Mon cellier</h1>
         <div className="recherche__wrapper">
           <input type="text" name="recherche" id="recherche" placeholder="&#x1F50E;&#xFE0E;" />
-          {/* <img className="recherche__icone" src="./img/magnifying-glass-11-svgrepo-com.svg" alt="" /> */}
+          <img className="recherche__icone" src="./img/magnifying-glass-11-svgrepo-com.svg" alt="" />
         </div>
       </div>
       <div className="filtre">
@@ -116,14 +182,7 @@ export default function CellierShow() {
       <div className="bouteille__ajouter">
         <Link to={'/bouteille/create/' + idCellier}><img className='bouteille__ajouter--hover' src={iconeAjouter} alt="" /></Link>
       </div>
-
-
       <Link to="/Cellier" className="cellier__btn--style ajout__btn--position cellier__btn--retour">Retour à la liste des celliers</Link>
-
-
-
     </div>
-
   );
 }
-
