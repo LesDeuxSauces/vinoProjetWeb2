@@ -155,8 +155,8 @@
 
 .bouteille {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  row-gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  row-gap: 20px;
   column-gap: 20px;
   width: 100%;
   justify-items: center;
@@ -176,6 +176,10 @@
   box-shadow: rgba(136, 165, 191, 0.48) 0px 3px 8px 0px;
 }
 
+/* .bouteille__carte--top {
+  width: 100%;
+} */
+
 .bouteille__carte:hover {
   opacity: 0.9;
   cursor: pointer;
@@ -183,7 +187,7 @@
 
 .bouteille__img {
   height: 120px;
-  margin: auto;
+  margin-right: auto;
 }
 
 .bouteille__nom {
@@ -193,12 +197,15 @@
 
 .bouteille__type {
   font-size: 16px;
-  font-weight: 600;
 }
 
 .bouteille p {
   text-align: center;
   color: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .bouteille__ajouter {
@@ -216,6 +223,54 @@
   transform: scale(1.1);
   transition-duration: 0.2s;
 }
+
+.bouteille__modifier {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.bouteille__modifier:hover {
+  transform: scale(1.1);
+  transition-duration: 0.2s;
+}
+
+.bouteille__supprimer {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.bouteille__supprimer:hover {
+  transform: scale(1.1);
+  transition-duration: 0.2s;
+}
+
+.bouteille__icones {
+  display: flex;
+  justify-content: space-between;
+  width: 50px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.icone-infos {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  width: 75px;
+}
+
+.icone-nbr-bouteille {
+  width: 22px;
+  height: auto;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+
 
 /* ********************************
 Creer un cellier
@@ -290,8 +345,6 @@ Creer un cellier
   cursor: pointer;
 }
 
-
-
 /*******************************************/
 /*    Cellier detail / cellierShow     */
 /*******************************************/
@@ -310,6 +363,57 @@ Creer un cellier
   justify-content: center;
 }
 
-.input__ajouterCellier{
+.input__ajouterCellier {
   max-width: 300px;
+}
+
+/* ********
+carte tournante: https://codepen.io/mondal10/pen/WNNEvjV
+******** */
+.flip-container.hover .bouteille__carte--tourner {
+  transform: rotateY(180deg);
+}
+
+.flip-container,
+.bouteille__carte--avant,
+.bouteille__carte--arriere {
+  /* width: 250px;
+  height: 250px; */
+  width: 370px;
+  height: 160px;
+}
+
+.flip-container .bouteille__carte--tourner {
+  transform: rotateY(0deg);
+}
+
+.bouteille__carte--tourner {
+  transition: 0.8s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.bouteille__carte--avant,
+.bouteille__carte--arriere {
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.bouteille__carte--avant {
+  display: flex;
+  gap: 21px;
+  /* z-index: 2; */
+  transform: rotateY(0deg);
+  flex-direction: row;
+  justify-content: center;
+}
+
+.bouteille__carte--arriere {
+  transform: rotateY(180deg);
+  background-color: whitesmoke;
+  line-height: 1.5;
+  letter-spacing: 0.1em;
+  align-items: flex-start;
 }
