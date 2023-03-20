@@ -155,7 +155,7 @@ export default function CellierShow() {
    */
   function handleModifier(evt, id) {
     evt.stopPropagation();
-    navigate(`/bouteille/update/${id}`);
+    navigate(`/bouteille/${idCellier}/update/${id}`);
   }
 
 

@@ -31,8 +31,9 @@ const router = createBrowserRouter([
     {path:"/cellier/create", element:<CellierCreate />},
     {path:"/bouteille", element:<BouteilleList />},
     {path:"/bouteille/create/:idCellier", element:<BouteilleCreate />},
-    {path:"/bouteille/:id", element:<BouteilleShow />},
-    { path: "/bouteille/update/:id", element: <BouteilleUpdate /> },
+    {path:"/bouteille/:idCellier/update/:id", element:<BouteilleUpdate />},
+
+
    ]
   },
 ])
