@@ -16,6 +16,7 @@ export default function Connexion() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [erreur, setErreur] = useState(null);
 
   useEffect(() => {
     //
@@ -40,13 +41,17 @@ export default function Connexion() {
     if (!response.ok) {
       throw json({message: 'Impossible d\'identifier l\'utilisateur'}, {status: 500});
     }
+    else
+    {
+      const responseCode = await response.json();
+      const token = responseCode.access_token;
+  
+      localStorage.setItem("token", token);
+  
+      return navigate("/cellier"), response;
+    }
 
-    const responseCode = await response.json();
-    const token = responseCode.access_token;
 
-    localStorage.setItem("token", token);
-
-    return navigate("/cellier");
   }
 
   const emailChangeHandler = (event) => {
@@ -62,10 +67,15 @@ export default function Connexion() {
   const submitHandler = (event) => {
     event.preventDefault();
     loginUser({ email: email, password: password });
+    console.log('login',loginUser({ email: email, password: password }));
+    // if (!response.ok) {
+    //   setErreur('Impossible d\'identifier l\'utilisateur');
+    // }
   };
 
   return (
     <section>
+            {erreur && <div>{erreur}</div>}
       <div>
         <div className="connexion__header">
           <Link to="/">
