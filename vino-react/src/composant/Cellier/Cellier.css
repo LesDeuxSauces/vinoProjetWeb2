@@ -270,7 +270,9 @@
   vertical-align: middle;
 }
 
-
+.bouteille__text--position {
+  display: flex;
+}
 
 /* ********************************
 Creer un cellier
@@ -369,6 +371,7 @@ Creer un cellier
 
 /* ********
 carte tournante: https://codepen.io/mondal10/pen/WNNEvjV
+https://codepen.io/Koverzneva/pen/GRXoomy
 ******** */
 .flip-container.hover .bouteille__carte--tourner {
   transform: rotateY(180deg);
