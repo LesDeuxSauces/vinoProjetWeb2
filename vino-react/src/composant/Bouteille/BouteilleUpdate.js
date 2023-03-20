@@ -56,8 +56,6 @@ export default function BouteilleUpdate() {
       url_img: data.data.url_img || '',
       pays: data.data.pays || '',
       type_id: data.data.type_id || '',
-      // code_saq: data.data.code_saq || '',
-      // quantite: data.data.celliers_has_bouteilles?.quantite || '',
     }));
   }
 
@@ -70,8 +68,8 @@ export default function BouteilleUpdate() {
 
 
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit(evt) {
+    evt.preventDefault();
   }
 
   function handleChange(evt) {
@@ -99,7 +97,7 @@ export default function BouteilleUpdate() {
     entete.append("Content-Type", "application/json");
     entete.append("Authorization", "Bearer " + token);
     const response = await fetch(`${api_url}bouteille/${id}`, {
-    
+
       method: "PUT",
       body: JSON.stringify(bouteilleValeur),
       headers: entete,
@@ -206,32 +204,6 @@ export default function BouteilleUpdate() {
             />
             <label className="form__label">Prix</label>
           </div>
-
-          {/* <div className="form__group field">
-            <input
-              placeholder="Code SAQ"
-              className="form__field"
-              id="code_saq"
-              name="code_saq"
-              type="text"
-              value={bouteilleValeur.code_saq}
-              onChange={handleChange}
-            />
-            <label className="form__label">Code SAQ</label>
-          </div> */}
-
-          {/* <div className="form__group field">
-            <input
-              placeholder="Quantité"
-              className="form__field"
-              id="quantite"
-              name="quantite"
-              type="number"
-              value={bouteilleValeur.quantite}
-              onChange={handleChange}
-            />
-            <label className="form__label">Quantité</label>
-          </div> */}
         </div>
 
         <input
