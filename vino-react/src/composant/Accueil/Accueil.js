@@ -9,7 +9,7 @@ export default function Accueil() {
   useEffect(() => {
     setTimeout(() => {
       setRedirection(true);
-    }, 5000); // Rediriger vers la page de connexion après 5 secondes
+    }, 3000); // Rediriger vers la page de connexion après 3 secondes
   }, []);
 
   if (redirection) {
