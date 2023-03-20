@@ -10,7 +10,6 @@ import { ReactComponent as BurgerIcon } from "../../img/menu_burger_blanc.svg";
 // import { ReactComponent as BurgerIcon } from '../../img/menuBurgerRouge.svg';
 import React, { useState, useEffect, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
-import { Button } from "bootstrap";
 
 function Entete() {
   return (
