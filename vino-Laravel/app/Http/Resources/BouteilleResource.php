@@ -24,7 +24,7 @@ class BouteilleResource extends JsonResource
             'code_saq' => $this->code_saq,
             'url_saq' => $this->url_saq,
             'url_img' => $this->url_img,
-            'pays_id' => $this->pays_id,
+            'pays' => $this->pays,
             'type_id' => $this->type_id,
         ];
     }

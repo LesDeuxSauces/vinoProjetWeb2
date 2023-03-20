@@ -14,6 +14,7 @@ import CellierShow from '../Cellier/CellierShow';
 import Connexion from '../Connexion/Connexion';
 import PageErreur from '../PageErreur/PageErreur';
 import { useLocation } from 'react-router-dom';
+import BouteilleUpdate from '../Bouteille/BouteilleUpdate';
 
 const router = createBrowserRouter([
   {path: '/', element: <Accueil />, errorElement: <PageErreur/>},
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
     {path:"/bouteille", element:<BouteilleList />},
     {path:"/bouteille/create/:idCellier", element:<BouteilleCreate />},
     {path:"/bouteille/:id", element:<BouteilleShow />},
+    { path: "/bouteille/update/:id", element: <BouteilleUpdate /> },
    ]
   },
 ])
