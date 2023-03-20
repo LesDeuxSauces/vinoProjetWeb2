@@ -61,9 +61,12 @@ export default function CellierShow() {
                     <img className='bouteille__supprimer' src={iconeSupprimer} alt="Supprimer la bouteille" onClick={(evt) => handleDelete(evt, bouteille.id)} />
                   </div>
                   <img src={imageBouteille} alt="Image de la bouteille" className="bouteille__img" />
+                  {/* <img src={bouteille.url_img} alt="Image de la bouteille" className="bouteille__img" /> */}
                   <div>
-                    <p className="bouteille__nom">{bouteille.nom}</p>
-                    <p className="bouteille__type"><img src={iconeNbrBouteille} alt="Nombre de bouteilles" className="icone-nbr-bouteille" /> ({bouteille.pivot.quantite})</p>
+                    {/* <div className="bouteille__text--position"> */}
+                      <p className="bouteille__nom">{bouteille.nom}</p>
+                      <p className="bouteille__type"><img src={iconeNbrBouteille} alt="Nombre de bouteilles" className="icone-nbr-bouteille" /> ({bouteille.pivot.quantite})</p>
+                    {/* </div> */}
                   </div>
                 </div>
                 <div className="bouteille__carte--arriere bouteille__carte">
@@ -73,8 +76,6 @@ export default function CellierShow() {
                   <p><strong>・Pays:</strong> {bouteille.pays}</p>
                   <p><strong>・Prix:</strong> {bouteille.prix.toFixed(2)} $</p>
                   <img src={iconeInfos} alt="icone infos" className="icone-infos" />
-
-
                 </div>
               </div>
             </div>
@@ -154,8 +155,7 @@ export default function CellierShow() {
    */
   function handleModifier(evt, id) {
     evt.stopPropagation();
-
-    // Votre logique pour gérer l'édition d'une bouteille
+    navigate(`/bouteille/update/${id}`);
   }
 
 
