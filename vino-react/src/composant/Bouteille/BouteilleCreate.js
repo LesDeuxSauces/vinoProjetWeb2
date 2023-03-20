@@ -205,19 +205,16 @@ export default function BouteilleCreate() {
                         <label className="form__label">Prix</label>
                     </div>
 
-                    <div className="form__group field">
                         <input
                             placeholder="Code SAQ"
                             className="form__field"
                             id="code_saq"
                             name="code_saq"
-                            type="text"
+                            type="hidden"
                             value={bouteilleValeur.code_saq}
                             onChange={handleChange}
                         />
-                        <label className="form__label">Code SAQ</label>
-                    </div>
-
+                     
                     <div className="form__group field">
                         <input
                             placeholder="Quantité"
