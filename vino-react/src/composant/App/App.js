@@ -14,11 +14,13 @@ import CellierShow from '../Cellier/CellierShow';
 import Connexion from '../Connexion/Connexion';
 import PageErreur from '../PageErreur/PageErreur';
 import { useLocation } from 'react-router-dom';
+import {action as logoutAction} from '../Logout';
 
 const router = createBrowserRouter([
   {path: '/', element: <Accueil />, errorElement: <PageErreur/>},
   {path: '/inscription', element: <Inscription />},
   {path: '/connexion', element: <Connexion />},
+  {path: '/logout', element: <Connexion />, action: logoutAction},
   {path: '/', 
    element: <Entete />,
    children: [

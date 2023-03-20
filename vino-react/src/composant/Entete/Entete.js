@@ -1,6 +1,6 @@
 import "./Entete.css";
 import logoVino from "../../img/vinoLogo-blanc.svg";
-import { Link, json, Outlet } from "react-router-dom";
+import { Link, json, Outlet, Form } from "react-router-dom";
 import { ReactComponent as CaretIcon } from "../../img/caret.svg";
 import { ReactComponent as CogIcon } from "../../img/cog.svg";
 import { ReactComponent as ChevronIcon } from "../../img/chevron.svg";
@@ -10,6 +10,7 @@ import { ReactComponent as BurgerIcon } from "../../img/menu_burger_blanc.svg";
 // import { ReactComponent as BurgerIcon } from '../../img/menuBurgerRouge.svg';
 import React, { useState, useEffect, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
+import { Button } from "bootstrap";
 
 function Entete() {
   return (
@@ -108,7 +109,7 @@ function DropdownMenu() {
           </DropdownItem>
           <DropdownItem leftIcon={<BoltIcon />}>
             {" "}
-            Déconnexion
+            <Form action="/logout" method="POST"><button>Déconnexion</button>  </Form>
           </DropdownItem>
         </div>
       </CSSTransition>
