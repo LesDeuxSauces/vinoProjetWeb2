@@ -8,10 +8,10 @@ function Modal({ message, onDialog, produit }) {
                 <p className="modal__infos--produit" >{produit} ?</p>
                 <div className="modal__infos--boutons">
                     <button className="modal__bouton--oui" onClick={() => onDialog(true)}>
-                        OUI
+                        Confirmer
                     </button>
                     <button className="modal__bouton--non" onClick={() => onDialog(false)}>
-                        NON
+                        Annuler
                     </button>
                 </div>
             </div>
