@@ -128,11 +128,6 @@ export default function Connexion() {
           </div>
         </form>
       </div>
-      <div>
-        <Link to="/Cellier">
-          <button className="btn btnConnexion">Vers "cellier"</button>
-        </Link>
-      </div>
     </section>
   );
 }

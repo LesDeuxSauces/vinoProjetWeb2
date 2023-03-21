@@ -16,15 +16,17 @@ import PageErreur from '../PageErreur/PageErreur';
 import { useLocation } from 'react-router-dom';
 import BouteilleUpdate from '../Bouteille/BouteilleUpdate';
 import {action as logoutAction} from '../Logout';
+import { checkAuthLoader, checkAuthConnexionLoader } from '../Auth';
 
 
 const router = createBrowserRouter([
   {path: '/', element: <Accueil />, errorElement: <PageErreur/>},
   {path: '/inscription', element: <Inscription />},
-  {path: '/connexion', element: <Connexion />},
+  {path: '/connexion', element: <Connexion />, loader:checkAuthConnexionLoader},
   {path: '/logout', element: <Connexion />, action: logoutAction},
   {path: '/', 
    element: <Entete />,
+   loader:checkAuthLoader,
    children: [
     {path:"/cellier", element:<CellierList /> },
     {path:"/cellier/:id", element:<CellierShow />},
