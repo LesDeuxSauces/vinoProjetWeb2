@@ -71,7 +71,13 @@ export default function CellierList(props) {
             </div>
             <div className="cellier__infos">
               <p className="cellier__infos--nom">{cellier.nom}</p>
-              <img className="cellier__infos--edit" src={iconeEdit} alt="Editer" />
+              <Link to={`/cellier/update/${cellier.id}`}>
+                <img
+                  className="cellier__infos--edit"
+                  src="/static/media/edit-icone-blanc.5cafcbd4aecb946355b1cbafba8b56d5.svg"
+                  alt="Editer"
+                />
+              </Link>
             </div>
           </li>
         </Link>

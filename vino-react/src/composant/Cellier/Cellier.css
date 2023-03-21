@@ -84,6 +84,10 @@
 .cellier__infos--edit {
   width: 25px;
 }
+.cellier__infos--edit:hover {
+  transform: scale(1.1);
+  transition-duration: 0.2s;
+}
 
 .cellier__ajouter {
   text-align: center;
