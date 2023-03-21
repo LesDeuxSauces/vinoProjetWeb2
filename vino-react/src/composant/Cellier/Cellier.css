@@ -193,14 +193,15 @@
 .bouteille__nom {
   font-size: 18px;
   font-weight: bold;
+  justify-self: flex-start;
 }
 
-.bouteille__type {
+.bouteille__quantite {
   font-size: 16px;
+  padding: 5px;
 }
 
 .bouteille p {
-  text-align: center;
   color: black;
   display: flex;
   flex-direction: row;
@@ -217,15 +218,17 @@
 .bouteille__infos--quantite {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
   margin-top: 20px;
+  position: absolute;
+  bottom: 5%;
+  left: 30%;
 }
 
 .bouteille__infos--bouton {
   background-color: var(--gris-pale-color);
   width: 30px;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .bouteille__ajouter {
@@ -277,10 +280,10 @@
 
 .icone-infos {
   position: absolute;
-  top: 50%;
-  right: 20px;
+  top: 13%;
+  right: 10px;
   transform: translateY(-50%);
-  width: 75px;
+  width: 40px;
 }
 
 .icone-nbr-bouteille {
