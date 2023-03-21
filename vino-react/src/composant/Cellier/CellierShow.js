@@ -16,16 +16,19 @@ export default function CellierShow() {
   const [cellier, setCellier] = useState({});
   const [dialog, setDialog] = useState({
     message: "",
-    isLoading: false
+    isLoading: false,
+    produit: "",
   });
   const [flip, setFlip] = useState({}); // pour la carte tournante
   const { id } = useParams();
   const idCellier = id;
   const idBouteilleRef = useRef();
-  const handleDialog = (message, isLoading) => {
+  const nomBouteilleRef = useRef();
+  const handleDialog = (message, isLoading, produit) => {
     setDialog({
       message,
       isLoading,
+      produit,
     })
   }
   useEffect(() => {
@@ -69,7 +72,7 @@ export default function CellierShow() {
                   <div className="bouteille__icones">
 
                     <img className='bouteille__modifier' src={iconeModifier} alt="Modifier la bouteille" onClick={(evt) => handleModifier(evt, bouteille.id)} />
-                    <img className='bouteille__supprimer' src={iconeSupprimer} alt="Supprimer la bouteille" onClick={(evt) => handleDelete(evt, bouteille.id)} />
+                    <img className='bouteille__supprimer' src={iconeSupprimer} alt="Supprimer la bouteille" onClick={(evt) => handleDelete(evt, bouteille.id, bouteille.nom)} />
                   </div>
                   <img src={imageBouteille} alt="Image de la bouteille" className="bouteille__img" />
                   {/* <img src={bouteille.url_img} alt="Image de la bouteille" className="bouteille__img" /> */}
@@ -155,13 +158,15 @@ export default function CellierShow() {
    * @param {*} evt  événement
    * @param {*} id  id de la bouteille
    */
-  function handleDelete(evt, id) {
+  function handleDelete(evt, id, nom) {
     evt.stopPropagation(); // on stoppe la propagation de l'événement
     setDialog({
-      message: "Êtes-vous certain de vouloir supprimer cet item ?",
+      message: "Êtes-vous certain de vouloir supprimer toutes les bouteilles de : ",
       isLoading: true,
+      produit: nom
     });
     idBouteilleRef.current = id;
+    nomBouteilleRef.current = nom;
   }
 
   const confirmation = (choix) => {
@@ -261,7 +266,7 @@ export default function CellierShow() {
         <Link to={'/bouteille/create/' + idCellier}><img className='bouteille__ajouter--hover' src={iconeAjouter} alt="" /></Link>
       </div>
       <Link to="/Cellier" className="cellier__btn--style ajout__btn--position cellier__btn--retour">Retour à la liste des celliers</Link>
-      {dialog.isLoading && <Modal onDialog={confirmation} message={dialog.message} />}
+      {dialog.isLoading && <Modal onDialog={confirmation} message={dialog.message} produit={dialog.produit} />}
     </div>
   );
 }
