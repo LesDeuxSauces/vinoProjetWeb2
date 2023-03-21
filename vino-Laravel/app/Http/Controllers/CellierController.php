@@ -94,7 +94,13 @@ public function show(Cellier $cellier)
    */
   public function update(Request $request, Cellier $cellier)
   {
-    //
+        $dataValide = $request->validate([
+          'nom' => 'required|string|min:2|max:50',
+      ]);
+
+      $cellier->nom = $dataValide['nom'];
+      $cellier->save();
+      return response()->json(['message' => 'Cellier '.$cellier->nom.' mis à jour avec succès', 'cellier' => $cellier]);
   }
 
   /**
