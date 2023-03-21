@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import './Cellier.css';
 import imageBouteille from '../../img/AlbertBichot-Chablis.png';
@@ -7,16 +7,27 @@ import iconeModifier from '../../img/icone-modifier.svg';
 import iconeSupprimer from '../../img/icone-supprimer.svg';
 import iconeInfos from '../../img/icone-infos.svg';
 import iconeNbrBouteille from '../../img/icone-nbr-bouteille.svg';
+import Modal from '../Modal/Modal';
 
 
 
 export default function CellierShow() {
   const navigate = useNavigate();
   const [cellier, setCellier] = useState({});
+  const [dialog, setDialog] = useState({
+    message: "",
+    isLoading: false
+  });
   const [flip, setFlip] = useState({}); // pour la carte tournante
   const { id } = useParams();
   const idCellier = id;
-
+  const idBouteilleRef = useRef();
+  const handleDialog = (message, isLoading) => {
+    setDialog({
+      message,
+      isLoading,
+    })
+  }
   useEffect(() => {
     const fetchCellier = async () => {
       const token = localStorage.getItem('token');
@@ -66,10 +77,10 @@ export default function CellierShow() {
                     <div className="bouteille__infos">
                       <p className="bouteille__nom">{bouteille.nom}</p>
                       <div className="bouteille__infos--quantite">
-                        <button className="bouteille__infos--bouton" value="down" onClick={(evt) => handleDiminuer(evt, bouteille.id, bouteille.pivot.quantite)}>-</button>
+                        <button className="bouteille__infos--bouton" value="down" onClick={(evt) => handleQuantite(evt, bouteille.id, bouteille.pivot.quantite, false)}>-</button>
                         {/* <img src={iconeNbrBouteille} alt="Nombre de bouteilles" className="icone-nbr-bouteille" />  */}
                         <p className="bouteille__quantite">({bouteille.pivot.quantite})</p>
-                        <button className="bouteille__infos--bouton" value="up" onClick={(evt) => handleAugmenter(evt, bouteille.id, bouteille.pivot.quantite)}>+</button>
+                        <button className="bouteille__infos--bouton" value="up" onClick={(evt) => handleQuantite(evt, bouteille.id, bouteille.pivot.quantite, true)}>+</button>
                       </div>
                     </div>
 
@@ -112,6 +123,20 @@ export default function CellierShow() {
     }
   }
 
+  async function updateBouteilles() {
+    const token = localStorage.getItem('token');
+            return fetch('http://127.0.0.1:8000/api/cellier/' + idCellier, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+              },
+            })
+              .then(response => response.json())
+              .then(data => {
+                setCellier(data);
+              });
+  }
 
   /**
  * Fonction qui permet de retourner la carte
@@ -132,78 +157,57 @@ export default function CellierShow() {
    */
   function handleDelete(evt, id) {
     evt.stopPropagation(); // on stoppe la propagation de l'événement
-    let cellier_id = idCellier;
-    let bouteille_id = id;
-    let url = `//127.0.0.1:8000/api/celliers_has_bouteilles?cellier_id=${cellier_id}&bouteille_id=${bouteille_id}`;
+    setDialog({
+      message: "Êtes-vous certain de vouloir supprimer cet item ?",
+      isLoading: true,
+    });
+    idBouteilleRef.current = id;
+  }
 
-    fetch(url, {
-      method: "DELETE",
-      headers: {
-        'Content-type': 'application/json'
-      }
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('une erreur est survenue');
-        } else {
-          navigate('/cellier');
+  const confirmation = (choix) => {
+    if (choix) {
+      handleDialog("", false);
+      let cellier_id = idCellier;
+      let bouteille_id = idBouteilleRef.current;
+      let url = `//127.0.0.1:8000/api/celliers_has_bouteilles?cellier_id=${cellier_id}&bouteille_id=${bouteille_id}`;
+
+      fetch(url, {
+        method: "DELETE",
+        headers: {
+          'Content-type': 'application/json'
         }
       })
-      .catch((evt) => {
-        console.log(evt);
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('une erreur est survenue');
+          } else {
+            updateBouteilles();
+          }
+        })
+        .catch((evt) => {
+          console.log(evt);
+        });
+    } else {
+      handleDialog("", false);
+    }
   }
 
- function handleDiminuer(evt,id,quantite){
-  evt.stopPropagation(); // on stoppe la propagation de l'événement
-  
-  let cellier_id = idCellier;
-  let bouteille_id = id;
-  let nouvelleQuantite = (quantite - 1);
-  const token = localStorage.getItem('token');
-  let url = `//127.0.0.1:8000/api/celliers_has_bouteilles?cellier_id=${cellier_id}&bouteille_id=${bouteille_id}&quantite=${nouvelleQuantite}`;
-  
-  fetch(url, {
-    method: "PUT",
-    headers: {
-      'Content-type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    }
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('une erreur est survenue');
-      } else {
-        return fetch('http://127.0.0.1:8000/api/cellier/' + idCellier, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-        })
-          .then(response => response.json())
-          .then(data => {
-            setCellier(data);
-          });
-      }
-    })
-    .catch((evt) => {
-      console.log(evt);
-    });
-  }
-  /**
-   *  Fonction qui permet de modifier la quantité d'une bouteille
-   * @param {*} evt  événement
-   * @param {*} id  id de la bouteille
-   */
-  function handleAugmenter(evt, id, quantite) {
+  function handleQuantite(evt, id, quantite, bool) {
     evt.stopPropagation(); // on stoppe la propagation de l'événement
-    
+
     let cellier_id = idCellier;
     let bouteille_id = id;
-    let nouvelleQuantite = (quantite + 1);
+    let nouvelleQuantite;
+
+    if (bool == false){
+      nouvelleQuantite = (quantite - 1);
+    } else if (bool == true){
+      nouvelleQuantite = (quantite + 1);
+    }
+
     const token = localStorage.getItem('token');
     let url = `//127.0.0.1:8000/api/celliers_has_bouteilles?cellier_id=${cellier_id}&bouteille_id=${bouteille_id}&quantite=${nouvelleQuantite}`;
+
     fetch(url, {
       method: "PUT",
       headers: {
@@ -215,17 +219,7 @@ export default function CellierShow() {
         if (!response.ok) {
           throw new Error('une erreur est survenue');
         } else {
-          return fetch('http://127.0.0.1:8000/api/cellier/' + idCellier, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
-            },
-          })
-            .then(response => response.json())
-            .then(data => {
-              setCellier(data);
-            });
+          updateBouteilles();
         }
       })
       .catch((evt) => {
@@ -267,6 +261,7 @@ export default function CellierShow() {
         <Link to={'/bouteille/create/' + idCellier}><img className='bouteille__ajouter--hover' src={iconeAjouter} alt="" /></Link>
       </div>
       <Link to="/Cellier" className="cellier__btn--style ajout__btn--position cellier__btn--retour">Retour à la liste des celliers</Link>
+      {dialog.isLoading && <Modal onDialog={confirmation} message={dialog.message} />}
     </div>
   );
 }
