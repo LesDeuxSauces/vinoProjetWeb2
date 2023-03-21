@@ -63,10 +63,15 @@ export default function CellierShow() {
                   <img src={imageBouteille} alt="Image de la bouteille" className="bouteille__img" />
                   {/* <img src={bouteille.url_img} alt="Image de la bouteille" className="bouteille__img" /> */}
                   <div>
-                    {/* <div className="bouteille__text--position"> */}
+                    <div className="bouteille__infos">
                       <p className="bouteille__nom">{bouteille.nom}</p>
-                      <p className="bouteille__type"><img src={iconeNbrBouteille} alt="Nombre de bouteilles" className="icone-nbr-bouteille" /> ({bouteille.pivot.quantite})</p>
-                    {/* </div> */}
+                      <div className="bouteille__infos--quantite">
+                        <button className="bouteille__infos--bouton" value="down" onClick={(evt) => handleDiminuer(evt, bouteille.id, bouteille.pivot.quantite)}>-</button>
+                        <p className="bouteille__type"><img src={iconeNbrBouteille} alt="Nombre de bouteilles" className="icone-nbr-bouteille" /> ({bouteille.pivot.quantite})</p>
+                        <button className="bouteille__infos--bouton" value="up" onClick={(evt) => handleAugmenter(evt, bouteille.id, bouteille.pivot.quantite)}>+</button>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
                 <div className="bouteille__carte--arriere bouteille__carte">
@@ -148,6 +153,85 @@ export default function CellierShow() {
       });
   }
 
+ function handleDiminuer(evt,id,quantite){
+  evt.stopPropagation(); // on stoppe la propagation de l'événement
+  
+  let cellier_id = idCellier;
+  let bouteille_id = id;
+  let nouvelleQuantite = (quantite - 1);
+  const token = localStorage.getItem('token');
+  let url = `//127.0.0.1:8000/api/celliers_has_bouteilles?cellier_id=${cellier_id}&bouteille_id=${bouteille_id}&quantite=${nouvelleQuantite}`;
+  
+  fetch(url, {
+    method: "PUT",
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('une erreur est survenue');
+      } else {
+        return fetch('http://127.0.0.1:8000/api/cellier/' + idCellier, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        })
+          .then(response => response.json())
+          .then(data => {
+            setCellier(data);
+          });
+      }
+    })
+    .catch((evt) => {
+      console.log(evt);
+    });
+  }
+  /**
+   *  Fonction qui permet de modifier la quantité d'une bouteille
+   * @param {*} evt  événement
+   * @param {*} id  id de la bouteille
+   */
+  function handleAugmenter(evt, id, quantite) {
+    evt.stopPropagation(); // on stoppe la propagation de l'événement
+    
+    let cellier_id = idCellier;
+    let bouteille_id = id;
+    let nouvelleQuantite = (quantite + 1);
+    const token = localStorage.getItem('token');
+    let url = `//127.0.0.1:8000/api/celliers_has_bouteilles?cellier_id=${cellier_id}&bouteille_id=${bouteille_id}&quantite=${nouvelleQuantite}`;
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('une erreur est survenue');
+        } else {
+          return fetch('http://127.0.0.1:8000/api/cellier/' + idCellier, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+          })
+            .then(response => response.json())
+            .then(data => {
+              setCellier(data);
+            });
+        }
+      })
+      .catch((evt) => {
+        console.log(evt);
+      });
+  }
+
   /**
    *  Fonction qui permet d'éditer une bouteille
    * @param {*} evt  événement
@@ -157,7 +241,6 @@ export default function CellierShow() {
     evt.stopPropagation();
     navigate(`/bouteille/${idCellier}/update/${id}`);
   }
-
 
 
   return (
