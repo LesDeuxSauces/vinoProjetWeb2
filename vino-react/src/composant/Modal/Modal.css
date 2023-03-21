@@ -1,0 +1,67 @@
+.modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.5)
+}
+
+.modal__infos {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: absolute;
+        gap: 20px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        background: var(--blanc-color);
+        padding: 20px;
+        border-radius: 10px;
+    
+}
+
+.modal__infos--message {
+    color: var(--noir-color);
+    font-size: 16px;
+}
+
+.modal__infos--produit {
+    color: var(--noir-color);
+    font-size: 18px;
+}
+
+.modal__infos--boutons {
+    display: flex;
+    align-items: center;
+}
+
+.modal__infos--boutons button {
+    border-radius: 10px;
+    padding: 10px 20px;
+}
+
+.modal__infos--boutons button:hover {
+    opacity: 0.8;
+    /* transform: scale(1.01); */
+    transition-duration: 0.3s;
+}
+
+.modal__bouton--oui{
+    background: var(--rouge-color);
+    color: white;
+    padding: 10px;
+    margin-right: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.modal__bouton--non{
+    background: var(--blanc-color);
+    /* outline: var(--rouge-color); */
+    color: var(--rouge-color);
+    padding: 10px;
+    margin-left: 4px;
+    border: 1px solid var(--rouge-color);
+    cursor: pointer;
+}
