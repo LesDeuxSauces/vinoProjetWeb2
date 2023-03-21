@@ -88,7 +88,7 @@ export default function CellierUpdate() {
             type="submit"
             onClick={modifierCellier}
           >
-            Modifier cellier
+            Enregistrer
           </button>
           <Link
             to="/Cellier"
