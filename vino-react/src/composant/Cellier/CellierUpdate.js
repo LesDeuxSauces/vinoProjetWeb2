@@ -5,9 +5,7 @@ import "./Cellier.css";
 
 export default function CellierUpdate() {
   const api_url = "http://127.0.0.1:8000/api/";
-  const { idCellier } = useParams(); // idCellier est le paramètre passé dans l'URL
-
-  console.log(idCellier);
+  const { idCellier } = useParams();
 
   const navigate = useNavigate();
   const [cellierValeur, setCellierValeur] = useState({
