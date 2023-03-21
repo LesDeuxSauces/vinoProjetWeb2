@@ -155,7 +155,7 @@
 
 .bouteille {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(217px, 1fr));
   row-gap: 20px;
   column-gap: 20px;
   width: 100%;
@@ -206,6 +206,26 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.bouteille__infos {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.bouteille__infos--quantite {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.bouteille__infos--bouton {
+  background-color: var(--gris-pale-color);
+  width: 30px;
+  border-radius: 5px;
 }
 
 .bouteille__ajouter {
@@ -382,8 +402,8 @@ https://codepen.io/Koverzneva/pen/GRXoomy
 .bouteille__carte--arriere {
   /* width: 250px;
   height: 250px; */
-  width: 370px;
-  height: 160px;
+  width: 215px;
+  height: 215px;
 }
 
 .flip-container .bouteille__carte--tourner {
