@@ -36,9 +36,37 @@ class CelliersHasBouteillesController extends Controller
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, string $id)
+  public function update(Request $request)
   {
     //
+  }
+
+  /**
+   * Update the specified resource in storage.
+   */
+  public function updateBouteilleQuantite(Request $request)
+  {
+    $cellier_id = $request->input('cellier_id');
+    $bouteille_id = $request->input('bouteille_id');
+    $quantite = $request->input('quantite');
+
+    $updatedRows = CelliersHasBouteilles::where('cellier_id', '=', $cellier_id)
+        ->where('bouteille_id', '=', $bouteille_id)
+        ->update([
+            'quantite' => $quantite
+        ]);
+
+    if ($updatedRows > 0) {
+        return response()->json([
+            'status' => 200,
+            'message' => 'La quantité de bouteilles a été mise à jour'
+        ], 200);
+    } else {
+        return response()->json([
+            'status' => 500,
+            'message' => 'La mise à jour de la quantité de bouteilles n\'a pas fonctionné'
+        ], 500);
+    }
   }
 
   /**
@@ -77,6 +105,7 @@ class CelliersHasBouteillesController extends Controller
   }
   
   
+
   
   
 }
