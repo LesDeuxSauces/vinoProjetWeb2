@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
 
 
 use App\Models\User;
@@ -14,42 +16,58 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-
-        // Valider les entrées de l'utilisateur
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6'
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
+        ],[
+            'name.required' => 'Le nom est obligatoire',
+            'email.required' => 'Le courriel est obligatoire',
+            'email.email' => 'Le courriel doit être une adresse email valide',
+            'email.unique' => 'Ce courriel est déjà utilisé',
+            'password.required' => 'Le mot de passe est obligatoire',
+            'password.min' => 'Le mot de passe doit contenir au moins 6 caractères',
         ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
-        // Créer un nouvel utilisateur avec les entrées validées
         $user = User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password'])
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
         ]);
 
         return response()->json([
-            'user' => $user
-        ], Response::HTTP_CREATED);
-
+            'user' => $user,
+            'message' => 'Utilisateur créer'
+        ], 201);
     }
 
     public function authentification(Request $request)
     {
-        // Valider les entrées de l'utilisateur
-        $validatedData = $request->validate([
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string'
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|max:255',
+            'password' => 'required|string|min:6',
+        ],[
+            'email.required' => 'Le courriel est obligatoire',
+            'email.email' => 'Le courriel doit être une adresse email valide',
+            'password.required' => 'Le mot de passe est obligatoire',
+            'password.password' => 'Mot de passe invalide'
         ]);
 
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
         // Trouver l'utilisateur correspondant à l'adresse email fournie
-        $user = User::where('email', $validatedData['email'])->first();
+        $user = User::where('email', $request->input('email'))->first();
 
         // Vérifier si l'utilisateur existe et si le mot de passe fourni correspond
-        if (!$user || !Hash::check($validatedData['password'], $user->password)) {
+        if (!$user || !Hash::check($request->input('password'), $user->password)) {
             // Retourner une réponse d'erreur si l'authentification échoue
-            return response()->json(['message' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
+            return response()->json(['message' => "Les informations d'authentification fournies ne sont pas valide"], Response::HTTP_UNAUTHORIZED);
         }
 
         // Générer un token pour l'utilisateur
