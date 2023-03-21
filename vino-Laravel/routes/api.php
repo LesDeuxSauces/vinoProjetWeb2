@@ -43,9 +43,11 @@ Route::get('cellier_sans_bouteilles', [CellierController::class, 'getCelliersSan
 // Route pour les celliers_has_bouteilles va chercher la quantité de bouteilles par cellier
 Route::get('celliers_has_bouteilles/quantite', [CelliersHasBouteillesController::class, 'getQuantiteParCellier']);
 
+
 // Route pour les celliers_has_bouteilles
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
   Route::apiResource('celliers_has_bouteilles', CelliersHasBouteillesController::class);
+  Route::put('celliers_has_bouteilles', [CelliersHasBouteillesController::class, 'updateBouteilleQuantite']);
   Route::delete('celliers_has_bouteilles', [CelliersHasBouteillesController::class, 'destroy']);
 });
 
