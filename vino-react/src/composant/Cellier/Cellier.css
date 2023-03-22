@@ -262,6 +262,17 @@
   transition-duration: 0.2s;
 }
 
+.bouteille__logoSaq {
+  width: 39px;
+  height: 26px;
+  cursor: pointer;
+}
+
+.bouteille__logoSaq:hover {
+  transform: scale(1.1);
+  transition-duration: 0.2s;
+}
+
 .bouteille__supprimer {
   width: 24px;
   height: 24px;
