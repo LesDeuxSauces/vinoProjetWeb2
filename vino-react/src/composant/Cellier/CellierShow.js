@@ -8,6 +8,7 @@ import iconeSupprimer from '../../img/icone-supprimer.svg';
 import iconeInfos from '../../img/icone-infos.svg';
 import iconeNbrBouteille from '../../img/icone-nbr-bouteille.svg';
 import Modal from '../Modal/Modal';
+import logoSaq from '../../img/logo-saq.png';
 
 
 
@@ -69,12 +70,28 @@ export default function CellierShow() {
             >
               <div className="bouteille__carte--tourner">
                 <div className="bouteille__carte--avant bouteille__carte">
-                  <div className="bouteille__icones">
 
-                    {!bouteille.code_saq && (
-                      <img className="bouteille__modifier" src={iconeModifier} alt="Modifier la bouteille" onClick={(evt) => handleModifier(evt, bouteille.id)}/> )}
-                    <img className='bouteille__supprimer' src={iconeSupprimer} alt="Supprimer la bouteille" onClick={(evt) => handleDelete(evt, bouteille.id, bouteille.nom)} />
+                  <div className="bouteille__icones">
+                    {bouteille.code_saq ? (
+                      <a href={bouteille.url_saq} target="_blank" rel="noreferrer">
+                        <img className="bouteille__logoSaq" src={logoSaq} alt="Logo SAQ" />
+                      </a>
+                    ) : (
+                      <img
+                        className="bouteille__modifier"
+                        src={iconeModifier}
+                        alt="Modifier la bouteille"
+                        onClick={(evt) => handleModifier(evt, bouteille.id)}
+                      />
+                    )}
+                    <img
+                      className="bouteille__supprimer"
+                      src={iconeSupprimer}
+                      alt="Supprimer la bouteille"
+                      onClick={(evt) => handleDelete(evt, bouteille.id, bouteille.nom)}
+                    />
                   </div>
+
                   <img src={imageBouteille} alt="Image de la bouteille" className="bouteille__img" />
                   {/* <img src={bouteille.url_img} alt="Image de la bouteille" className="bouteille__img" /> */}
                   <div>
@@ -147,11 +164,14 @@ export default function CellierShow() {
  * @param {*} id 
  */
   function handleFlip(id) { // prend en parametre le id de la bouteille
+     // on stoppe la propagation de l'événement
     setFlip((prevFlip) => ({ // on utilise la fonction setFlip pour modifier le state. (prevFlip est l'état précédent de flip.))
       ...prevFlip, // on copie l'état précédent de flip
       [id]: !prevFlip[id], // mise à jour de la propriété avec la clé "id" en inversant la valeur précédente
     }));
   }
+
+
 
 
   /**
