@@ -71,7 +71,8 @@ export default function CellierShow() {
                 <div className="bouteille__carte--avant bouteille__carte">
                   <div className="bouteille__icones">
 
-                    <img className='bouteille__modifier' src={iconeModifier} alt="Modifier la bouteille" onClick={(evt) => handleModifier(evt, bouteille.id)} />
+                    {!bouteille.code_saq && (
+                      <img className="bouteille__modifier" src={iconeModifier} alt="Modifier la bouteille" onClick={(evt) => handleModifier(evt, bouteille.id)}/> )}
                     <img className='bouteille__supprimer' src={iconeSupprimer} alt="Supprimer la bouteille" onClick={(evt) => handleDelete(evt, bouteille.id, bouteille.nom)} />
                   </div>
                   <img src={imageBouteille} alt="Image de la bouteille" className="bouteille__img" />
@@ -128,17 +129,17 @@ export default function CellierShow() {
 
   async function updateBouteilles() {
     const token = localStorage.getItem('token');
-            return fetch('http://127.0.0.1:8000/api/cellier/' + idCellier, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-              },
-            })
-              .then(response => response.json())
-              .then(data => {
-                setCellier(data);
-              });
+    return fetch('http://127.0.0.1:8000/api/cellier/' + idCellier, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        setCellier(data);
+      });
   }
 
   /**
@@ -204,9 +205,9 @@ export default function CellierShow() {
     let bouteille_id = id;
     let nouvelleQuantite;
 
-    if (bool == false){
+    if (bool == false) {
       nouvelleQuantite = (quantite - 1);
-    } else if (bool == true){
+    } else if (bool == true) {
       nouvelleQuantite = (quantite + 1);
     }
 
