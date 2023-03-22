@@ -22,7 +22,7 @@ export default function BouteilleUpdate() {
     url_img: "",
     pays: "",
     type_id: "",
-    // code_saq: "",
+    code_saq: "",
     // quantite: "",
   });
 
@@ -54,6 +54,7 @@ export default function BouteilleUpdate() {
       annee: data.data.annee || '',
       url_saq: data.data.url_saq || '',
       url_img: data.data.url_img || '',
+      code_saq: data.data.code_saq || '',
       pays: data.data.pays || '',
       type_id: data.data.type_id || '',
     }));
@@ -219,6 +220,14 @@ export default function BouteilleUpdate() {
           name="url_img"
           type="hidden"
           value={bouteilleValeur.url_img}
+          onChange={handleChange}
+        />
+
+        <input
+          id="code_saq"
+          name="code_saq"
+          type="hidden"
+          value={bouteilleValeur.code_saq}
           onChange={handleChange}
         />
 

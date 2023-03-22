@@ -54,7 +54,7 @@ class BouteilleController extends Controller
   public function store(Request $request)
   {
 
-    
+
     $validation = Validator::make($request->all(), [
 
       'nom' => 'required',
@@ -79,7 +79,7 @@ class BouteilleController extends Controller
       ], 422);
     } else {
 
-      if($request->code_saq!=''){
+      if ($request->code_saq != '') {
 
         $cellierHasBouteille = CelliersHasBouteilles::create([
           'quantite' => $request->quantite,
@@ -87,13 +87,12 @@ class BouteilleController extends Controller
           'cellier_id' => $request->cellier_id
         ]);
 
-        if($cellierHasBouteille){
+        if ($cellierHasBouteille) {
           return response()->json([
-            "status"=>200,
+            "status" => 200,
             'message' => 'la bouteille a été ajoutée'
-           
-          ],200);
 
+          ], 200);
         } else {
           return response()->json([
             'status' => 500,
@@ -114,13 +113,13 @@ class BouteilleController extends Controller
           'pays' => $request->pays,
           'type_id' => $request->type_id,
         ]);
-  
+
         $cellierHasBouteille = CelliersHasBouteilles::create([
           'quantite' => $request->quantite,
           'bouteille_id' => $bouteille->id,
           'cellier_id' => $request->cellier_id
         ]);
-  
+
         if ($bouteille) {
           return response()->json([
             'status' => 200,
@@ -133,7 +132,6 @@ class BouteilleController extends Controller
           ], 500);
         }
       }
-     
     }
   }
 
@@ -158,6 +156,15 @@ class BouteilleController extends Controller
    */
   public function update(Request $request, Bouteille $bouteille)
   {
+
+    // ajout de condition afin de ne pas pouvoir forcer la moidification d'une bouteille de la SAQ
+    if ($bouteille->code_saq) {
+      return response()->json([
+        'status' => 400,
+        'message' => 'La modification de la bouteille avec un code_saq existant n\'est pas autorisée'
+      ], 400);
+    }
+
     $bouteille->update([
       'nom' => $request->nom,
       'format' => $request->format,
@@ -179,13 +186,6 @@ class BouteilleController extends Controller
         'quantite' => $request->quantite,
       ]);
     }
-    // } else {
-    //   CelliersHasBouteilles::create([
-    //     'quantite' => $request->quantite,
-    //     'bouteille_id' => $bouteille->id,
-    //     'cellier_id' => $request->cellier_id,
-    //   ]);
-    // }
 
     return response()->json([
       'status' => 200,
