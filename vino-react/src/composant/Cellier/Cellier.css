@@ -275,7 +275,7 @@
 
 .bouteille__icones {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 50px;
   position: absolute;
   top: 10px;
