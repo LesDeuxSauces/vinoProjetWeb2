@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import "./Bouteille.css";
 import { useParams } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
+// component React Autosuggest 
+// npm install react-autosuggest --save
+import Autosuggest from 'react-autosuggest';
+
+
 
 export default function BouteilleCreate() {
     const api_url = "http://127.0.0.1:8000/api/";
@@ -21,21 +26,109 @@ export default function BouteilleCreate() {
         type_id: "",
         quantite: "",
     });
+    const [dataSAQ, setDataSAQ] = useState([]);
+    const [bouteilleSAQ, setBouteilleSAQ] = useState([]);
+    const [rechercheBouteille, setRechercheBouteille] = useState('');
+    const [bouteilleSelectionnee, setBouteilleSelectionnee] = useState({});
+
 
     useEffect(() => {
-        // fetch("http://127.0.0.1:8000/api/pays")
-        //     .then((response) => response.json())
-        //     .then((data) => {
-        //         setPays(data.pays);
-        //         console.log(pays);
-        //     });
 
-        fetch("http://127.0.0.1:8000/api/types")
+        dataBouteillesAPI();
+
+        fetch(api_url + "types")
             .then((response) => response.json())
             .then((data) => {
                 setTypes(data.types);
+
             });
     }, []);
+
+    const onSuggestionsFetchRequested = ({ value }) => {
+        setBouteilleSAQ(filtreBouteille(value));
+        
+    }
+
+    const filtreBouteille = (value) => {
+        const inputValue = value.trim().toLowerCase();
+        console.log(inputValue);
+        if(inputValue === ""){
+            console.log("quedo vacio");
+            setBouteilleSAQ("")
+        }
+        const inputLength = inputValue.length;
+
+        let filtre = dataSAQ.filter((uneBouteille) => {
+            let nomComplete = uneBouteille.nom
+
+            if (nomComplete.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .includes(inputValue)) {
+                return uneBouteille;
+            }
+        });
+
+        return inputLength === 0 ? [] : filtre;
+    }
+
+
+    const onSuggestionsClearRequested = () => {
+        setBouteilleSAQ([]);
+        
+    }
+
+    const getSuggestionValue = (suggestion) => {
+        return `${suggestion.nom} `;
+    }
+
+    const renderSuggestion = (suggestion) => (
+        <div className='sugerencia' onClick={() => choisirBouteille(suggestion)}>
+            {`${suggestion.nom} `}
+        </div>
+    );
+
+    const choisirBouteille = (uneBouteille) => {
+       uneBouteille.quantite ="1"
+        setBouteilleSelectionnee(uneBouteille);
+        setBouteilleValeur(uneBouteille)
+        
+        
+        // ajouterBouteilleSAQ(uneBouteille);
+    }
+
+    const onChange = (e, { newValue }) => {
+        setRechercheBouteille(newValue);
+    }
+
+    const inputProps = {
+        placeholder: "Bouteille SAQ",
+        value: rechercheBouteille,
+        onChange
+    };
+
+    const eventEnter = (e) => {
+        if (e.key == "Enter") {
+            let bouteilleActuel = dataSAQ.filter(b => b.nom == e.target.value.trim());
+            let bouteille = {
+                id: bouteilleActuel[0].id,
+                nom: bouteilleActuel[0].nom,
+
+            };
+            choisirBouteille(bouteille);
+        }
+    }
+
+    const dataBouteillesAPI = () => {
+        fetch(api_url + "bouteillessaq")
+            .then((response) => response.json())
+            .then((data) => {
+                setBouteilleSAQ(data.bouteillessaq)
+                setDataSAQ(data.bouteillessaq)
+            })
+    }
+
+
 
     function handleSubmit(e) {
         /**
@@ -68,51 +161,74 @@ export default function BouteilleCreate() {
         setBouteilleValeur(nouvellesValeurs);
     }
 
+
     function ajouterBouteille() {
         bouteilleValeur.cellier_id = idCellier;
-        console.log(bouteilleValeur);
-
         PostCellierHasBouteille(bouteilleValeur);
 
-    //     const options = {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-type": "application/json",
-    //             accept: "application/json",
-    //         },
-    //         body: JSON.stringify(bouteilleValeur),
-    //     };
+        // const options = {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-type": "application/json",
+        //         accept: "application/json",
+        //     },
+        //     body: JSON.stringify(bouteilleValeur),
+        // };
 
-    //     fetch("http://127.0.0.1:8000/api/bouteille", options)
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             console.log(data);
-    //             navigate('/cellier/' + idCellier);
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         });
+        // fetch("http://127.0.0.1:8000/api/bouteille", options)
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         console.log(data);
+        //         navigate('/cellier/' + idCellier);
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     });
     }
 
     async function PostCellierHasBouteille(bouteilleValeur) {
+        console.log(bouteilleValeur,"lo que vou agregar antes del");
         let entete = new Headers();
         const token = localStorage.getItem("token");
         entete.append("Content-Type", "application/json");
         entete.append("Authorization", "Bearer " + token);
-    
-        const response = await fetch(api_url + "bouteille", {
-          method: "POST",
-          body: JSON.stringify(bouteilleValeur),
-          headers: entete,
-        });
+
+        const options = {
+            method: "POST",
+            body: JSON.stringify(bouteilleValeur),
+            headers: entete,
+        }
+
+        const response = await fetch(api_url + "bouteille", options);
+        const res = await response.json()
+        console.log(res);
 
         window.location.pathname = '/cellier/' + idCellier;
-      }
+    }
+
+  
+
+
+
 
     return (
         <div>
-            <div class="ajouter__bouteille--titre ">
+            <div className="ajouter__bouteille--titre ">
                 <h1>Ajouter un Vin</h1>
+            </div>
+            <div className="recherche_bouteille_saq">
+                <Autosuggest
+                    suggestions={bouteilleSAQ}
+                    onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                    onSuggestionsClearRequested={onSuggestionsClearRequested}
+                    getSuggestionValue={getSuggestionValue}
+                    renderSuggestion={renderSuggestion}
+                    inputProps={inputProps}
+                    onSuggestionSelected={eventEnter}
+                />
+                <br />
+                {/* <button className='btn btn-primary' onClick={ ()=>ajouterBouteilleSAQ(bouteilleSelectionnee)}>seleccioner la bouteille </button> */}
+
             </div>
             <form className="ajouter__bouteille--form" onSubmit={handleSubmit}>
                 <div>
@@ -139,7 +255,7 @@ export default function BouteilleCreate() {
                         name="type_id"
                         onChange={handleChange}
                     >
-                       <option value="" disabled selected> Type</option>
+                        <option value="" disabled selected> Type</option>
                         {types.map((value) => (
                             <option key={value.id} value={value.id}>
                                 {" "}
@@ -164,19 +280,19 @@ export default function BouteilleCreate() {
 
 
                 <div className="form__group field">
-                        <input
-                            placeholder="Pays"
-                            className="form__field"
-                            id="pays"
-                            name="pays"
-                            type="text"
-                            value={bouteilleValeur.pays}
-                            onChange={handleChange}
-                        />
-                        <label className="form__label">Pays</label>
-                    </div>
+                    <input
+                        placeholder="Pays"
+                        className="form__field"
+                        id="pays"
+                        name="pays"
+                        type="text"
+                        value={bouteilleValeur.pays}
+                        onChange={handleChange}
+                    />
+                    <label className="form__label">Pays</label>
+                </div>
                 <div className="ajouter__bouteille--form--row">
-                  
+
 
                     <div className="form__group field">
                         <input
@@ -205,16 +321,16 @@ export default function BouteilleCreate() {
                         <label className="form__label">Prix</label>
                     </div>
 
-                        <input
-                            placeholder="Code SAQ"
-                            className="form__field"
-                            id="code_saq"
-                            name="code_saq"
-                            type="hidden"
-                            value={bouteilleValeur.code_saq}
-                            onChange={handleChange}
-                        />
-                     
+                    <input
+                        placeholder="Code SAQ"
+                        className="form__field"
+                        id="code_saq"
+                        name="code_saq"
+                        type="hidden"
+                        value={bouteilleValeur.code_saq}
+                        onChange={handleChange}
+                    />
+
                     <div className="form__group field">
                         <input
                             placeholder="Quantité"
@@ -266,3 +382,5 @@ export default function BouteilleCreate() {
         </div>
     );
 }
+
+

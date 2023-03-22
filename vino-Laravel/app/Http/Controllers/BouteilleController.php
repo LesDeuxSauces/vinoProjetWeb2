@@ -53,19 +53,21 @@ class BouteilleController extends Controller
    */
   public function store(Request $request)
   {
+
+    
     $validation = Validator::make($request->all(), [
 
       'nom' => 'required',
-      'format' => 'numeric',
-      'prix' => 'numeric',
-      'annee' => 'numeric',
+      // 'format' => 'numeric',
+      // 'prix' => 'numeric',
+      // 'annee' => 'numeric',
       // 'code_saq' => '',
       // 'url_saq' => 'min:2',
       // 'url_img' => 'min:2',
       // 'pays' => 'required|numeric',
-      'type_id' => 'required|numeric',
-      'quantite' => 'numeric',
-      'cellier_id' => 'required|numeric',
+      'type_id' => 'required',
+      // 'quantite' => 'numeric',
+      'cellier_id' => 'required',
 
     ]);
     // 422, input error dans la validation 
@@ -76,36 +78,62 @@ class BouteilleController extends Controller
         'errors' => $validation->messages()
       ], 422);
     } else {
-      $bouteille = new Bouteille;
-      $bouteille = Bouteille::create([
-        'nom' => $request->nom,
-        'format' => $request->format,
-        'prix' => $request->prix,
-        'annee' => $request->annee,
-        'code_saq' => $request->code_saq,
-        'url_saq' => $request->url_saq,
-        'url_img' => $request->url_img,
-        'pays' => $request->pays,
-        'type_id' => $request->type_id,
-      ]);
 
-      $cellierHasBouteille = CelliersHasBouteilles::create([
-        'quantite' => $request->quantite,
-        'bouteille_id' => $bouteille->id,
-        'cellier_id' => $request->cellier_id
-      ]);
+      if($request->code_saq!=''){
 
-      if ($bouteille) {
-        return response()->json([
-          'status' => 200,
-          'message' => 'la bouteille a été ajoutée'
-        ], 200);
+        $cellierHasBouteille = CelliersHasBouteilles::create([
+          'quantite' => $request->quantite,
+          'bouteille_id' => $request->id,
+          'cellier_id' => $request->cellier_id
+        ]);
+
+        if($cellierHasBouteille){
+          return response()->json([
+            "status"=>200,
+            'message' => 'la bouteille a été ajoutée'
+           
+          ],200);
+
+        } else {
+          return response()->json([
+            'status' => 500,
+            'message' => 'l\'ajout n\'a pas fonctionné'
+          ], 500);
+        }
       } else {
-        return response()->json([
-          'status' => 500,
-          'message' => 'l\'ajout n\'a pas fonctionné'
-        ], 500);
+
+        $bouteille = new Bouteille;
+        $bouteille = Bouteille::create([
+          'nom' => $request->nom,
+          'format' => $request->format,
+          'prix' => $request->prix,
+          'annee' => $request->annee,
+          'code_saq' => $request->code_saq,
+          'url_saq' => $request->url_saq,
+          'url_img' => $request->url_img,
+          'pays' => $request->pays,
+          'type_id' => $request->type_id,
+        ]);
+  
+        $cellierHasBouteille = CelliersHasBouteilles::create([
+          'quantite' => $request->quantite,
+          'bouteille_id' => $bouteille->id,
+          'cellier_id' => $request->cellier_id
+        ]);
+  
+        if ($bouteille) {
+          return response()->json([
+            'status' => 200,
+            'message' => 'la bouteille a été ajoutée'
+          ], 200);
+        } else {
+          return response()->json([
+            'status' => 500,
+            'message' => 'l\'ajout n\'a pas fonctionné'
+          ], 500);
+        }
       }
+     
     }
   }
 
@@ -229,9 +257,6 @@ class BouteilleController extends Controller
       'type_id' => $type_id,
     ]);
 
-
-
-
     if ($bouteilleSAQ) {
       return response()->json([
         'status' => 200,
@@ -252,6 +277,38 @@ class BouteilleController extends Controller
   public function bouteillesSAQ()
   {
     $bouteillesSAQ = Bouteille::whereNotNull('code_saq')->get();
-    return response()->json(['bouteillesSAQ' => $bouteillesSAQ]);
+    return response()->json(['bouteillessaq' => $bouteillesSAQ]);
   }
 }
+
+
+/**
+ * 
+   else {
+     
+    }
+
+
+
+
+
+     
+        $bouteille = new Bouteille;
+        $bouteille = [
+          'nom' => $request->nom,
+          'format' => $request->format,
+          'prix' => $request->prix,
+          'annee' => $request->annee,
+          'code_saq' => $request->code_saq,
+          'url_saq' => $request->url_saq,
+          'url_img' => $request->url_img,
+          'pays' => $request->pays,
+          'type_id' => $request->type_id,
+        ];
+  
+        return response()->json([
+          "status"=>200,
+          "la botella" =>$bouteille
+
+        ]);
+ */

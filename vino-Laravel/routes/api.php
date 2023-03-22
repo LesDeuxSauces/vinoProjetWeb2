@@ -73,9 +73,12 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'authentification']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');;
 
-// Routes Publique, pour avoir pays et types
-Route::get('/pays', [BouteilleController::class, 'afficherPays']);
+
+
+
+// Routes Publique, pour avoir pays, types et les bouteilles de la SAQ
+Route::get('/bouteillessaq',[BouteilleController::class, 'bouteillesSAQ']);
 Route::get('/types', [BouteilleController::class, 'afficherTypes']);
 
 //Route pour le scraping de la SAQ
-Route::post('scraping',[BouteilleController::class,'bouteilleSAQ']);
+Route::post('scraping',[BouteilleController::class,'ajouterBouteilleSAQ']);
