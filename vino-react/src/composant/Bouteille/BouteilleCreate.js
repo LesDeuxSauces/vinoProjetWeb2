@@ -46,13 +46,13 @@ export default function BouteilleCreate() {
 
     const onSuggestionsFetchRequested = ({ value }) => {
         setBouteilleSAQ(filtreBouteille(value));
-        
+
     }
 
     const filtreBouteille = (value) => {
         const inputValue = value.trim().toLowerCase();
         console.log(inputValue);
-        if(inputValue === ""){
+        if (inputValue === "") {
             console.log("quedo vacio");
             setBouteilleSAQ("")
         }
@@ -75,7 +75,7 @@ export default function BouteilleCreate() {
 
     const onSuggestionsClearRequested = () => {
         setBouteilleSAQ([]);
-        
+
     }
 
     const getSuggestionValue = (suggestion) => {
@@ -84,16 +84,20 @@ export default function BouteilleCreate() {
 
     const renderSuggestion = (suggestion) => (
         <div className='sugerencia' onClick={() => choisirBouteille(suggestion)}>
-            {`${suggestion.nom} `}
+            <div className="suggestion_recherche">
+                <img src={`${suggestion.url_img} `} />
+                <p>{`${suggestion.nom} `}</p>
+            </div>
+
         </div>
     );
 
     const choisirBouteille = (uneBouteille) => {
-       uneBouteille.quantite ="1"
+        uneBouteille.quantite = "1"
         setBouteilleSelectionnee(uneBouteille);
         setBouteilleValeur(uneBouteille)
-        
-        
+
+
         // ajouterBouteilleSAQ(uneBouteille);
     }
 
@@ -187,7 +191,7 @@ export default function BouteilleCreate() {
     }
 
     async function PostCellierHasBouteille(bouteilleValeur) {
-        console.log(bouteilleValeur,"lo que vou agregar antes del");
+        console.log(bouteilleValeur, "lo que vou agregar antes del");
         let entete = new Headers();
         const token = localStorage.getItem("token");
         entete.append("Content-Type", "application/json");
@@ -206,7 +210,7 @@ export default function BouteilleCreate() {
         window.location.pathname = '/cellier/' + idCellier;
     }
 
-  
+
 
 
 
@@ -217,6 +221,7 @@ export default function BouteilleCreate() {
                 <h1>Ajouter un Vin</h1>
             </div>
             <div className="recherche_bouteille_saq">
+                <h2>BOUTEILLE DE LA SAQ</h2>
                 <Autosuggest
                     suggestions={bouteilleSAQ}
                     onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -232,7 +237,7 @@ export default function BouteilleCreate() {
             </div>
             <form className="ajouter__bouteille--form" onSubmit={handleSubmit}>
                 <div>
-                    <h2>Personnalisé</h2>
+                    <h2>Ajouter une bouteille manuellement</h2>
                 </div>
 
                 <div className="form__group field">
