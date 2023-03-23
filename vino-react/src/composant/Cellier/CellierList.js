@@ -6,10 +6,21 @@ import iconeEdit from "../../img/edit-icone-blanc.svg";
 import iconeAjout from "../../img/icone-ajout.svg";
 import barilsDeVin from '../../img/barils-de-vin.svg';
 import bouteilleIcone from '../../img/bouteille-icone.svg';
+import Modal from '../Modal/Modal';
+import iconeSupprimerBlanc from '../../img/icone-supprimer-blanc.png';
+import bouteilleIconeFill from '../../img/bouteille-icone-fill.png';
 
 export default function CellierList(props) {
   const api_url = "http://127.0.0.1:8000/api/"; // url de l'api
   const [celliers, setCelliers] = useState([]); // création d'un state pour les celliers
+  const idCellierRef = React.useRef();
+  const nomCellierRef = React.useRef();
+  const [dialog, setDialog] = useState({
+    message: "",
+    isLoading: false,
+    produit: "",
+  });
+
 
   useEffect(() => { // fonction qui s'exécute au chargement de la page
     fetchCellierUser(setCelliers); // appel de la fonction qui récupère les celliers de l'utilisateur
@@ -55,22 +66,45 @@ export default function CellierList(props) {
     setCelliers(celliersAvecQuantite);
   }
 
+  /**
+   *  Fonction qui supprime un cellier
+   * @param {*} evt  événement
+   * @param {*} id  id du cellier
+   * @param {*} nom  nom du cellier
+   */
+  function handleDeleteCellier(evt, id, nom) {
+    evt.stopPropagation();
+    setDialog({
+      message: "Êtes-vous certain de vouloir supprimer le cellier : ",
+      isLoading: true,
+      produit: nom
+    });
+    idCellierRef.current = id;
+    nomCellierRef.current = nom;
+  }
 
-  function afficheCelliers() { // fonction qui affiche les celliers
+
+  function afficheCelliers() {
     console.log(celliers);
-    return celliers.map((cellier) => { // boucle qui parcourt le tableau des celliers avec la propriété quantité pour l'affichage de la donnée
+    return celliers.map((cellier) => {
       return (
-        <Link to={"/cellier/" + cellier.id} key={cellier.id}>
-          <li className="cellier__carte">
-            <div className="cellier__carte__content">
+        <li className="cellier__carte" key={cellier.id}>
+          <div className="cellier__carte__content">
+            <Link to={"/cellier/" + cellier.id}>
               <img className="cellier__carte--image" src={barilsDeVin} alt="Barils de vin" />
-              <p className="cellier__infos--quantite">
-                <img className='cellier__carte--image' src={bouteilleIcone} alt="Quantité" />
-                {`x ${cellier.total}`}
-              </p>
-            </div>
-            <div className="cellier__infos">
+            </Link>
+            <Link to={"/cellier/" + cellier.id}>
+            <p className="cellier__infos--quantite">
+              <img className="cellier__carte--image" src={bouteilleIconeFill} alt="Quantité" />
+              {`x ${cellier.total}`}
+            </p>
+            </Link>
+          </div>
+          <div className="cellier__infos">
+            <Link to={"/cellier/" + cellier.id}>
               <p className="cellier__infos--nom">{cellier.nom}</p>
+            </Link>
+            <div className="cellier__icones--position">
               <Link to={`/cellier/update/${cellier.id}`}>
                 <img
                   className="cellier__infos--edit"
@@ -78,12 +112,50 @@ export default function CellierList(props) {
                   alt="Editer"
                 />
               </Link>
+              <div>
+                <img
+                  className="cellier__supprimer"
+                  src={iconeSupprimerBlanc}
+                  alt="Supprimer le cellier"
+                  onClick={(evt) => handleDeleteCellier(evt, cellier.id, cellier.nom)}
+                />
+              </div>
             </div>
-          </li>
-        </Link>
+          </div>
+        </li>
       );
     });
   }
+
+
+  const confirmation = (choix) => {
+    if (choix) {
+      setDialog({ message: "", isLoading: false, produit: "" });
+      let cellier_id = idCellierRef.current;
+      let url = `http://127.0.0.1:8000/api/cellier/${cellier_id}`;
+
+      fetch(url, {
+        method: "DELETE",
+        headers: {
+          'Content-type': 'application/json'
+        }
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('une erreur est survenue');
+          } else {
+            fetchCellierUser(setCelliers);
+          }
+        })
+        .catch((evt) => {
+          console.log(evt);
+        });
+    } else {
+      setDialog({ message: "", isLoading: false, produit: "" });
+    }
+  }
+
+
 
 
   return (
@@ -101,6 +173,7 @@ export default function CellierList(props) {
           <img src={iconeAjout} alt="Ajouter" />
         </Link>
       </div>
+      {dialog.isLoading && <Modal onDialog={confirmation} message={dialog.message} produit={dialog.produit} />}
     </div>
   );
 }

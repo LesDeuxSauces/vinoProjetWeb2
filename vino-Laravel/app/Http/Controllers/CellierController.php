@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cellier;
+use App\Models\CelliersHasBouteilles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,11 +28,11 @@ class CellierController extends Controller
   }
 
   public function getCelliersUser()
-{
+  {
     $user_id = auth()->user()->id;
     $celliers = Cellier::where('user_id', $user_id)->get();
     return response()->json($celliers);
-}
+  }
 
 
   public function store(Request $request)
@@ -49,8 +50,8 @@ class CellierController extends Controller
     // $cellier->user_id = 1; // pour le moment, j'ai forcé l'id de l'utilisateur à 1
     $cellier->save();
 
-    return response()->json(['message' => 'Cellier '.$cellier->nom.' crée avec succès', 'cellier' => $cellier]);
-    
+    return response()->json(['message' => 'Cellier ' . $cellier->nom . ' crée avec succès', 'cellier' => $cellier]);
+
     // $dataValide = $request->validate([
     //   'nom' => 'required|string|max:50',
     //   'user_id' => 'required|integer|exists:users,id',
@@ -66,20 +67,20 @@ class CellierController extends Controller
   /**
    * Display the specified resource.
    */
-/**
- * Display the specified resource.
- */
-public function show(Cellier $cellier)
-{
+  /**
+   * Display the specified resource.
+   */
+  public function show(Cellier $cellier)
+  {
     $bouteilles = $cellier->cellierHasBouteille()->withPivot('quantite')->get()->toArray();
 
     return response()->json([
-        'cellier' => $cellier,
-        'bouteilles' => $bouteilles
+      'cellier' => $cellier,
+      'bouteilles' => $bouteilles
     ]);
-}
+  }
 
-  
+
 
   /**
    * Show the form for editing the specified resource.
@@ -94,13 +95,13 @@ public function show(Cellier $cellier)
    */
   public function update(Request $request, Cellier $cellier)
   {
-        $dataValide = $request->validate([
-          'nom' => 'required|string|min:2|max:50',
-      ]);
+    $dataValide = $request->validate([
+      'nom' => 'required|string|min:2|max:50',
+    ]);
 
-      $cellier->nom = $dataValide['nom'];
-      $cellier->save();
-      return response()->json(['message' => 'Cellier '.$cellier->nom.' mis à jour avec succès', 'cellier' => $cellier]);
+    $cellier->nom = $dataValide['nom'];
+    $cellier->save();
+    return response()->json(['message' => 'Cellier ' . $cellier->nom . ' mis à jour avec succès', 'cellier' => $cellier]);
   }
 
   /**
@@ -108,7 +109,11 @@ public function show(Cellier $cellier)
    */
   public function destroy(Cellier $cellier)
   {
-    //
+    // Supprime les entrées associées dans la table celliers_has_bouteilles
+    CelliersHasBouteilles::where('cellier_id', $cellier->id)->delete();
+    // Supprime le cellier
+    $cellier->delete();
+    return response()->json(['message' => 'Cellier supprimé avec succès']);
   }
 
 
