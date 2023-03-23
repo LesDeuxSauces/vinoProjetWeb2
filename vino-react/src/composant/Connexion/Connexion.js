@@ -63,7 +63,6 @@ export default function Connexion() {
     event.preventDefault();
     setErreur("");
     loginUser({ email: email, password: password });
-    console.log("login", loginUser({ email: email, password: password }));
   };
 
   return (
