@@ -52,7 +52,6 @@ export default function Entete(props) {
         const celliers = await responseCelliers.json();
 
         console.log("cellier:", celliers);
-        console.log(localStorage);
         setCelliers(celliers);
     }
 

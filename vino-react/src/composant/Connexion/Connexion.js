@@ -81,7 +81,7 @@ export default function Connexion() {
         </div>
         {erreur && (
           <div>
-            <ul>
+            <ul className="ul-erreurs">
               {Object.values(erreur).map((err) => (
                 <li key={err} className="erreurs">
                   {err}
@@ -109,7 +109,7 @@ export default function Connexion() {
               className="form__field"
               id="password"
               name="password"
-              type="text"
+              type="password"
               value={password}
               onChange={passwordChangeHandler}
             />
