@@ -52,9 +52,10 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
         ],[
             'email.required' => 'Le courriel est obligatoire',
-            'email.email' => 'Le courriel doit être une adresse email valide',
+            'email.email' => 'Le courriel doit être un format courriel valide',
             'password.required' => 'Le mot de passe est obligatoire',
-            'password.password' => 'Mot de passe invalide'
+            'password.password' => 'Mot de passe invalide',
+            'password.min' => 'Le mot de passe doit faire au moins 6 caractères'
         ]);
 
         if ($validator->fails()) {
@@ -67,7 +68,7 @@ class AuthController extends Controller
         // Vérifier si l'utilisateur existe et si le mot de passe fourni correspond
         if (!$user || !Hash::check($request->input('password'), $user->password)) {
             // Retourner une réponse d'erreur si l'authentification échoue
-            return response()->json(['message' => "Les informations d'authentification fournies ne sont pas valide"], Response::HTTP_UNAUTHORIZED);
+            return response()->json(['errors'=>['message' => ["Les informations d'authentification fournies ne sont pas valides"]]], Response::HTTP_UNAUTHORIZED);
         }
 
         // Générer un token pour l'utilisateur
