@@ -6,8 +6,8 @@ import { ReactComponent as CogIcon } from "../../img/cog.svg";
 import { ReactComponent as ChevronIcon } from "../../img/chevron.svg";
 import { ReactComponent as ChevronLeftIcon } from "../../img/chevronLeft.svg";
 import { ReactComponent as BoltIcon } from "../../img/bolt.svg";
-import { ReactComponent as BurgerIcon } from "../../img/menu_burger_blanc.svg";
 import { ReactComponent as UserIcon } from "../../img/icone-user.svg";
+import { ReactComponent as BurgerIcon } from "../../img/menu_burger_blanc.svg";
 import React, { useState, useEffect, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 
