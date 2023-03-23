@@ -16,7 +16,7 @@ export default function Connexion() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [erreur, setErreur] = useState(null);
+  const [erreur, setErreur] = useState("");
 
   useEffect(() => {
     //
@@ -33,27 +33,20 @@ export default function Connexion() {
       headers: entete,
     });
 
-    console.log(response);
     if (response.status === 422 || response.status === 401) {
-      return response;
-    }
-
-    if (!response.ok) {
-      throw json({ message: 'Impossible d\'identifier l\'utilisateur' }, { status: 500 });
-    }
-    else {
+      const errorData = await response.json();
+      const errors = await errorData.errors;
+      setErreur(errors);
+    } else {
       const responseCode = await response.json();
       const token = responseCode.access_token;
       const user = responseCode.user;
-
 
       localStorage.setItem("token", token);
       localStorage.setItem("user", user.name);
 
       return navigate("/cellier"), response;
     }
-
-
   }
 
   const emailChangeHandler = (event) => {
@@ -68,16 +61,13 @@ export default function Connexion() {
 
   const submitHandler = (event) => {
     event.preventDefault();
+    setErreur("");
     loginUser({ email: email, password: password });
-    console.log('login',loginUser({ email: email, password: password }));
-    // if (!response.ok) {
-    //   setErreur('Impossible d\'identifier l\'utilisateur');
-    // }
+    console.log("login", loginUser({ email: email, password: password }));
   };
 
   return (
     <section>
-      {erreur && <div>{erreur}</div>}
       <div>
         <div className="connexion__header">
           <Link to="/">
@@ -89,6 +79,17 @@ export default function Connexion() {
           </Link>
           <div className="connexion__titre">Connexion</div>
         </div>
+        {erreur && (
+          <div>
+            <ul>
+              {Object.values(erreur).map((err) => (
+                <li key={err} className="erreurs">
+                  {err}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         <form className="connexion__form" onSubmit={submitHandler}>
           <div className="form__group field">
             <input
@@ -99,7 +100,6 @@ export default function Connexion() {
               type="text"
               value={email}
               onChange={emailChangeHandler}
-              required
             />
             <label className="form__label">Courriel</label>
           </div>
@@ -112,7 +112,6 @@ export default function Connexion() {
               type="text"
               value={password}
               onChange={passwordChangeHandler}
-              required
             />
             <label className="form__label">Mot de passe</label>
           </div>

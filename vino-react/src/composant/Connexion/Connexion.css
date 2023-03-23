@@ -93,3 +93,13 @@
   transition-duration: 0.2s;
   cursor: pointer;
 }
+
+.erreurs{
+    margin-bottom: 5px;
+    color: red;
+    font-weight: bold;
+}
+
+ul{
+    margin: 20px 0px 0px 40px;
+}

@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 // component React Autosuggest 
 // npm install react-autosuggest --save
-import Autosuggest from 'react-autosuggest';
+// import Autosuggest from 'react-autosuggest';
 
 
 
@@ -222,7 +222,7 @@ export default function BouteilleCreate() {
             </div>
             <div className="recherche_bouteille_saq">
                 <h2>BOUTEILLE DE LA SAQ</h2>
-                <Autosuggest
+                {/* <Autosuggest
                     suggestions={bouteilleSAQ}
                     onSuggestionsFetchRequested={onSuggestionsFetchRequested}
                     onSuggestionsClearRequested={onSuggestionsClearRequested}
@@ -230,7 +230,7 @@ export default function BouteilleCreate() {
                     renderSuggestion={renderSuggestion}
                     inputProps={inputProps}
                     onSuggestionSelected={eventEnter}
-                />
+                /> */}
                 <br />
                 {/* <button className='btn btn-primary' onClick={ ()=>ajouterBouteilleSAQ(bouteilleSelectionnee)}>seleccioner la bouteille </button> */}
 
