@@ -1,5 +1,6 @@
 import "./Modal.css";
 
+// Source : https://www.youtube.com/watch?v=p7J7u_9_3FI
 function Modal({ message, onDialog, produit }) {
     return (
         <div className="modal" onClick={() => onDialog(false)}>
