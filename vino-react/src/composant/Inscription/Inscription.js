@@ -10,6 +10,7 @@ export default function Inscription(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [erreur, setErreur] = useState("");
 
   useEffect(() => {
     //
@@ -25,28 +26,30 @@ export default function Inscription(props) {
       headers: entete,
     });
 
-    const responseCode = await response.json();
-
-    return navigate("/connexion");
+    if (response.status === 422 || response.status === 401) {
+      const errorData = await response.json();
+      const errors = await errorData.errors;
+      setErreur(errors);
+    } else {
+      return navigate("/connexion");
+    }
   }
 
   const nameChangeHandler = (event) => {
-    // console.log(event.target.value);
     setName(event.target.value);
   };
 
   const emailChangeHandler = (event) => {
-    // console.log(event.target.value);
     setEmail(event.target.value);
   };
 
   const passwordChangeHandler = (event) => {
-    // console.log(event.target.value);
     setPassword(event.target.value);
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
+    setErreur("");
     registerUser({ name: name, email: email, password: password });
   };
 
@@ -63,6 +66,17 @@ export default function Inscription(props) {
           </Link>
           <div className="inscription__titre">Créer un compte</div>
         </div>
+        {erreur && (
+          <div>
+            <ul className="ul-erreurs">
+              {Object.values(erreur).map((err) => (
+                <li key={err} className="erreurs">
+                  {err}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         <form className="inscription__form" onSubmit={submitHandler}>
           <div className="form__group field">
             <input
@@ -73,7 +87,6 @@ export default function Inscription(props) {
               type="text"
               value={name}
               onChange={nameChangeHandler}
-              required
             />
             <label className="form__label">Nom</label>
           </div>
@@ -86,7 +99,6 @@ export default function Inscription(props) {
               type="text"
               value={email}
               onChange={emailChangeHandler}
-              required
             />
             <label className="form__label">Courriel</label>
           </div>
@@ -99,7 +111,6 @@ export default function Inscription(props) {
               type="text"
               value={password}
               onChange={passwordChangeHandler}
-              required
             />
             <label className="form__label">Mot de passe</label>
           </div>
