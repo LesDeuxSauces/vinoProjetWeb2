@@ -9,6 +9,7 @@ import iconeInfos from '../../img/icone-infos.svg';
 import iconeNbrBouteille from '../../img/icone-nbr-bouteille.svg';
 import Modal from '../Modal/Modal';
 import logoSaq from '../../img/logo-saq.png';
+import bouteillePerso from '../../img/bouteille-perso.png';
 
 
 
@@ -92,8 +93,7 @@ export default function CellierShow() {
                     />
                   </div>
 
-                  <img src={imageBouteille} alt="Image de la bouteille" className="bouteille__img" />
-                  {/* <img src={bouteille.url_img} alt="Image de la bouteille" className="bouteille__img" /> */}
+                  <img src={bouteille.code_saq ? bouteille.url_img : bouteillePerso} alt="Image de la bouteille" className="bouteille__img" />
                   <div>
                     <div className="bouteille__infos">
                       <p className="bouteille__nom">{bouteille.nom}</p>
