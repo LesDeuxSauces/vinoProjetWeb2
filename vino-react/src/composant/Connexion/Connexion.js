@@ -29,7 +29,7 @@ export default function Connexion() {
     const response = await fetch(api_url + "login", {
       method: "POST",
       body: JSON.stringify(userObject),
-      
+
       headers: entete,
     });
 
@@ -39,15 +39,17 @@ export default function Connexion() {
     }
 
     if (!response.ok) {
-      throw json({message: 'Impossible d\'identifier l\'utilisateur'}, {status: 500});
+      throw json({ message: 'Impossible d\'identifier l\'utilisateur' }, { status: 500 });
     }
-    else
-    {
+    else {
       const responseCode = await response.json();
       const token = responseCode.access_token;
-  
+      const user = responseCode.user;
+
+
       localStorage.setItem("token", token);
-  
+      localStorage.setItem("user", user.name);
+
       return navigate("/cellier"), response;
     }
 
@@ -75,7 +77,7 @@ export default function Connexion() {
 
   return (
     <section>
-            {erreur && <div>{erreur}</div>}
+      {erreur && <div>{erreur}</div>}
       <div>
         <div className="connexion__header">
           <Link to="/">
