@@ -264,7 +264,7 @@
 
 .bouteille__logoSaq {
   width: 39px;
-  height: 26px;
+  height: auto;
   cursor: pointer;
 }
 
