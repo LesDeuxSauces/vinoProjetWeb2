@@ -1,7 +1,7 @@
 import "./ModalInfos.css";
 
 // Source : https://www.youtube.com/watch?v=p7J7u_9_3FI
-function ModalInfos({ message, color }) {
+function ModalInfos({ message}) {
   return (
     <div className="modalInfos">
       <div className="modalInfos__infos">
