@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import "./Cellier.css";
+import ModalInfos from "../ModalInfos/ModalInfos";
+import "../ModalInfos/ModalInfos.css";
 
 
 export default function CellierUpdate() {
@@ -25,10 +27,28 @@ export default function CellierUpdate() {
       nom: data.cellier.nom || '',
     }));
   }
+  const [confirmationMessage, setConfirmationMessage] = useState({
+    display: false,
+    message: "",
+  });
+  
+
 
   useEffect(() => {
     fetchCellier();
   }, []);
+
+  /**
+   * Affiche le message de confirmation puis redirige vers la liste des celliers
+   */
+  useEffect(() => {
+    if (confirmationMessage.display) {
+      setTimeout(() => {
+        navigate("/cellier");
+      }, 3000);
+    }
+  }, [confirmationMessage]);
+
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -46,8 +66,21 @@ export default function CellierUpdate() {
   }
 
   async function modifierCellier() {
-    putCellier(cellierValeur, idCellier);
+    const response = await putCellier(cellierValeur, idCellier);
+    if (response.ok) {
+      showMessage(
+        <span>
+          Vous avez modifié le cellier: 
+          <br />
+          <span className="modalInfos__nom--message">{cellierValeur.nom}</span>
+        </span>
+      );
+    } else {
+      showMessage("Une erreur s'est produite lors de la modification");
+    }
   }
+  
+
 
   async function putCellier(cellierValeur, idCellier) {
     const entete = new Headers();
@@ -59,9 +92,27 @@ export default function CellierUpdate() {
       body: JSON.stringify(cellierValeur),
       headers: entete,
     });
-    navigate("/cellier");
+    return response;
   }
-  console.log("cellierValeur:", cellierValeur);
+  
+/**
+ *  Affiche un message de confirmation suite à la modification du cellier
+ * @param {*} message  Message à afficher
+ */
+  function showMessage(message) {
+    setConfirmationMessage({
+      display: true,
+      message,
+    });
+
+    setTimeout(() => {
+      setConfirmationMessage({
+        display: false,
+        message: "",
+      });
+    }, 3000);
+  }
+
 
   return (
     <div>
@@ -96,6 +147,8 @@ export default function CellierUpdate() {
           </Link>
         </div>
       </form>
+      {confirmationMessage.display && (
+        <ModalInfos message={confirmationMessage.message} />)}
     </div>
   );
 }
