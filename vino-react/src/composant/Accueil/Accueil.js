@@ -9,7 +9,7 @@ export default function Accueil() {
   useEffect(() => {
     setTimeout(() => {
       setRedirection(true);
-    }, 3000); // Rediriger vers la page de connexion après 3 secondes
+    }, 2000); // Rediriger vers la page de connexion après 3 secondes
   }, []);
 
   if (redirection) {
@@ -26,7 +26,6 @@ export default function Accueil() {
       </div>
       <div className="center">
         <span className="loader"></span>
-        <h3 className='message__chargement--style'>Vous serez redirigé vers la page de connexion dans quelques instants</h3>
       </div>
     </div>
   );
