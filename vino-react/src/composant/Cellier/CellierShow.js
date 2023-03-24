@@ -8,7 +8,7 @@ import iconeSupprimer from '../../img/icone-supprimer.svg';
 import iconeInfos from '../../img/icone-infos.svg';
 import iconeNbrBouteille from '../../img/icone-nbr-bouteille.svg';
 import Modal from '../Modal/Modal';
-import logoSaq from '../../img/logo-saq.png';
+import logoSaq from '../../img/logo-saq-no-text.png';
 import bouteillePerso from '../../img/bouteille-perso.png';
 import ModalInfos from "../ModalInfos/ModalInfos";
 import "../ModalInfos/ModalInfos.css";
@@ -299,18 +299,18 @@ export default function CellierShow() {
     <div className="container">
       <div className="recherche">
         <h1>Mon cellier</h1>
-        <div className="recherche__wrapper">
+        {/* <div className="recherche__wrapper">
           <input type="text" name="recherche" id="recherche" placeholder="&#x1F50E;&#xFE0E;" />
           <img className="recherche__icone" src="./img/magnifying-glass-11-svgrepo-com.svg" alt="" />
-        </div>
+        </div> */}
       </div>
-      <div className="filtre">
+      {/* <div className="filtre">
         <button className="filtre__btn">Type</button>
         <button className="filtre__btn">Favoris</button>
         <button className="filtre__btn">Nouveautés</button>
         <button className="filtre__btn">Vide</button>
         <button className="filtre__btn">Nombre</button>
-      </div>
+      </div> */}
       <ul className="bouteille">
         {afficherBouteilles()}
       </ul>
