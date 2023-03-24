@@ -3,6 +3,7 @@ import "./Bouteille.css";
 import { useParams } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 import iconeSupprimer from '../../img/icone-supprimer.svg';
+import iconeBalai from '../../img/icone-balai.svg';
 // component React Autosuggest 
 // npm install react-autosuggest --save
 import Autosuggest from 'react-autosuggest';
@@ -251,7 +252,7 @@ export default function BouteilleCreate() {
                 />
                 {estActive && <img
                     className="bouteille__supprimer"
-                    src={iconeSupprimer}
+                    src={iconeBalai}
                     alt="Supprimer la bouteille"
                     onClick={() => enleverBouteille()}
                 />}
