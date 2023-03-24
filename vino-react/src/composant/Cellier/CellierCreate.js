@@ -1,11 +1,17 @@
 import "./Cellier.css";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, json, redirect } from "react-router-dom";
+import ModalInfos from "../ModalInfos/ModalInfos";
+import "../ModalInfos/ModalInfos.css";
 
 export default function CellierCreate() {
   const navigate = useNavigate();
   const [nom, setNom] = useState(""); // on crée un état pour le nom du cellier
   const api_url = "http://127.0.0.1:8000/api/";
+  const [confirmationMessage, setConfirmationMessage] = useState({
+    display: false,
+    message: "",
+  });
 
   function handleSubmit(evt) {
     // gestion de l'envoi du formulaire
@@ -28,21 +34,40 @@ export default function CellierCreate() {
       headers: entete,
     });
 
-
-    if(!response.ok){
-        throw json(
-            {message : 'Impossible de créer le cellier.'},
-            {status: 500}
-        );
+    if (!response.ok) {
+      throw json(
+        { message: "Impossible de créer le cellier." },
+        { status: 500 }
+      );
     }
 
-    return navigate('/Cellier');
-    // window.location.pathname = "/Cellier";
+    showMessage("Cellier créé avec succès!");
+    setTimeout(() => {
+      navigate("/Cellier");
+    }, 3000);
   }
+
+
+
+
 
   function handleNomChange(evt) {
     // gestion de la modification du nom du cellier
     setNom(evt.target.value); // on met à jour l'état du nom du cellier
+  }
+
+  function showMessage(message) {
+    setConfirmationMessage({
+      display: true,
+      message,
+    });
+
+    setTimeout(() => {
+      setConfirmationMessage({
+        display: false,
+        message: "",
+      });
+    }, 3000);
   }
 
   return (
@@ -77,6 +102,7 @@ export default function CellierCreate() {
           </Link>
         </div>
       </form>
+      {confirmationMessage.display && <ModalInfos message={confirmationMessage.message} />}
     </div>
   );
 }
