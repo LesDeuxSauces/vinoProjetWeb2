@@ -208,6 +208,7 @@
 .bouteille__quantite {
   font-size: 16px;
   padding: 5px;
+margin: 2px;
 }
 
 .bouteille p {
@@ -237,7 +238,14 @@
 .bouteille__infos--bouton {
   background-color: var(--gris-pale-color);
   width: 30px;
-  border-radius: 10px;
+  border-radius: 5px;
+}
+
+.bouteille__infos--bouton:hover
+{
+  background-color: var(--rouge-color);
+  color: var(--blanc-color);
+  transition: .2s;
 }
 
 .bouteille__ajouter {

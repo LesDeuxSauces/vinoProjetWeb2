@@ -276,6 +276,7 @@ segunda version
 .react-autosuggest__suggestions-list li:hover{
   background-color: #800330;
   color: white;
+  transition: .2s;
 }
 
 /* .react-autosuggest__suggestion:hover{

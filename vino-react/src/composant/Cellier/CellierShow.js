@@ -123,7 +123,7 @@ export default function CellierShow() {
                       <div className="bouteille__infos--quantite">
                         <button className="bouteille__infos--bouton" value="down" onClick={(evt) => handleQuantite(evt, bouteille.id, bouteille.pivot.quantite, false)}>-</button>
                         {/* <img src={iconeNbrBouteille} alt="Nombre de bouteilles" className="icone-nbr-bouteille" />  */}
-                        <p className="bouteille__quantite">({bouteille.pivot.quantite})</p>
+                        <p className="bouteille__quantite">{bouteille.pivot.quantite}</p>
                         <button className="bouteille__infos--bouton" value="up" onClick={(evt) => handleQuantite(evt, bouteille.id, bouteille.pivot.quantite, true)}>+</button>
                       </div>
                     </div>
