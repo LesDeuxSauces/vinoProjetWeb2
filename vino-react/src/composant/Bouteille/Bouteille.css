@@ -134,9 +134,9 @@ select {
   /* border: 0.0625rem solid linear-gradient(to right, #800330, #e84782) */
 }
 
-.suggestion {
+/* .suggestion {
   padding: 5px;
-}
+} */
 
 /* 
 *modale react suggest
@@ -209,7 +209,11 @@ select {
 segunda version
 */
 
-
+.suggestion__wrapper
+{
+  padding: .4rem;
+  
+}
 .react-autosuggest__container {
   position: relative;
 }
@@ -234,6 +238,7 @@ segunda version
   outline: none;
 }
 
+
 .react-autosuggest__container--open .react-autosuggest__input {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
@@ -249,7 +254,7 @@ segunda version
   top: 50px;
   width: 100%;
   max-height: 300px;
-  border: 1px solid var(--gris-pale-color);
+  border: 1px solid rgb(221, 221, 221);
   background-color: #fff;
   font-family: Helvetica, sans-serif;
   font-weight: 300;
@@ -259,6 +264,7 @@ segunda version
   border-bottom-right-radius: 4px;
   z-index: 2;
   overflow-y: scroll;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
 
 .react-autosuggest__suggestions-list {
@@ -267,6 +273,15 @@ segunda version
   list-style-type: none;
 }
 
+.react-autosuggest__suggestions-list li:hover{
+  background-color: #800330;
+  color: white;
+}
+
+/* .react-autosuggest__suggestion:hover{
+  background-color: #800330;
+} */
+
 .react-autosuggest__suggestion {
   cursor: pointer;
   padding: 10px 20px;
@@ -274,6 +289,8 @@ segunda version
 
 .react-autosuggest__suggestion:not(:first-child) {
   border-top: 1px solid #ddd;
+  
+  
 }
 
 .react-autosuggest__suggestion--focused {
