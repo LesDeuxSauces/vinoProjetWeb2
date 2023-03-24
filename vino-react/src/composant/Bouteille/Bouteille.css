@@ -10,38 +10,39 @@
 }
 
 .ajouter__bouteille--titre {
-    color: var(--rouge-color);
-    font-size: 1.7rem;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 25px;
-    margin-bottom: 55px;
+  color: var(--rouge-color);
+  font-size: 1.7rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 25px;
+  margin-bottom: 55px;
 }
 
 
 .ajouter__bouteille--form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1.5rem;
-    padding: 1rem;
-    margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  margin: 1rem;
 }
 
 .ajouter__bouteille--form h2 {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 
 
 
-.ajouter__bouteille--form input,select {
-    border:none;
-    border-bottom: 0.0625rem solid var(--gris-pale-color);
-    outline: none;
-    font-size: 1rem;
-    padding: 0.5rem;
-    width: 100%;
-    background-color: transparent;
+.ajouter__bouteille--form input,
+select {
+  border: none;
+  border-bottom: 0.0625rem solid var(--gris-pale-color);
+  outline: none;
+  font-size: 1rem;
+  padding: 0.5rem;
+  width: 100%;
+  background-color: transparent;
 }
 
 
@@ -50,87 +51,90 @@
     color:var(--gris-pale-color)
 } */
 
-.ajouter__bouteille--form--row{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 2rem;
-   
+.ajouter__bouteille--form--row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2rem;
+
 }
 
 .form__group {
-    position: relative;
-    padding: 20px 0 0;
-    margin-top: 10px;
-    width: 100%;
-   
-  }
-  
-  .form__field {
-    font-family: inherit;
-    width: 100%;
-    border: none;
-    border-bottom: 0.0625rem solid var(--gris-pale-color);
-    outline: 0;
-    font-size: 17px;
-    padding: 7px 0;
-    background: transparent;
-    transition: border-color 0.2s;
-  }
-  
-  .form__field::placeholder {
-    color: transparent;
-  }
-  
-  .form__field:placeholder-shown ~ .form__label {
-    font-size: 17px;
-    cursor: text;
-    top: 20px;
-  }
-  
-  .form__label {
-    position: absolute;
-    top: 0;
-    display: block;
-    transition: 0.2s;
-    font-size: 17px;
-    color: var(--gris-pale-color);
-    pointer-events: none;
-  }
-  
-  .form__field:focus {
-    padding-bottom: 6px;
-    font-weight: 700;
-    border-width: 3px;
-    border-image: linear-gradient(to right, #800330, #e84782);
-    border-image-slice: 1;
-  }
-  
-  .form__field:focus ~ .form__label {
-    position: absolute;
-    top: 0;
-    display: block;
-    transition: 0.2s;
-    font-size: 17px;
-    color: #800330;
-    font-weight: 700;
-  }
-  
-  /* reset input */
-  .form__field:required, .form__field:invalid {
-    box-shadow: none;
-  }
+  position: relative;
+  padding: 20px 0 0;
+  margin-top: 10px;
+  width: 100%;
+
+}
+
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: none;
+  border-bottom: 0.0625rem solid var(--gris-pale-color);
+  outline: 0;
+  font-size: 17px;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+
+.form__field::placeholder {
+  color: transparent;
+}
+
+.form__field:placeholder-shown~.form__label {
+  font-size: 17px;
+  cursor: text;
+  top: 20px;
+}
+
+.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 17px;
+  color: var(--gris-pale-color);
+  pointer-events: none;
+}
+
+.form__field:focus {
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, #800330, #e84782);
+  border-image-slice: 1;
+}
+
+.form__field:focus~.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 17px;
+  color: #800330;
+  font-weight: 700;
+}
+
+/* reset input */
+.form__field:required,
+.form__field:invalid {
+  box-shadow: none;
+}
 
 
-.recherche_bouteille_saq{
+.recherche_bouteille_saq {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-    padding: 1rem;
-    margin: 1rem;
-}  
+  padding: 1rem;
+  margin: 1rem;
+ 
+  /* border: 0.0625rem solid linear-gradient(to right, #800330, #e84782) */
+}
 
-.suggestion{
+.suggestion {
   padding: 5px;
 }
 
@@ -138,7 +142,7 @@
 *modale react suggest
 */
 
- /* .react-autosuggest__suggestions-container--open {
+/* .react-autosuggest__suggestions-container--open {
   display: block;
   position: absolute;
   top: 31px;
@@ -211,15 +215,19 @@ segunda version
 }
 
 .react-autosuggest__input {
-  width: 240px;
-  height: 30px;
+  /* width: 240px; */
+  /* height: 30px; */
   width: 100%;
+  height: auto;
   padding: 10px 20px;
   font-family: Helvetica, sans-serif;
   font-weight: 300;
   font-size: 16px;
-  border: 1px solid #aaa;
+  /* border: 1px solid #aaa; */
+  border: none;
   border-radius: 4px;
+  outline: none;
+  border-bottom: 0.0625rem solid var(--gris-pale-color) ;
 }
 
 .react-autosuggest__input:focus {
@@ -238,16 +246,19 @@ segunda version
 .react-autosuggest__container--open .react-autosuggest__suggestions-container {
   display: block;
   position: absolute;
-  top: 51px;
+  top: 50px;
   width: 100%;
-  border: 1px solid #aaa;
+  max-height: 300px;
+  border: 1px solid var(--gris-pale-color);
   background-color: #fff;
   font-family: Helvetica, sans-serif;
   font-weight: 300;
   font-size: 16px;
+  border-radius: 5px;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   z-index: 2;
+  overflow-y: scroll;
 }
 
 .react-autosuggest__suggestions-list {
@@ -268,6 +279,15 @@ segunda version
 .react-autosuggest__suggestion--focused {
   background-color: #0C7EAF;
   color: #fff;
+}
+
+.react-autosuggest__input:focus {
+  /* padding-bottom: 6px; */
+  /* font-weight: 700; */
+  border-width: 3px;
+  border-image: linear-gradient(to right, #800330, #e84782);
+  border-image-slice: 1;
+  transition: border-color 0.2s;
 }
 
 .suggestion-content {
@@ -295,16 +315,23 @@ segunda version
 .suggestion_recherche {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  /* justify-content: center; */
   /* align-items: flex-start;
   justify-content: flex-start; */
 }
 
+.suggestion_recherche p {
+  font-weight:500;
+  
+}
 
-.suggestion_recherche img{
+
+.suggestion_recherche img {
   object-fit: cover;
   box-sizing: border-box;
-  width: 50px;
+  width: 40px;
   height: auto;
- 
+
 
 }
