@@ -9,6 +9,8 @@ import bouteilleIcone from '../../img/bouteille-icone.svg';
 import Modal from '../Modal/Modal';
 import iconeSupprimerBlanc from '../../img/icone-supprimer-blanc.png';
 import bouteilleIconeFill from '../../img/bouteille-icone-fill.png';
+import ModalInfos from "../ModalInfos/ModalInfos";
+
 
 export default function CellierList(props) {
   const api_url = "http://127.0.0.1:8000/api/"; // url de l'api
@@ -20,6 +22,11 @@ export default function CellierList(props) {
     isLoading: false,
     produit: "",
   });
+  const [confirmationMessage, setConfirmationMessage] = useState({
+    display: false,
+    message: "",
+  });
+
 
 
   useEffect(() => { // fonction qui s'exécute au chargement de la page
@@ -49,7 +56,7 @@ export default function CellierList(props) {
     );
     const quantiteData = await responseQuantite.json();
 
-    console.log('les celliers de celliers_has_bouteilles:', quantiteData);
+    // console.log('les celliers de celliers_has_bouteilles:', quantiteData);
 
     // Fusionner les données de tous les celliers avec ceux qui ont des bouteilles
     const celliersAvecQuantite = celliersData.map((cellier) => { // boucle qui parcourt le tableau des celliers
@@ -62,7 +69,7 @@ export default function CellierList(props) {
       };
     });
 
-    console.log("cellier:", celliersAvecQuantite);
+    // console.log("cellier:", celliersAvecQuantite);
     setCelliers(celliersAvecQuantite);
   }
 
@@ -83,9 +90,25 @@ export default function CellierList(props) {
     nomCellierRef.current = nom;
   }
 
+  function showMessage(message) {
+    console.log("showmessage:", message);
+    setConfirmationMessage({
+      display: true,
+      message,
+    });
+
+    setTimeout(() => {
+      setConfirmationMessage({
+        display: false,
+        message: "",
+      });
+    }, 3000);
+  }
+
+
 
   function afficheCelliers() {
-    console.log(celliers);
+    // console.log(celliers);
     return celliers.map((cellier) => {
       return (
         <li className="cellier__carte" key={cellier.id}>
@@ -94,10 +117,10 @@ export default function CellierList(props) {
               <img className="cellier__carte--image" src={barilsDeVin} alt="Barils de vin" />
             </Link>
             <Link to={"/cellier/" + cellier.id}>
-            <p className="cellier__infos--quantite">
-              <img className="cellier__carte--image" src={bouteilleIconeFill} alt="Quantité" />
-              {`x ${cellier.total}`}
-            </p>
+              <p className="cellier__infos--quantite">
+                <img className="cellier__carte--image" src={bouteilleIconeFill} alt="Quantité" />
+                {`x ${cellier.total}`}
+              </p>
             </Link>
           </div>
           <div className="cellier__infos">
@@ -145,15 +168,24 @@ export default function CellierList(props) {
             throw new Error('une erreur est survenue');
           } else {
             fetchCellierUser(setCelliers);
+            showMessage(
+              <span>
+                Vous avez supprimé le cellier:
+                <br />
+                <span className="modalInfos__nom--message">{nomCellierRef.current}
+                </span>
+              </span>
+            );
           }
         })
         .catch((evt) => {
-          console.log(evt);
+          // console.log(evt);
         });
     } else {
       setDialog({ message: "", isLoading: false, produit: "" });
     }
   }
+
 
 
 
@@ -174,6 +206,8 @@ export default function CellierList(props) {
         </Link>
       </div>
       {dialog.isLoading && <Modal onDialog={confirmation} message={dialog.message} produit={dialog.produit} />}
+      {confirmationMessage.display && (<ModalInfos message={confirmationMessage.message} />)}
+
     </div>
   );
 }
