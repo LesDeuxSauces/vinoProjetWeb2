@@ -88,7 +88,7 @@ export default function BouteilleCreate() {
     }
 
     const renderSuggestion = (suggestion) => (
-        <div className='sugerencia' onClick={() => choisirBouteille(suggestion)}>
+        <div className='suggestion__wrapper' onClick={() => choisirBouteille(suggestion)}>
             <div className="suggestion_recherche">
                 <img src={`${suggestion.url_img} `} />
                 <p>{`${suggestion.nom} `}</p>
