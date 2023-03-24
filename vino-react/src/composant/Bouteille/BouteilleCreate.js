@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Bouteille.css";
 import { useParams } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
+import iconeSupprimer from '../../img/icone-supprimer.svg';
 // component React Autosuggest 
 // npm install react-autosuggest --save
 import Autosuggest from 'react-autosuggest';
@@ -30,6 +31,7 @@ export default function BouteilleCreate() {
     const [bouteilleSAQ, setBouteilleSAQ] = useState([]);
     const [rechercheBouteille, setRechercheBouteille] = useState('');
     const [bouteilleSelectionnee, setBouteilleSelectionnee] = useState({});
+    const [estActive, setEstActive] = useState(false);
 
 
     useEffect(() => {
@@ -51,25 +53,27 @@ export default function BouteilleCreate() {
 
     const filtreBouteille = (value) => {
         const inputValue = value.trim().toLowerCase();
-        console.log(inputValue);
-        if (inputValue === "") {
-            console.log("quedo vacio");
-            setBouteilleSAQ("")
-        }
+        
+        // if (inputValue === "") {
+           
+        //     setBouteilleSAQ("")
+        // }
         const inputLength = inputValue.length;
-
-        let filtre = dataSAQ.filter((uneBouteille) => {
-            let nomComplete = uneBouteille.nom
-
-            if (nomComplete.toLowerCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-                .includes(inputValue)) {
-                return uneBouteille;
-            }
-        });
-
-        return inputLength === 0 ? [] : filtre;
+        if (inputLength >= 2) {
+           
+            let filtre = dataSAQ.filter((uneBouteille) => {
+                let nomComplete = uneBouteille.nom
+                if (nomComplete.toLowerCase()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .includes(inputValue)) {
+                    return uneBouteille;
+                } 
+            });
+            return inputLength === 0 ? [] : filtre;
+        } else {
+            return [];
+        }
     }
 
 
@@ -88,7 +92,6 @@ export default function BouteilleCreate() {
                 <img src={`${suggestion.url_img} `} />
                 <p>{`${suggestion.nom} `}</p>
             </div>
-
         </div>
     );
 
@@ -96,17 +99,19 @@ export default function BouteilleCreate() {
         uneBouteille.quantite = "1"
         setBouteilleSelectionnee(uneBouteille);
         setBouteilleValeur(uneBouteille)
+        setEstActive(true);
 
 
         // ajouterBouteilleSAQ(uneBouteille);
     }
+
 
     const onChange = (e, { newValue }) => {
         setRechercheBouteille(newValue);
     }
 
     const inputProps = {
-        placeholder: "Bouteille SAQ",
+        placeholder: "Entrez au moins 2 characteres",
         value: rechercheBouteille,
         onChange
     };
@@ -117,7 +122,6 @@ export default function BouteilleCreate() {
             let bouteille = {
                 id: bouteilleActuel[0].id,
                 nom: bouteilleActuel[0].nom,
-
             };
             choisirBouteille(bouteille);
         }
@@ -166,7 +170,7 @@ export default function BouteilleCreate() {
     }
 
 
-    function ajouterBouteille() {
+    const ajouterBouteille = () => {
         bouteilleValeur.cellier_id = idCellier;
         PostCellierHasBouteille(bouteilleValeur);
 
@@ -210,6 +214,20 @@ export default function BouteilleCreate() {
         window.location.pathname = '/cellier/' + idCellier;
     }
 
+    const enleverBouteille = () => {
+        console.log("quita las cosas");
+        setEstActive(false);
+        setBouteilleValeur({
+            nom: "", format: "", prix: "", annee: "", code_saq: "", url_saq: "", url_img: "", pays: "", type_id: "", quantite: "",
+        });
+
+        setRechercheBouteille("")
+
+
+
+    }
+
+
 
 
 
@@ -218,10 +236,10 @@ export default function BouteilleCreate() {
     return (
         <div>
             <div className="ajouter__bouteille--titre ">
-                <h1>Ajouter un Vin</h1>
+                <h1>Ajouter un vin</h1>
             </div>
             <div className="recherche_bouteille_saq">
-                <h2>BOUTEILLE DE LA SAQ</h2>
+                <h2>Recherche SAQ </h2>
                 <Autosuggest
                     suggestions={bouteilleSAQ}
                     onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -231,15 +249,16 @@ export default function BouteilleCreate() {
                     inputProps={inputProps}
                     onSuggestionSelected={eventEnter}
                 />
-                <br />
-                {/* <button className='btn btn-primary' onClick={ ()=>ajouterBouteilleSAQ(bouteilleSelectionnee)}>seleccioner la bouteille </button> */}
+                {estActive && <img
+                    className="bouteille__supprimer"
+                    src={iconeSupprimer}
+                    alt="Supprimer la bouteille"
+                    onClick={() => enleverBouteille()}
+                />}
+                {/* {estActive && (<button type="subtmit" > quitar </button>)} */}
 
             </div>
             <form className="ajouter__bouteille--form" onSubmit={handleSubmit}>
-                <div>
-                    <h2>Ajouter une bouteille manuellement</h2>
-                </div>
-
                 <div className="form__group field">
                     <input
                         placeholder="Nom"
@@ -249,6 +268,7 @@ export default function BouteilleCreate() {
                         type="text"
                         value={bouteilleValeur.nom}
                         onChange={handleChange}
+                        readOnly={estActive}
                         required
                     />
                     <label className="form__label">Nom</label>
@@ -259,8 +279,9 @@ export default function BouteilleCreate() {
                         value={bouteilleValeur.type_id}
                         name="type_id"
                         onChange={handleChange}
+                        disabled={estActive}
                     >
-                        <option value="" disabled selected> Type</option>
+                        <option value="" disabled > Type</option>
                         {types.map((value) => (
                             <option key={value.id} value={value.id}>
                                 {" "}
@@ -276,6 +297,7 @@ export default function BouteilleCreate() {
                             id="annee"
                             name="annee"
                             type="number"
+                            readOnly={estActive}
                             value={bouteilleValeur.annee}
                             onChange={handleChange}
                         />
@@ -291,6 +313,7 @@ export default function BouteilleCreate() {
                         id="pays"
                         name="pays"
                         type="text"
+                        readOnly={estActive}
                         value={bouteilleValeur.pays}
                         onChange={handleChange}
                     />
@@ -306,6 +329,7 @@ export default function BouteilleCreate() {
                             id="format"
                             name="format"
                             type="text"
+                            readOnly={estActive}
                             value={bouteilleValeur.format}
                             onChange={handleChange}
                         />
@@ -320,6 +344,7 @@ export default function BouteilleCreate() {
                             id="prix"
                             name="prix"
                             type="text"
+                            readOnly={estActive}
                             value={bouteilleValeur.prix}
                             onChange={handleChange}
                         />
@@ -374,7 +399,7 @@ export default function BouteilleCreate() {
                         type="submit"
                         onClick={ajouterBouteille}
                     >
-                        ajouter bouteille
+                        Ajouter
                     </button>
                     <Link
                         to="/Cellier"
