@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./Bouteille.css";
 import { useParams } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
+import ModalInfos from "../ModalInfos/ModalInfos";
+import "../ModalInfos/ModalInfos.css";
+
 
 export default function BouteilleUpdate() {
   const api_url = "http://127.0.0.1:8000/api/";
@@ -25,6 +28,12 @@ export default function BouteilleUpdate() {
     code_saq: "",
     // quantite: "",
   });
+  const [confirmationMessage, setConfirmationMessage] = useState({
+    display: false,
+    message: "",
+  });
+
+
 
 
   async function fetchTypes() {
@@ -84,28 +93,61 @@ export default function BouteilleUpdate() {
     setBouteilleValeur(nouvellesValeurs);
   }
 
-
-  async function modifierBouteille() {
-    bouteilleValeur.cellier_id = idCellier;
-    putCellierHasBouteille(bouteilleValeur, id);
-  }
-
-
-
   async function putCellierHasBouteille(bouteilleValeur, id) {
     const entete = new Headers();
     const token = localStorage.getItem("token");
     entete.append("Content-Type", "application/json");
     entete.append("Authorization", "Bearer " + token);
     const response = await fetch(`${api_url}bouteille/${id}`, {
-
       method: "PUT",
       body: JSON.stringify(bouteilleValeur),
       headers: entete,
     });
-    navigate("/cellier/" + idCellier);
+
+    return response;
   }
-  console.log("bouteilleValeur:", bouteilleValeur);
+
+
+  async function modifierBouteille() {
+    bouteilleValeur.cellier_id = idCellier;
+    const response = await putCellierHasBouteille(bouteilleValeur, id);
+      showMessage(
+        <span>
+          Vous avez modifié la bouteille:
+          <br />
+          <span className="modalInfos__nom--message">{bouteilleValeur.nom}</span>
+        </span>
+      );
+  }
+
+  useEffect(() => {
+    if (confirmationMessage.display) {
+      setTimeout(() => {
+        navigate("/cellier/" + idCellier);
+      }, 3000);
+    }
+  }, [confirmationMessage, navigate, idCellier]);
+
+
+
+
+  /**
+   *  Affiche le message rétroactif pour l'utilisateur
+   * @param {*} message  Message à afficher
+   */
+  function showMessage(message) {
+    setConfirmationMessage({
+      display: true,
+      message,
+    });
+
+    setTimeout(() => {
+      setConfirmationMessage({
+        display: false,
+        message: "",
+      });
+    }, 3000);
+  }
 
 
 
@@ -248,6 +290,7 @@ export default function BouteilleUpdate() {
           </Link>
         </div>
       </form>
+      {confirmationMessage.display && (<ModalInfos message={confirmationMessage.message} />)}
     </div>
   );
 }
