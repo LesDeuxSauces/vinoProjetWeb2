@@ -10,6 +10,8 @@ import iconeNbrBouteille from '../../img/icone-nbr-bouteille.svg';
 import Modal from '../Modal/Modal';
 import logoSaq from '../../img/logo-saq.png';
 import bouteillePerso from '../../img/bouteille-perso.png';
+import ModalInfos from "../ModalInfos/ModalInfos";
+import "../ModalInfos/ModalInfos.css";
 
 
 
@@ -33,6 +35,12 @@ export default function CellierShow() {
       produit,
     })
   }
+  const [confirmationMessage, setConfirmationMessage] = useState({
+    display: false,
+    message: "",
+  });
+
+
   useEffect(() => {
     const fetchCellier = async () => {
       const token = localStorage.getItem('token');
@@ -51,6 +59,21 @@ export default function CellierShow() {
 
     fetchCellier();
   }, [id]);
+
+
+  function showMessage(message) {
+    setConfirmationMessage({
+      display: true,
+      message,
+    });
+
+    setTimeout(() => {
+      setConfirmationMessage({
+        display: false,
+        message: "",
+      });
+    }, 3000);
+  }
 
 
 
@@ -164,7 +187,7 @@ export default function CellierShow() {
  * @param {*} id 
  */
   function handleFlip(id) { // prend en parametre le id de la bouteille
-     // on stoppe la propagation de l'événement
+    // on stoppe la propagation de l'événement
     setFlip((prevFlip) => ({ // on utilise la fonction setFlip pour modifier le state. (prevFlip est l'état précédent de flip.))
       ...prevFlip, // on copie l'état précédent de flip
       [id]: !prevFlip[id], // mise à jour de la propriété avec la clé "id" en inversant la valeur précédente
@@ -208,6 +231,13 @@ export default function CellierShow() {
             throw new Error('une erreur est survenue');
           } else {
             updateBouteilles();
+            showMessage(
+              <span>
+                Vous avez retiré de votre cellier:
+                <br />
+                <span className="modalInfos__nom--message">{nomBouteilleRef.current}</span>
+              </span>
+            );
           }
         })
         .catch((evt) => {
@@ -217,6 +247,7 @@ export default function CellierShow() {
       handleDialog("", false);
     }
   }
+
 
   function handleQuantite(evt, id, quantite, bool) {
     evt.stopPropagation(); // on stoppe la propagation de l'événement
@@ -288,6 +319,7 @@ export default function CellierShow() {
       </div>
       <Link to="/Cellier" className="cellier__btn--style ajout__btn--position cellier__btn--retour">Retour à la liste des celliers</Link>
       {dialog.isLoading && <Modal onDialog={confirmation} message={dialog.message} produit={dialog.produit} />}
+      {confirmationMessage.display && (<ModalInfos message={confirmationMessage.message} />)}
     </div>
   );
 }
