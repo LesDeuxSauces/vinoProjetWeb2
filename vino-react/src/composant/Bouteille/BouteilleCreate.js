@@ -185,7 +185,7 @@ export default function BouteilleCreate() {
   //   PostCellierHasBouteille(bouteilleValeur);
   // }
 
-  function handleBlur() {
+  function handleBlurNom() {
 
     //valider nom
     let validerCharactere;
@@ -197,16 +197,10 @@ export default function BouteilleCreate() {
       const hasError = false
       setValiderNom((prevState) => ({ ...prevState, hasError }))
     }
-    // valider quantite
-    if (bouteilleValeur.quantite == "") {
-      const hasError = true
-      setvaliderQuantite((prevState) => ({ ...prevState, hasError }))
-    } else {
-      const hasError = false
-      setvaliderQuantite((prevState) => ({ ...prevState, hasError }))
-    }
 
-    //valider type 
+  }
+
+  function handleBlurType() {
     if (bouteilleValeur.type_id == "") {
       const hasError = true;
       setvaliderType((prevState) => ({ ...prevState, hasError }))
@@ -216,11 +210,33 @@ export default function BouteilleCreate() {
     }
   }
 
+  function handleBlurQuantite() {
+    if (bouteilleValeur.quantite == "") {
+      const hasError = true
+      setvaliderQuantite((prevState) => ({ ...prevState, hasError }))
+    } else {
+      const hasError = false
+      setvaliderQuantite((prevState) => ({ ...prevState, hasError }))
+    }
+  }
+
   const ajouterBouteille = () => {
     bouteilleValeur.cellier_id = idCellier;
 
     if (bouteilleValeur.nom == "" || bouteilleValeur.quantite == "" || bouteilleValeur.type_id == "") {
       const hasError = true
+      // if(bouteilleValeur.nom != ""){
+      //   const hasError = false
+      //   setValiderNom((prevState) => ({ ...prevState, hasError }))
+      // }
+      // if(bouteilleValeur.quantite!=""){
+      //   const hasError = false
+      //   setvaliderQuantite((prevState) => ({ ...prevState, hasError }))
+      // }
+      // if(bouteilleValeur.type_id==""){
+      //   const hasError = false
+      //   setvaliderType((prevState) => ({ ...prevState, hasError }))
+      // }
       setValiderNom((prevState) => ({ ...prevState, hasError }))
       setvaliderQuantite((prevState) => ({ ...prevState, hasError }))
       setvaliderType((prevState) => ({ ...prevState, hasError }))
@@ -317,9 +333,9 @@ export default function BouteilleCreate() {
             type="text"
             value={bouteilleValeur.nom}
             onChange={handleChange}
-            onBlur={handleBlur}
+            onBlur={handleBlurNom}
             readOnly={estActive}
-            required
+
           />
           <label className="form__label">Nom</label>
           {validerNom.hasError && <p className="erreurChamps"> Veuillez Compléter ce Champ</p>}
@@ -330,7 +346,7 @@ export default function BouteilleCreate() {
             value={bouteilleValeur.type_id}
             name="type_id"
             onChange={handleChange}
-            onBlur={handleBlur}
+            onBlur={handleBlurType}
             disabled={estActive}
           >
             <option value="" disabled > Type</option>
@@ -396,7 +412,7 @@ export default function BouteilleCreate() {
               className="form__field"
               id="prix"
               name="prix"
-              type="text"
+              type="number"
               readOnly={estActive}
               value={bouteilleValeur.prix}
               onChange={handleChange}
@@ -423,16 +439,12 @@ export default function BouteilleCreate() {
               type="number"
               value={bouteilleValeur.quantite}
               onChange={handleChange}
-              onBlur={handleBlur}
-              required
-
+              onBlur={handleBlurQuantite}
             />
             <label className="form__label">Quantité</label>
             {validerQuantite.hasError && <p className="erreurChamps"> Veuillez Compléter ce Champ</p>}
           </div>
         </div>
-
-
 
         <input
           id="url_saq"

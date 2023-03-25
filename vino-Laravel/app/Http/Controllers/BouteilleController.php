@@ -281,34 +281,3 @@ class BouteilleController extends Controller
   }
 }
 
-
-/**
- * 
-   else {
-     
-    }
-
-
-
-
-
-     
-        $bouteille = new Bouteille;
-        $bouteille = [
-          'nom' => $request->nom,
-          'format' => $request->format,
-          'prix' => $request->prix,
-          'annee' => $request->annee,
-          'code_saq' => $request->code_saq,
-          'url_saq' => $request->url_saq,
-          'url_img' => $request->url_img,
-          'pays' => $request->pays,
-          'type_id' => $request->type_id,
-        ];
-  
-        return response()->json([
-          "status"=>200,
-          "la botella" =>$bouteille
-
-        ]);
- */

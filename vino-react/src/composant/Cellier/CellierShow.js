@@ -72,7 +72,7 @@ export default function CellierShow() {
         display: false,
         message: "",
       });
-    }, 3000);
+    }, 2000);
   }
 
 
