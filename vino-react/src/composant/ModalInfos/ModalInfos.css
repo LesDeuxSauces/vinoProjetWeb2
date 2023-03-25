@@ -21,7 +21,7 @@
 }
 
 .modalInfos__infos--message {
-    color: green;
+    color: var(--noir-color);
     font-size: 16px;
 }
 

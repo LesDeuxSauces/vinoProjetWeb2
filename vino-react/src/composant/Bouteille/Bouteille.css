@@ -142,73 +142,10 @@ select {
 *modale react suggest
 */
 
-/* .react-autosuggest__suggestions-container--open {
-  display: block;
-  position: absolute;
-  top: 31px;
-  width: 100%;
-  border: 1px solid #aaa;
-  background-color: #fff;
-
-  font-weight: 300;
-  font-size: 16px;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  z-index: 2;
-  max-height: 300px;
-  overflow: auto;
-  margin-top: 16px;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  margin: .5rem;
-  padding: .5rem;
-}
-
-.react-autosuggest__suggestions-list{
-  list-style: none;
-  margin-bottom: 0px;
-  padding-left: 0px;
-  cursor: pointer;
- 
-}
-
-.react-autosuggest__input{
-  width: 90%;
-  margin: .5rem;
-  padding: .5rem;
-  padding-bottom: 6px;
-  border: none;
-  border-bottom: 1px solid var(--gris-pale-color);
- 
-  border-width: 3px;
-  
-  border-image-slice: 1;
-  outline: none;
-  
-}
-
-.react-autosuggest__input:focus {
-  padding-bottom: 6px;
-  font-weight: 700;
-  border-width: 3px;
-  border-image: linear-gradient(to right, #800330, #e84782);
-  border-image-slice: 1;
-  transition: border-color 0.2s;
-}
-
-
-
-.react-autosuggest__suggestion--highlighted {
-  background-color:var(--rouge-color);
-  color: white;
-}  */
 
 /*
-segunda version
+* https://codesandbox.io/s/xdo6jpljg?file=/autosuggest.css 
 */
-
 .suggestion__wrapper
 {
   padding: .4rem;
@@ -352,4 +289,11 @@ segunda version
   height: auto;
 
 
+}
+
+.erreurChamps{
+  color:#b20101 ;
+  text-align: center;
+  font-weight: 600;
+  padding-top: 1rem;
 }
