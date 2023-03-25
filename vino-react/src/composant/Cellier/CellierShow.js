@@ -135,7 +135,7 @@ export default function CellierShow() {
                   <p><strong>・Millésime:</strong> {bouteille.annee}</p>
                   <p><strong>・Format:</strong> {bouteille.format} ml</p>
                   <p><strong>・Pays:</strong> {bouteille.pays}</p>
-                  <p><strong>・Prix:</strong> {bouteille.prix.toFixed(2)} $</p>
+                  <p><strong>・Prix:</strong> {bouteille.prix?bouteille.prix.toFixed(2):""} $</p>
                   <img src={iconeInfos} alt="icone infos" className="icone-infos" />
                 </div>
               </div>

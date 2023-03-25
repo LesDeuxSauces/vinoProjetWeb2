@@ -19,26 +19,29 @@ export default function BouteilleCreate() {
   const [pays, setPays] = useState([]);
   const [types, setTypes] = useState([]);
   const [bouteilleValeur, setBouteilleValeur] = React.useState({
-    nom: "",
-    format: "",
-    prix: "",
-    annee: "",
-    code_saq: "",
-    url_saq: "",
-    url_img: "",
-    pays: "",
-    type_id: "",
-    quantite: "",
+    nom: "", format: "", prix: "", annee: "", code_saq: "", url_saq: "", url_img: "", pays: "", type_id: "", quantite: "",
   });
   const [dataSAQ, setDataSAQ] = useState([]);
   const [bouteilleSAQ, setBouteilleSAQ] = useState([]);
   const [rechercheBouteille, setRechercheBouteille] = useState('');
   const [bouteilleSelectionnee, setBouteilleSelectionnee] = useState({});
   const [estActive, setEstActive] = useState(false);
-    const [confirmationMessage, setConfirmationMessage] = useState({
+  const [confirmationMessage, setConfirmationMessage] = useState({
     display: false,
     message: "",
   });
+  const [validerNom, setValiderNom] = React.useState({
+    value: "",
+    hasError: false,
+  })
+  const [validerQuantite, setvaliderQuantite] = React.useState({
+    value: "",
+    hasError: false,
+  })
+  const [validerType, setvaliderType] = React.useState({
+    value: "",
+    hasError: false,
+  })
 
 
   useEffect(() => {
@@ -182,24 +185,64 @@ export default function BouteilleCreate() {
   //   PostCellierHasBouteille(bouteilleValeur);
   // }
 
+  function handleBlur() {
+
+    //valider nom
+    let validerCharactere;
+    validerCharactere = bouteilleValeur.nom.length
+    if (validerCharactere == 0) {
+      const hasError = true
+      setValiderNom((prevState) => ({ ...prevState, hasError }))
+    } else {
+      const hasError = false
+      setValiderNom((prevState) => ({ ...prevState, hasError }))
+    }
+    // valider quantite
+    if (bouteilleValeur.quantite == "") {
+      const hasError = true
+      setvaliderQuantite((prevState) => ({ ...prevState, hasError }))
+    } else {
+      const hasError = false
+      setvaliderQuantite((prevState) => ({ ...prevState, hasError }))
+    }
+
+    //valider type 
+    if (bouteilleValeur.type_id == "") {
+      const hasError = true;
+      setvaliderType((prevState) => ({ ...prevState, hasError }))
+    } else {
+      const hasError = false;
+      setvaliderType((prevState) => ({ ...prevState, hasError }))
+    }
+  }
+
   const ajouterBouteille = () => {
     bouteilleValeur.cellier_id = idCellier;
-    PostCellierHasBouteille(bouteilleValeur)
-      .then(() => {
-        setConfirmationMessage({
-          display: true,
-          message: "Bouteille ajoutée avec succès.",
+
+    if (bouteilleValeur.nom == "" || bouteilleValeur.quantite == "" || bouteilleValeur.type_id == "") {
+      const hasError = true
+      setValiderNom((prevState) => ({ ...prevState, hasError }))
+      setvaliderQuantite((prevState) => ({ ...prevState, hasError }))
+      setvaliderType((prevState) => ({ ...prevState, hasError }))
+
+    } else {
+      PostCellierHasBouteille(bouteilleValeur)
+        .then(() => {
+          setConfirmationMessage({
+            display: true,
+            message: "Bouteille ajoutée avec succès.",
+          });
+        })
+        .catch((error) => {
+          setConfirmationMessage({
+            display: true,
+            message: "Erreur lors de l'ajout de la bouteille.",
+          });
+          console.log(error);
         });
-      })
-      .catch((error) => {
-        setConfirmationMessage({
-          display: true,
-          message: "Erreur lors de l'ajout de la bouteille.",
-        });
-        console.log(error);
-      });
+    }
   };
-  
+
 
   async function PostCellierHasBouteille(bouteilleValeur) {
     console.log(bouteilleValeur, "lo que vou agregar antes del");
@@ -219,7 +262,6 @@ export default function BouteilleCreate() {
   }
 
   const enleverBouteille = () => {
-    console.log("quita las cosas");
     setEstActive(false);
     setBouteilleValeur({
       nom: "", format: "", prix: "", annee: "", code_saq: "", url_saq: "", url_img: "", pays: "", type_id: "", quantite: "",
@@ -231,10 +273,10 @@ export default function BouteilleCreate() {
     if (confirmationMessage.display) {
       setTimeout(() => {
         navigate('/cellier/' + idCellier);
-      }, 3000);
+      }, 2000);
     }
   }, [confirmationMessage, navigate, idCellier]);
-  
+
 
 
 
@@ -275,10 +317,12 @@ export default function BouteilleCreate() {
             type="text"
             value={bouteilleValeur.nom}
             onChange={handleChange}
+            onBlur={handleBlur}
             readOnly={estActive}
             required
           />
           <label className="form__label">Nom</label>
+          {validerNom.hasError && <p className="erreurChamps"> Veuillez Compléter ce Champ</p>}
         </div>
 
         <div className="ajouter__bouteille--form--row">
@@ -286,6 +330,7 @@ export default function BouteilleCreate() {
             value={bouteilleValeur.type_id}
             name="type_id"
             onChange={handleChange}
+            onBlur={handleBlur}
             disabled={estActive}
           >
             <option value="" disabled > Type</option>
@@ -311,6 +356,7 @@ export default function BouteilleCreate() {
             <label className="form__label">Millésime</label>
           </div>
         </div>
+        {validerType.hasError && <p className="erreurChamps"> Veuillez selecctionez le type du vin </p>}
 
 
         <div className="form__group field">
@@ -335,7 +381,7 @@ export default function BouteilleCreate() {
               className="form__field"
               id="format"
               name="format"
-              type="text"
+              type="number"
               readOnly={estActive}
               value={bouteilleValeur.format}
               onChange={handleChange}
@@ -377,8 +423,12 @@ export default function BouteilleCreate() {
               type="number"
               value={bouteilleValeur.quantite}
               onChange={handleChange}
+              onBlur={handleBlur}
+              required
+
             />
             <label className="form__label">Quantité</label>
+            {validerQuantite.hasError && <p className="erreurChamps"> Veuillez Compléter ce Champ</p>}
           </div>
         </div>
 
@@ -405,6 +455,7 @@ export default function BouteilleCreate() {
             className="inscription__bouton--btn"
             type="submit"
             onClick={ajouterBouteille}
+
           >
             Ajouter
           </button>
