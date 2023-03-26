@@ -66,7 +66,7 @@ class BouteilleController extends Controller
       // 'url_img' => 'min:2',
       // 'pays' => 'required|numeric',
       'type_id' => 'required',
-      // 'quantite' => 'numeric',
+      'quantite' => 'required',
       'cellier_id' => 'required',
 
     ]);
