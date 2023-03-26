@@ -12,6 +12,7 @@ export default function CellierCreate() {
     display: false,
     message: "",
   });
+  const [nomValider,setNomValider]=useState('');
 
   function handleSubmit(evt) {
     // gestion de l'envoi du formulaire
@@ -34,6 +35,13 @@ export default function CellierCreate() {
       headers: entete,
     });
 
+    const res = await response.json()
+    console.log(res);
+    if (res.status == 422){
+      setNomValider(res.errors.nom)
+      console.log(res.errors.nom);
+    }
+
     if (!response.ok) {
       throw json(
         { message: "Impossible de créer le cellier." },
@@ -44,7 +52,7 @@ export default function CellierCreate() {
     showMessage("Cellier créé avec succès!");
     setTimeout(() => {
       navigate("/Cellier");
-    }, 3000);
+    }, 2000);
   }
 
 
@@ -67,7 +75,7 @@ export default function CellierCreate() {
         display: false,
         message: "",
       });
-    }, 3000);
+    }, 2000);
   }
 
   return (
@@ -85,6 +93,7 @@ export default function CellierCreate() {
             onChange={handleNomChange}
           />
           <label className="form__label">Nom</label>
+          {nomValider && <p className="erreurChamps">  Champ obligatoire</p>}
         </div>
 
         <div className="cellier__btn--div">
