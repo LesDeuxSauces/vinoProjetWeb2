@@ -111,13 +111,33 @@ class CellierController extends Controller
    */
   public function update(Request $request, Cellier $cellier)
   {
-    $dataValide = $request->validate([
+    // $dataValide = $request->validate([
+    //   'nom' => 'required|string|min:2|max:50',
+    // ]);
+
+    // $cellier->nom = $dataValide['nom'];
+    // $cellier->save();
+    $dataValide = Validator::make($request->all(),[
       'nom' => 'required|string|min:2|max:50',
     ]);
 
-    $cellier->nom = $dataValide['nom'];
-    $cellier->save();
-    return response()->json(['message' => 'Cellier ' . $cellier->nom . ' mis à jour avec succès', 'cellier' => $cellier]);
+    if($dataValide->fails()){
+
+      return response()->json([
+        'status'=>422,
+        'errors'=>$dataValide->messages()
+      ],422);
+    } else {
+
+      $cellier->update([
+        'nom'=> $request->nom
+      ]);
+
+      return response()->json(['message' => 'Cellier ' . $cellier->nom . ' mis à jour avec succès', 'cellier' => $cellier]);
+    }
+
+
+
   }
 
   /**
