@@ -37,9 +37,8 @@ export default function BouteilleCreate() {
 
 
   useEffect(() => {
-    
+    // 
     dataBouteillesAPI();
-
     fetch(api_url + "types")
       .then((response) => response.json())
       .then((data) => {
@@ -47,6 +46,20 @@ export default function BouteilleCreate() {
 
       });
   }, []);
+
+  /**
+ * Obtenez les bouteilles de l’API et mettez à jour l’état de l’application avec les informations reçues.
+ * @function
+ */
+  const dataBouteillesAPI = () => {
+    fetch(api_url + "bouteillessaq")
+      .then((response) => response.json())
+      .then((data) => {
+        setBouteilleSAQ(data.bouteillessaq)
+        setDataSAQ(data.bouteillessaq)
+      })
+  }
+
 
   const onSuggestionsFetchRequested = ({ value }) => {
     setBouteilleSAQ(filtreBouteille(value));
@@ -102,7 +115,9 @@ export default function BouteilleCreate() {
     setBouteilleSelectionnee(uneBouteille);
     setBouteilleValeur(uneBouteille)
     setEstActive(true);
-
+    setValiderNom(false)
+    setvaliderType(false)
+    setvaliderQuantite(false)
 
     // ajouterBouteilleSAQ(uneBouteille);
   }
@@ -118,6 +133,8 @@ export default function BouteilleCreate() {
     onChange
   };
 
+
+
   const eventEnter = (e) => {
     if (e.key == "Enter") {
       let bouteilleActuel = dataSAQ.filter(b => b.nom == e.target.value.trim());
@@ -129,14 +146,7 @@ export default function BouteilleCreate() {
     }
   }
 
-  const dataBouteillesAPI = () => {
-    fetch(api_url + "bouteillessaq")
-      .then((response) => response.json())
-      .then((data) => {
-        setBouteilleSAQ(data.bouteillessaq)
-        setDataSAQ(data.bouteillessaq)
-      })
-  }
+
 
 
 
@@ -172,20 +182,26 @@ export default function BouteilleCreate() {
   }
 
 
-  // const ajouterBouteille = () => {
-  //   bouteilleValeur.cellier_id = idCellier;
-  //   PostCellierHasBouteille(bouteilleValeur);
-  // }
 
+  /**
+ * Ajoutez une bouteille au cellier spécifié en utilisant la fonction PostCellierHasBouteille.
+ *
+ * @function
+ */
   const ajouterBouteille = () => {
     bouteilleValeur.cellier_id = idCellier;
     PostCellierHasBouteille(bouteilleValeur)
-
   };
 
-
+/**
+ * Effectuez une demande POST pour ajouter une nouvelle Bouteille (bouteille) au serveur.
+ *
+ * @async
+ * @param {Object} bouteilleValeur - Un objet qui contient les informations de la Bouteille à ajouter.
+ * @returns {Promise<void>}  met à jour l’état de l’application en fonction de la réponse du serveur.
+ */
   async function PostCellierHasBouteille(bouteilleValeur) {
-    console.log(bouteilleValeur, "lo que vou agregar antes del");
+   
     let entete = new Headers();
     const token = localStorage.getItem("token");
     entete.append("Content-Type", "application/json");
@@ -199,14 +215,11 @@ export default function BouteilleCreate() {
 
     const response = await fetch(api_url + "bouteille", options);
     const res = await response.json()
-    console.log(res);
+    // validation des erreurs 
     if (res.status === 422) {
       setValiderNom(res.errors.nom)
-
       setvaliderType(res.errors.type_id)
-
       setvaliderQuantite(res.errors.quantite)
-
     } else {
       setConfirmationMessage({
         display: true,
@@ -273,7 +286,7 @@ export default function BouteilleCreate() {
 
           />
           <label className="form__label">Nom</label>
-          {validerNom && <p className="erreurChamps"> Veuillez Compléter ce Champ</p>}
+          {validerNom && <p className="erreurChamps">  Champ obligatoire</p>}
         </div>
 
         <div className="ajouter__bouteille--form--row">
@@ -306,7 +319,7 @@ export default function BouteilleCreate() {
             <label className="form__label">Millésime</label>
           </div>
         </div>
-        {validerType && <p className="erreurChamps"> Veuillez selecctionez le type du vin </p>}
+        {validerType && <p className="erreurChamps"> Champ type obligatoire </p>}
 
 
         <div className="form__group field">
@@ -376,7 +389,7 @@ export default function BouteilleCreate() {
 
             />
             <label className="form__label">Quantité</label>
-            {validerQuantite && <p className="erreurChamps"> Veuillez Compléter ce Champ</p>}
+            {validerQuantite && <p className="erreurChamps"> Champ obligatoire </p>}
           </div>
         </div>
 
