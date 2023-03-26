@@ -36,7 +36,6 @@ export default function CellierCreate() {
     });
 
     const res = await response.json()
-    console.log(res);
     if (res.status == 422){
       setNomValider(res.errors.nom)
       console.log(res.errors.nom);

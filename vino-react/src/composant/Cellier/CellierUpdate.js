@@ -13,6 +13,7 @@ export default function CellierUpdate() {
   const [cellierValeur, setCellierValeur] = useState({
     nom: "",
   });
+  const [nomValider,setNomValider]=useState('');
 
   async function fetchCellier() {
     const entete = new Headers();
@@ -45,7 +46,7 @@ export default function CellierUpdate() {
     if (confirmationMessage.display) {
       setTimeout(() => {
         navigate("/cellier");
-      }, 3000);
+      }, 2000);
     }
   }, [confirmationMessage]);
 
@@ -67,7 +68,11 @@ export default function CellierUpdate() {
 
   async function modifierCellier() {
     const response = await putCellier(cellierValeur, idCellier);
-    if (response.ok) {
+    const res = await response.json()
+  
+    if (res.status == 422){
+      setNomValider(res.errors.nom)
+    } else {
       showMessage(
         <span>
           Vous avez modifié le cellier: 
@@ -75,9 +80,12 @@ export default function CellierUpdate() {
           <span className="modalInfos__nom--message">{cellierValeur.nom}</span>
         </span>
       );
-    } else {
-      showMessage("Une erreur s'est produite lors de la modification");
     }
+    // if (response.ok) {
+     
+    // } else {
+    //   showMessage("Une erreur s'est produite lors de la modification");
+    // }
   }
   
 
@@ -92,6 +100,8 @@ export default function CellierUpdate() {
       body: JSON.stringify(cellierValeur),
       headers: entete,
     });
+
+    
     return response;
   }
   
@@ -110,7 +120,7 @@ export default function CellierUpdate() {
         display: false,
         message: "",
       });
-    }, 3000);
+    }, 2000);
   }
 
 
@@ -127,9 +137,10 @@ export default function CellierUpdate() {
             type="text"
             value={cellierValeur.nom}
             onChange={handleChange}
-            required
+            
           />
           <label className="form__label">Nom</label>
+          {nomValider && <p className="erreurChamps">  Champ obligatoire</p>}
         </div>
         <div className="cellier__btn--div">
           <button
