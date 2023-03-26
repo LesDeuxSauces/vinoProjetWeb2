@@ -58,13 +58,6 @@ class BouteilleController extends Controller
     $validation = Validator::make($request->all(), [
 
       'nom' => 'required',
-      // 'format' => 'numeric',
-      // 'prix' => 'numeric',
-      // 'annee' => 'numeric',
-      // 'code_saq' => '',
-      // 'url_saq' => 'min:2',
-      // 'url_img' => 'min:2',
-      // 'pays' => 'required|numeric',
       'type_id' => 'required',
       'quantite' => 'required',
       'cellier_id' => 'required',

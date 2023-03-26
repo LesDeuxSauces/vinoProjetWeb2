@@ -147,9 +147,6 @@ export default function BouteilleCreate() {
   }
 
 
-
-
-
   function handleSubmit(e) {
     /**
      * Empêche le comportement par défaut de qui recharge le site

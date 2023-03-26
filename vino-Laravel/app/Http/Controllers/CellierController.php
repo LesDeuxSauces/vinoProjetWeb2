@@ -6,6 +6,7 @@ use App\Models\Cellier;
 use App\Models\CelliersHasBouteilles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 
 class CellierController extends Controller
@@ -40,17 +41,32 @@ class CellierController extends Controller
 
     $user = auth()->user();
 
-    $dataValide = $request->validate([
+    // $dataValide = $request->validate([
+    //   'nom' => 'required|string|min:2|max:50',
+    // ]);
+
+    $dataValide = Validator::make($request->all(),[
       'nom' => 'required|string|min:2|max:50',
     ]);
 
-    $cellier = new Cellier;
-    $cellier->nom = $request->input('nom');
-    $cellier->user_id = $user->id;
-    // $cellier->user_id = 1; // pour le moment, j'ai forcé l'id de l'utilisateur à 1
-    $cellier->save();
+    if($dataValide->fails()){
 
-    return response()->json(['message' => 'Cellier ' . $cellier->nom . ' crée avec succès', 'cellier' => $cellier]);
+      return response()->json([
+        'status'=>422,
+        'errors'=>$dataValide->messages()
+      ],422);
+    } else {
+
+      $cellier = new Cellier;
+      $cellier->nom = $request->input('nom');
+      $cellier->user_id = $user->id;
+      // $cellier->user_id = 1; // pour le moment, j'ai forcé l'id de l'utilisateur à 1
+      $cellier->save();
+  
+      return response()->json(['message' => 'Cellier ' . $cellier->nom . ' crée avec succès', 'cellier' => $cellier]);
+
+    }
+
 
     // $dataValide = $request->validate([
     //   'nom' => 'required|string|max:50',
