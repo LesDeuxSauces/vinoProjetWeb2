@@ -9,10 +9,6 @@ import "../ModalInfos/ModalInfos.css";
 export default function BouteilleUpdate() {
   const api_url = "http://127.0.0.1:8000/api/";
   const { idCellier, id } = useParams();
-
-  console.log(id);
-
-
   const navigate = useNavigate();
   const [pays, setPays] = useState([]);
   const [types, setTypes] = useState([{ types: [] }]);
@@ -32,6 +28,8 @@ export default function BouteilleUpdate() {
     display: false,
     message: "",
   });
+
+  const [validerNom, setValiderNom] = useState("")
 
 
 
@@ -93,6 +91,27 @@ export default function BouteilleUpdate() {
     setBouteilleValeur(nouvellesValeurs);
   }
 
+  
+  
+  async function modifierBouteille() {
+    bouteilleValeur.cellier_id = idCellier;
+    const response = await putCellierHasBouteille(bouteilleValeur, id);
+    const res = await response.json()
+    if (res.status == 422){
+      setValiderNom(res.status)
+
+    }else {
+     
+      showMessage(
+        <span>
+          Vous avez modifié la bouteille:
+          <br />
+          <span className="modalInfos__nom--message">{bouteilleValeur.nom}</span>
+        </span>
+      );
+    }
+  }
+  
   async function putCellierHasBouteille(bouteilleValeur, id) {
     const entete = new Headers();
     const token = localStorage.getItem("token");
@@ -105,19 +124,6 @@ export default function BouteilleUpdate() {
     });
 
     return response;
-  }
-
-
-  async function modifierBouteille() {
-    bouteilleValeur.cellier_id = idCellier;
-    const response = await putCellierHasBouteille(bouteilleValeur, id);
-      showMessage(
-        <span>
-          Vous avez modifié la bouteille:
-          <br />
-          <span className="modalInfos__nom--message">{bouteilleValeur.nom}</span>
-        </span>
-      );
   }
 
   useEffect(() => {
@@ -166,9 +172,10 @@ export default function BouteilleUpdate() {
             type="text"
             value={bouteilleValeur.nom}
             onChange={handleChange}
-            required
+            
           />
           <label className="form__label">Nom</label>
+          {validerNom && <p className="erreurChamps">  Champ obligatoire</p>}
         </div>
 
         <div className="ajouter__bouteille--form--row">
