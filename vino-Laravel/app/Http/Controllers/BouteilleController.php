@@ -156,29 +156,45 @@ class BouteilleController extends Controller
         'status' => 400,
         'message' => 'La modification de la bouteille avec un code_saq existant n\'est pas autorisée'
       ], 400);
-    }
+    } 
 
-    $bouteille->update([
-      'nom' => $request->nom,
-      'format' => $request->format,
-      'prix' => $request->prix,
-      'annee' => $request->annee,
-      'code_saq' => $request->code_saq,
-      'url_saq' => $request->url_saq,
-      'url_img' => $request->url_img,
-      'pays' => $request->pays,
-      'type_id' => $request->type_id,
+    $validation = Validator::make($request->all(), [
+
+      'nom' => 'required',
+    
+
     ]);
+    if($validation->fails()){
+      return response()->json([
 
-    $cellierHasBouteille = CelliersHasBouteilles::where('bouteille_id', $bouteille->id)
-      ->where('cellier_id', $request->cellier_id)
-      ->first();
+        'status'=>422,
+        'errors'=>$validation->messages(),
+        'botella'=>$bouteille,
+        'request'=>$request
+      ],422);
+    } else {
 
-    if ($cellierHasBouteille) {
-      $cellierHasBouteille->update([
-        'quantite' => $request->quantite,
+      $bouteille->update([
+        'nom' => $request->nom,
+        'format' => $request->format,
+        'prix' => $request->prix,
+        'annee' => $request->annee,
+
+        'pays' => $request->pays,
+        'type_id' => $request->type_id,
       ]);
     }
+
+    
+    // $cellierHasBouteille = CelliersHasBouteilles::where('bouteille_id', $bouteille->id)
+    //   ->where('cellier_id', $request->cellier_id)
+    //   ->first();
+
+    // if ($cellierHasBouteille) {
+    //   $cellierHasBouteille->update([
+    //     'quantite' => $request->quantite,
+    //   ]);
+    // }
 
     return response()->json([
       'status' => 200,
