@@ -5,7 +5,7 @@
 .cellier {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  row-gap: 40px;
+  row-gap: 20px;
   column-gap: 20px;
   width: 100%;
   justify-items: center;
@@ -87,7 +87,7 @@
 
 .cellier__ajouter {
   text-align: center;
-  margin: 40px;
+  margin: 30px;
 }
 
 .cellier__ajouter img {
@@ -165,8 +165,8 @@
 .bouteille {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(217px, 1fr));
-  row-gap: 20px;
-  column-gap: 20px;
+  row-gap: 9px;
+  /* column-gap: 20px; */
   width: 100%;
   justify-items: center;
   /* margin: 20px 10px; */
@@ -471,7 +471,7 @@ https://codepen.io/Koverzneva/pen/GRXoomy
 
 .bouteille__carte--avant {
   display: flex;
-  gap: 21px;
+  /* gap: 21px; */
   /* z-index: 2; */
   transform: rotateY(0deg);
   flex-direction: row;
