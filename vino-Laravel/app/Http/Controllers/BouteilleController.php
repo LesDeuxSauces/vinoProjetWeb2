@@ -185,17 +185,6 @@ class BouteilleController extends Controller
       ]);
     }
 
-    
-    // $cellierHasBouteille = CelliersHasBouteilles::where('bouteille_id', $bouteille->id)
-    //   ->where('cellier_id', $request->cellier_id)
-    //   ->first();
-
-    // if ($cellierHasBouteille) {
-    //   $cellierHasBouteille->update([
-    //     'quantite' => $request->quantite,
-    //   ]);
-    // }
-
     return response()->json([
       'status' => 200,
       'message' => 'La bouteille a été mise à jour avec succès'
