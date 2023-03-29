@@ -19,7 +19,7 @@ import BouteilleUpdate from '../Bouteille/BouteilleUpdate';
 import { action as logoutAction } from '../Logout';
 import { checkAuthLoader, checkAuthConnexionLoader } from '../Auth';
 import EspaceMembre from '../EspaceMembre/EspaceMembre';
-
+import Admin from '../Admin/Admin'
 
 const router = createBrowserRouter([
   { path: '/', element: <Accueil />, errorElement: <PageErreur /> },
@@ -39,6 +39,7 @@ const router = createBrowserRouter([
       { path: "/bouteille/create/:idCellier", element: <BouteilleCreate /> },
       { path: "/bouteille/:idCellier/update/:id", element: <BouteilleUpdate /> },
       { path: "/espacemembre", element: <EspaceMembre /> },
+      { path: "/admin", element: <Admin /> },
     ],
   },
 ])
