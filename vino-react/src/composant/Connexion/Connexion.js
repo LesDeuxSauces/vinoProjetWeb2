@@ -41,9 +41,10 @@ export default function Connexion() {
       const responseCode = await response.json();
       const token = responseCode.access_token;
       const user = responseCode.user;
-
+      console.log(responseCode);
       localStorage.setItem("token", token);
       localStorage.setItem("user", user.name);
+      localStorage.setItem("user_email", userObject.email);
 
       return navigate("/cellier"), response;
     }
