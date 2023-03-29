@@ -183,249 +183,290 @@ export default function BouteilleCreate() {
   /**
  * Ajoutez une bouteille au cellier spécifié en utilisant la fonction PostCellierHasBouteille.
  *
- * @function
  */
-  const ajouterBouteille = () => {
+  const ajouterBouteille = async () => {
     bouteilleValeur.cellier_id = idCellier;
-    PostCellierHasBouteille(bouteilleValeur)
-  };
-
-/**
- * Effectuez une demande POST pour ajouter une nouvelle Bouteille (bouteille) au serveur.
- *
- * @async
- * @param {Object} bouteilleValeur - Un objet qui contient les informations de la Bouteille à ajouter.
- * @returns {Promise<void>}  met à jour l’état de l’application en fonction de la réponse du serveur.
- */
-  async function PostCellierHasBouteille(bouteilleValeur) {
-   
-    let entete = new Headers();
-    const token = localStorage.getItem("token");
-    entete.append("Content-Type", "application/json");
-    entete.append("Authorization", "Bearer " + token);
-
-    const options = {
-      method: "POST",
-      body: JSON.stringify(bouteilleValeur),
-      headers: entete,
-    }
-
-    const response = await fetch(api_url + "bouteille", options);
-    const res = await response.json()
-    // validation des erreurs 
-    if (res.status === 422) {
-      setValiderNom(res.errors.nom)
-      setvaliderType(res.errors.type_id)
-      setvaliderQuantite(res.errors.quantite)
-    } else {
+  
+    const bouteilleExisteDeja = await verifierBouteilleExistante(bouteilleValeur.cellier_id, bouteilleValeur.id); // je vérifie si la bouteille existe déjà dans le cellier
+  
+    if (bouteilleExisteDeja) { // si la bouteille existe déjà, j'affiche un message d'erreur et je ne fais pas l'ajout
       setConfirmationMessage({
         display: true,
-        message: "Bouteille ajoutée avec succès.",
+        message: "Cette bouteille existe déjà dans votre cellier.",
       });
-
+    } else {
+      PostCellierHasBouteille(bouteilleValeur); // si la bouteille n'existe pas, je fais l'ajout
     }
+  };
+  
 
-  }
+/**
+ *  Vérifie si la bouteille existe déjà dans le cellier
+ * @param {*} cellier_id  id du cellier
+ * @param {*} bouteille_id  id de la bouteille
+ * @returns  booleen, ici, true si la bouteille existe déjà
+ */
+  async function verifierBouteilleExistante(cellier_id, bouteille_id) {
+    const token = localStorage.getItem("token");
 
-  const enleverBouteille = () => {
-    setEstActive(false);
-    setBouteilleValeur({
-      nom: "", format: "", prix: "", annee: "", code_saq: "", url_saq: "", url_img: "", pays: "", type_id: "", quantite: "",
+    const reponse = await fetch(`${api_url}cellier/${cellier_id}`, { // je récupère les données du cellier
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
     });
-    setRechercheBouteille("")
+  
+    if (reponse.status === 200) {
+      const data = await reponse.json();
+      const bouteilles = data.bouteilles; // je récupère le tableau de bouteilles du cellier
+  
+      const bouteilleExistante = bouteilles.find( // je cherche si la bouteille avec le id spécifié existe dans le tableau bouteilles en utilisant la méthode find
+        (bouteille) => bouteille.id === bouteille_id  // je compare l'id de la bouteille avec l'id de la bouteille que je veux ajouter
+      );
+  
+      return bouteilleExistante !== undefined; // je retourne true si la bouteille existe déjà, sinon, je retourne false
+    } else {
+      throw new Error("Erreur lors de la vérification de l'existence de la bouteille.");
+    }
   }
 
-  useEffect(() => {
-    if (confirmationMessage.display) {
-      setTimeout(() => {
-        navigate('/cellier/' + idCellier);
-      }, 2000);
-    }
-  }, [confirmationMessage, navigate, idCellier]);
+      /**
+       * Effectuez une demande POST pour ajouter une nouvelle Bouteille (bouteille) au serveur.
+       *
+       * @async
+       * @param {Object} bouteilleValeur - Un objet qui contient les informations de la Bouteille à ajouter.
+       * @returns {Promise<void>}  met à jour l’état de l’application en fonction de la réponse du serveur.
+       */
+      async function PostCellierHasBouteille(bouteilleValeur) {
+
+      let entete = new Headers();
+      const token = localStorage.getItem("token");
+      entete.append("Content-Type", "application/json");
+      entete.append("Authorization", "Bearer " + token);
+
+      const options = {
+        method: "POST",
+        body: JSON.stringify(bouteilleValeur),
+        headers: entete,
+      }
+
+    const response = await fetch(api_url + "bouteille", options);
+      const res = await response.json()
+    // validation des erreurs 
+    if(res.status === 422) {
+        setValiderNom(res.errors.nom)
+    setvaliderType(res.errors.type_id)
+    setvaliderQuantite(res.errors.quantite)
+  } else {
+    setConfirmationMessage({
+      display: true,
+      message: "Bouteille ajoutée avec succès.",
+    });
+
+  }
+
+}
+
+const enleverBouteille = () => {
+  setEstActive(false);
+  setBouteilleValeur({
+    nom: "", format: "", prix: "", annee: "", code_saq: "", url_saq: "", url_img: "", pays: "", type_id: "", quantite: "",
+  });
+  setRechercheBouteille("")
+}
+
+useEffect(() => {
+  if (confirmationMessage.display) {
+    setTimeout(() => {
+      navigate('/cellier/' + idCellier);
+    }, 2000);
+  }
+}, [confirmationMessage, navigate, idCellier]);
 
 
-  return (
-    <div>
-      <div className="ajouter__bouteille--titre ">
-        <h1>Ajouter un vin</h1>
-      </div>
-      <div className="recherche_bouteille_saq">
-        <h2>Recherche SAQ </h2>
-        <Autosuggest
-          suggestions={bouteilleSAQ}
-          onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-          onSuggestionsClearRequested={onSuggestionsClearRequested}
-          getSuggestionValue={getSuggestionValue}
-          renderSuggestion={renderSuggestion}
-          inputProps={inputProps}
-          onSuggestionSelected={eventEnter}
-        />
-        {estActive && <img
-          className="bouteille__supprimer"
-          src={iconeBalai}
-          alt="Supprimer la bouteille"
-          onClick={() => enleverBouteille()}
-        />}
-
-
-      </div>
-      <form className="ajouter__bouteille--form" onSubmit={handleSubmit}>
-        <div className="form__group field">
-          <input
-            placeholder="Nom"
-            className="form__field"
-            id="nom"
-            name="nom"
-            type="text"
-            value={bouteilleValeur.nom}
-            onChange={handleChange}
-            readOnly={estActive}
-
-          />
-          <label className="form__label">Nom</label>
-          {validerNom && <p className="erreurChamps">  Champ obligatoire</p>}
-        </div>
-
-        <div className="ajouter__bouteille--form--row">
-          <select
-            value={bouteilleValeur.type_id}
-            name="type_id"
-            onChange={handleChange}
-            disabled={estActive}
-          >
-            <option value="" disabled > Type</option>
-            {types.map((value) => (
-              <option key={value.id} value={value.id}>
-                {" "}
-                {value.nom}
-              </option>
-            ))}
-          </select>
-
-          <div className="form__group field">
-            <input
-              placeholder="Millésime"
-              className="form__field"
-              id="annee"
-              name="annee"
-              type="number"
-              readOnly={estActive}
-              value={bouteilleValeur.annee}
-              onChange={handleChange}
-            />
-            <label className="form__label">Millésime</label>
-          </div>
-        </div>
-        {validerType && <p className="erreurChamps"> Champ type obligatoire </p>}
-
-
-        <div className="form__group field">
-          <input
-            placeholder="Pays"
-            className="form__field"
-            id="pays"
-            name="pays"
-            type="text"
-            readOnly={estActive}
-            value={bouteilleValeur.pays}
-            onChange={handleChange}
-          />
-          <label className="form__label">Pays</label>
-        </div>
-        <div className="ajouter__bouteille--form--row">
-
-
-          <div className="form__group field">
-            <input
-              placeholder="Format 750ml, 1L"
-              className="form__field"
-              id="format"
-              name="format"
-              type="number"
-              readOnly={estActive}
-              value={bouteilleValeur.format}
-              onChange={handleChange}
-            />
-            <label className="form__label">Format 750ml, 1L</label>
-          </div>
-        </div>
-        <div className="ajouter__bouteille--form--row">
-          <div className="form__group field">
-            <input
-              placeholder="Prix"
-              className="form__field"
-              id="prix"
-              name="prix"
-              type="number"
-              readOnly={estActive}
-              value={bouteilleValeur.prix}
-              onChange={handleChange}
-            />
-            <label className="form__label">Prix</label>
-          </div>
-
-          <input
-            placeholder="Code SAQ"
-            className="form__field"
-            id="code_saq"
-            name="code_saq"
-            type="hidden"
-            value={bouteilleValeur.code_saq}
-            onChange={handleChange}
-          />
-
-          <div className="form__group field">
-            <input
-              placeholder="Quantité"
-              className="form__field"
-              id="quantite"
-              name="quantite"
-              type="number"
-              value={bouteilleValeur.quantite}
-              onChange={handleChange}
-
-            />
-            <label className="form__label">Quantité</label>
-            {validerQuantite && <p className="erreurChamps"> Champ obligatoire </p>}
-          </div>
-        </div>
-
-        <input
-          id="url_saq"
-          name="url_saq"
-          type="hidden"
-          value={bouteilleValeur.url_saq}
-          onChange={handleChange}
-        />
-
-        <input
-          id="url_img"
-          name="url_img"
-          type="hidden"
-          value={bouteilleValeur.url_img}
-          onChange={handleChange}
-        />
-
-        <div className="cellier__btn--div">
-          <button
-            className="inscription__bouton--btn"
-            type="submit"
-            onClick={ajouterBouteille}
-
-          >
-            Ajouter
-          </button>
-          <Link
-            to="/Cellier"
-            className="cellier__btn--style cellier__btn--retour"
-          >
-            Retour à la liste des celliers
-          </Link>
-        </div>
-      </form>
-      {confirmationMessage.display && (<ModalInfos message={confirmationMessage.message} />)}
+return (
+  <div>
+    <div className="ajouter__bouteille--titre ">
+      <h1>Ajouter un vin</h1>
     </div>
-  );
+    <div className="recherche_bouteille_saq">
+      <h2>Recherche SAQ </h2>
+      <Autosuggest
+        suggestions={bouteilleSAQ}
+        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+        onSuggestionsClearRequested={onSuggestionsClearRequested}
+        getSuggestionValue={getSuggestionValue}
+        renderSuggestion={renderSuggestion}
+        inputProps={inputProps}
+        onSuggestionSelected={eventEnter}
+      />
+      {estActive && <img
+        className="bouteille__supprimer"
+        src={iconeBalai}
+        alt="Supprimer la bouteille"
+        onClick={() => enleverBouteille()}
+      />}
+
+
+    </div>
+    <form className="ajouter__bouteille--form" onSubmit={handleSubmit}>
+      <div className="form__group field">
+        <input
+          placeholder="Nom"
+          className="form__field"
+          id="nom"
+          name="nom"
+          type="text"
+          value={bouteilleValeur.nom}
+          onChange={handleChange}
+          readOnly={estActive}
+
+        />
+        <label className="form__label">Nom</label>
+        {validerNom && <p className="erreurChamps">  Champ obligatoire</p>}
+      </div>
+
+      <div className="ajouter__bouteille--form--row">
+        <select
+          value={bouteilleValeur.type_id}
+          name="type_id"
+          onChange={handleChange}
+          disabled={estActive}
+        >
+          <option value="" disabled > Type</option>
+          {types.map((value) => (
+            <option key={value.id} value={value.id}>
+              {" "}
+              {value.nom}
+            </option>
+          ))}
+        </select>
+
+        <div className="form__group field">
+          <input
+            placeholder="Millésime"
+            className="form__field"
+            id="annee"
+            name="annee"
+            type="number"
+            readOnly={estActive}
+            value={bouteilleValeur.annee}
+            onChange={handleChange}
+          />
+          <label className="form__label">Millésime</label>
+        </div>
+      </div>
+      {validerType && <p className="erreurChamps"> Champ type obligatoire </p>}
+
+
+      <div className="form__group field">
+        <input
+          placeholder="Pays"
+          className="form__field"
+          id="pays"
+          name="pays"
+          type="text"
+          readOnly={estActive}
+          value={bouteilleValeur.pays}
+          onChange={handleChange}
+        />
+        <label className="form__label">Pays</label>
+      </div>
+      <div className="ajouter__bouteille--form--row">
+
+
+        <div className="form__group field">
+          <input
+            placeholder="Format 750ml, 1L"
+            className="form__field"
+            id="format"
+            name="format"
+            type="number"
+            readOnly={estActive}
+            value={bouteilleValeur.format}
+            onChange={handleChange}
+          />
+          <label className="form__label">Format 750ml, 1L</label>
+        </div>
+      </div>
+      <div className="ajouter__bouteille--form--row">
+        <div className="form__group field">
+          <input
+            placeholder="Prix"
+            className="form__field"
+            id="prix"
+            name="prix"
+            type="number"
+            readOnly={estActive}
+            value={bouteilleValeur.prix}
+            onChange={handleChange}
+          />
+          <label className="form__label">Prix</label>
+        </div>
+
+        <input
+          placeholder="Code SAQ"
+          className="form__field"
+          id="code_saq"
+          name="code_saq"
+          type="hidden"
+          value={bouteilleValeur.code_saq}
+          onChange={handleChange}
+        />
+
+        <div className="form__group field">
+          <input
+            placeholder="Quantité"
+            className="form__field"
+            id="quantite"
+            name="quantite"
+            type="number"
+            value={bouteilleValeur.quantite}
+            onChange={handleChange}
+
+          />
+          <label className="form__label">Quantité</label>
+          {validerQuantite && <p className="erreurChamps"> Champ obligatoire </p>}
+        </div>
+      </div>
+
+      <input
+        id="url_saq"
+        name="url_saq"
+        type="hidden"
+        value={bouteilleValeur.url_saq}
+        onChange={handleChange}
+      />
+
+      <input
+        id="url_img"
+        name="url_img"
+        type="hidden"
+        value={bouteilleValeur.url_img}
+        onChange={handleChange}
+      />
+
+      <div className="cellier__btn--div">
+        <button
+          className="inscription__bouton--btn"
+          type="submit"
+          onClick={ajouterBouteille}
+
+        >
+          Ajouter
+        </button>
+        <Link
+          to="/Cellier"
+          className="cellier__btn--style cellier__btn--retour"
+        >
+          Retour à la liste des celliers
+        </Link>
+      </div>
+    </form>
+    {confirmationMessage.display && (<ModalInfos message={confirmationMessage.message} />)}
+  </div>
+);
 }
 
 
