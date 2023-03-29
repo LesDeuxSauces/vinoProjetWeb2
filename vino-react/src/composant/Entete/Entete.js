@@ -41,7 +41,7 @@ export default function Entete(props) {
     async function fetchCellierUser() {
         let entete = new Headers();
         const token = localStorage.getItem("token"); // récupérer le token de l'utilisateur
-        
+
         entete.append("Content-Type", "application/json");
         entete.append("Authorization", "Bearer " + token); // ajoute le token dans l'entête de la requête
 
@@ -110,6 +110,7 @@ export default function Entete(props) {
         const [menuHeight, setMenuHeight] = useState(null);
         const dropdownRef = useRef(null);
         const user = localStorage.getItem("user");
+        const userEmail = localStorage.getItem("user_email");
 
         useEffect(() => {
             setMenuHeight(dropdownRef.current?.firstChild.offsetHeight + 30);
@@ -122,7 +123,7 @@ export default function Entete(props) {
         }
 
         function DropdownItem(props) {
-             
+
             console.log(localStorage);
             console.log(props);
             return (
@@ -149,9 +150,16 @@ export default function Entete(props) {
                     onEnter={calcHeight}
                 >
                     <div className="menu">
-                        <Link to={`/EspaceMembre`}>
-                            <DropdownItem leftIcon={<UserIcon />}>Bonjour {user} </DropdownItem>
-                        </Link>
+                        {userEmail === "admin@vino.com" ? (
+                            <Link to={`/admin`}>
+                                <DropdownItem leftIcon={<UserIcon />}>Bonjour {user} </DropdownItem>
+                            </Link>
+                        ) : (
+                            <Link to={`/EspaceMembre`}>
+                                <DropdownItem leftIcon={<UserIcon />}>Bonjour {user} </DropdownItem>
+                            </Link>
+                        )}
+
                         <DropdownItem
                             leftIcon={<ChevronIcon />}
                             rightIcon={<ChevronIcon />}
