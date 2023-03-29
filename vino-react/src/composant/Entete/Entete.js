@@ -149,9 +149,9 @@ export default function Entete(props) {
                     onEnter={calcHeight}
                 >
                     <div className="menu">
-
-                        <DropdownItem leftIcon={<UserIcon />}>Bonjour {user} </DropdownItem>
-
+                        <Link to={`/EspaceMembre`}>
+                            <DropdownItem leftIcon={<UserIcon />}>Bonjour {user} </DropdownItem>
+                        </Link>
                         <DropdownItem
                             leftIcon={<ChevronIcon />}
                             rightIcon={<ChevronIcon />}

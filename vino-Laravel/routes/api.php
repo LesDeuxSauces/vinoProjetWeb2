@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 // Routes protégées User
 Route::group(['middleware' => ['auth:sanctum']], function () {
+  Route::get('/espacemembre', [UserController::class, 'index']);
   Route::delete('/user/{user}', [UserController::class, 'destroy']);
   Route::put('/user/{user}', [UserController::class, 'update']);
 });
