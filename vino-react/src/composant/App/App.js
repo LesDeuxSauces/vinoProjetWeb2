@@ -18,6 +18,7 @@ import { useLocation } from 'react-router-dom';
 import BouteilleUpdate from '../Bouteille/BouteilleUpdate';
 import { action as logoutAction } from '../Logout';
 import { checkAuthLoader, checkAuthConnexionLoader } from '../Auth';
+import EspaceMembre from '../EspaceMembre/EspaceMembre';
 
 
 const router = createBrowserRouter([
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
       { path: "/bouteille", element: <BouteilleList /> },
       { path: "/bouteille/create/:idCellier", element: <BouteilleCreate /> },
       { path: "/bouteille/:idCellier/update/:id", element: <BouteilleUpdate /> },
+      { path: "/espacemembre", element: <EspaceMembre /> },
     ],
   },
 ])
