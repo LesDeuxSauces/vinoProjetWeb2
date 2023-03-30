@@ -49,7 +49,7 @@ export default function CellierList(props) {
     const celliersData = await responseCelliers.json();
 
     // Récupérer les quantités de bouteilles pour chaque cellier
-    const responseQuantite = await fetch(api_url + "celliers_has_bouteilles/quantite", { // requête pour récupérer les liste des celliers qui possèdent au moins une bouteille, de la table celliers_has_bouteilles (qui contient les quantités de bouteilles)
+    const responseQuantite = await fetch(api_url + "celliersQuantite", { // requête pour récupérer les liste des celliers qui possèdent au moins une bouteille, de la table celliers_has_bouteilles (qui contient les quantités de bouteilles)
       method: "GET",
       headers: entete,
     }
@@ -65,7 +65,7 @@ export default function CellierList(props) {
       );
       return {
         ...cellier, // avec l'operateur de decomposition, je récupère toutes les propriétés du cellier (id, nom, user_id) pour y ajouter la propriété quantite
-        total: quantiteCellier ? quantiteCellier.total : 0, // si la quantité existe, je l'ajoute à la propriété quantite, sinon je lui donne la valeur 0
+        total: quantiteCellier ? quantiteCellier.totalQuantite : 0, // si la quantité existe, je l'ajoute à la propriété quantite, sinon je lui donne la valeur 0
       };
     });
 

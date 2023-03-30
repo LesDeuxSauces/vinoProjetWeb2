@@ -59,7 +59,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 // Routes protégées User
 Route::group(['middleware' => ['auth:sanctum']], function () {
-  Route::get('/espacemembre', [UserController::class, 'index']);
+  Route::get('/celliersQuantite', [UserController::class, 'UserCelliersQuantite']);
   Route::delete('/user/{user}', [UserController::class, 'destroy']);
   Route::put('/user/{user}', [UserController::class, 'update']);
   Route::get('/user/{user}/bouteilles', [UserController::class, 'getUserBouteilles']);

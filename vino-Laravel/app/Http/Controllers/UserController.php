@@ -18,10 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
-        $user_id = auth()->user()->id;
-        $celliers = Cellier::where('user_id', $user_id)->get();
-        return response()->json([$user, $celliers]);
+        //
     }
 
     /**
@@ -61,7 +58,22 @@ class UserController extends Controller
         return response()->json($bouteilles);
     }
 
+    /**
+     * Display a listing of the resource.
+     */
+    public function UserCelliersQuantite()
+    {
+        $user_id = auth()->user()->id;
+        $celliers = Cellier::where('user_id', $user_id)->get();
 
+        foreach ($celliers as $cellier) {
+            $totalQuantite = CelliersHasBouteilles::where('cellier_id', $cellier->id)->sum('quantite');
+            $cellier->totalQuantite = $totalQuantite;
+        }
+
+        return response()->json($celliers);
+    }
+    
     /**
      * Update the specified resource in storage.
      */
