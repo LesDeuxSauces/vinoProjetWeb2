@@ -62,6 +62,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
   Route::get('/espacemembre', [UserController::class, 'index']);
   Route::delete('/user/{user}', [UserController::class, 'destroy']);
   Route::put('/user/{user}', [UserController::class, 'update']);
+  Route::get('/user/{user}/bouteilles', [UserController::class, 'getUserBouteilles']);
+  Route::get('/user/{user}/archives', [UserController::class, 'getUserArchives']);
 });
 
 // Routes protégées Bouteilles
