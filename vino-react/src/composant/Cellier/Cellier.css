@@ -107,6 +107,17 @@
   gap: 12px;
 }
 
+.cellier__cartes--iconeRotation {
+  width: 45px;
+  margin-left: 15px;
+  margin-bottom: 7px;
+}
+
+.cellier__cartes--iconeRotation:hover {
+  transform: scale(1.1);
+  transition-duration: 0.2s;
+}
+
 /******************/
 /*   Bouteille    */
 /******************/
