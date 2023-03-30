@@ -343,6 +343,14 @@ export default function CellierShow() {
     navigate(`/bouteille/${idCellier}/update/${id}`);
   }
 
+  /**
+   * fonction pour gérer le clic sur la croix et effacer le champ de recherche
+   */
+  function handleNettoyerRecherche() {
+    setRechercheValeur("");
+  }
+
+
 
 
   return (
@@ -351,6 +359,10 @@ export default function CellierShow() {
         <h1>Mon cellier</h1>
         <div className="recherche__wrapper">
           <input type="text" name="recherche" id="recherche" placeholder="&#x1F50E;&#xFE0E;" value={rechercheValeur} onChange={handleRecherche} />
+          {rechercheValeur && (
+            <button className="recherche__nettoyer" onClick={handleNettoyerRecherche}>&#x2715;
+            </button>
+            )}
           <img className="recherche__icone" src="./img/magnifying-glass-11-svgrepo-com.svg" alt="" />
         </div>
       </div>
