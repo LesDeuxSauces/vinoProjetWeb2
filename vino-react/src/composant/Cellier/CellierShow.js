@@ -12,6 +12,7 @@ import logoSaq from '../../img/logo-saq-no-text.png';
 import bouteillePerso from '../../img/bouteille-perso.png';
 import ModalInfos from "../ModalInfos/ModalInfos";
 import "../ModalInfos/ModalInfos.css";
+import iconeFlip from "../../img/icone-flip.svg";
 
 
 
@@ -39,6 +40,9 @@ export default function CellierShow() {
     display: false,
     message: "",
   });
+  const [rechercheValeur, setRechercheValeur] = useState(""); // ajout d'un nouvel état pour stocker la recherche de l'utilisateur
+  const [flipAll, setFlipAll] = useState(false); //ajout d'un nouvel afin de retourner toutes les cartes du cellier
+
 
 
   useEffect(() => {
@@ -75,6 +79,15 @@ export default function CellierShow() {
     }, 2000);
   }
 
+  /**
+   *  gestionnaire d'evenement pour pouvoir mettre à jour la valeur de la recherche lorsque l'utilisateur tape dans le champ de recherche
+   * @param {*} evt  événement
+   */
+  function handleRecherche(evt) {
+    setRechercheValeur(evt.target.value);
+  }
+
+
 
 
   /**
@@ -84,65 +97,84 @@ export default function CellierShow() {
   function afficherBouteilles() {
     let listeBouteilles = null;
     if (cellier.bouteilles && cellier.bouteilles.length > 0) {
-      listeBouteilles = cellier.bouteilles.map((bouteille) => {
-        // console.log(bouteille);
-        return (
-          <li className="" key={bouteille.id}>
-            <div
-              className={`flip-container ${flip[bouteille.id] ? "hover" : ""}`}
-              onClick={() => handleFlip(bouteille.id)}
-            >
-              <div className="bouteille__carte--tourner">
-                <div className="bouteille__carte--avant bouteille__carte">
+      listeBouteilles = cellier.bouteilles
+        .filter((bouteille) => { // filtre les bouteilles selon la recherche de l'utilisateur
+          const recherche = rechercheValeur.toLowerCase(); // recherche de l'utilisateur, je converti la valeur en string pour pouvoir utiliser la méthode startsWith et includes
+          const annee = bouteille.annee ? bouteille.annee.toString().toLowerCase() : "";
+          // const typeNom = getTypeNom(bouteille.type_id) ? getTypeNom(bouteille.type_id).toLowerCase() : "";
+          // const format = bouteille.format ? bouteille.format.toString().toLowerCase() : "";
+          // const pays = bouteille.pays ? bouteille.pays.toLowerCase() : "";
+          // const prix = bouteille.prix ? bouteille.prix.toString().toLowerCase() : "";
 
-                  <div className="bouteille__icones">
-                    {bouteille.code_saq ? (
-                      <a href={bouteille.url_saq} target="_blank" rel="noreferrer">
-                        <img className="bouteille__logoSaq" src={logoSaq} alt="Logo SAQ" />
-                      </a>
-                    ) : (
+          return ( // retourne les bouteilles qui correspondent à la recherche
+            rechercheValeur === "" ||
+            bouteille.nom.toLowerCase().includes(recherche) ||
+            annee.startsWith(recherche)
+            // prix.startsWith(recherche) ||
+            // typeNom.startsWith(recherche) ||
+            // format.startsWith(recherche) ||
+            // pays.startsWith(recherche)
+          );
+        })
+        .map((bouteille) => {
+          // console.log(bouteille);
+          return (
+            <li className="" key={bouteille.id}>
+              <div
+                className={`flip-container ${flip[bouteille.id] ? "hover" : ""}`}
+                onClick={() => handleFlip(bouteille.id)}
+              >
+                <div className="bouteille__carte--tourner">
+                  <div className="bouteille__carte--avant bouteille__carte">
+
+                    <div className="bouteille__icones">
+                      {bouteille.code_saq ? (
+                        <a href={bouteille.url_saq} target="_blank" rel="noreferrer">
+                          <img className="bouteille__logoSaq" src={logoSaq} alt="Logo SAQ" />
+                        </a>
+                      ) : (
+                        <img
+                          className="bouteille__modifier"
+                          src={iconeModifier}
+                          alt="Modifier la bouteille"
+                          onClick={(evt) => handleModifier(evt, bouteille.id)}
+                        />
+                      )}
                       <img
-                        className="bouteille__modifier"
-                        src={iconeModifier}
-                        alt="Modifier la bouteille"
-                        onClick={(evt) => handleModifier(evt, bouteille.id)}
+                        className="bouteille__supprimer"
+                        src={iconeSupprimer}
+                        alt="Supprimer la bouteille"
+                        onClick={(evt) => handleDelete(evt, bouteille.id, bouteille.nom)}
                       />
-                    )}
-                    <img
-                      className="bouteille__supprimer"
-                      src={iconeSupprimer}
-                      alt="Supprimer la bouteille"
-                      onClick={(evt) => handleDelete(evt, bouteille.id, bouteille.nom)}
-                    />
-                  </div>
-
-                  <img src={bouteille.code_saq ? bouteille.url_img : bouteillePerso} alt="Image de la bouteille" className="bouteille__img" />
-                  <div>
-                    <div className="bouteille__infos">
-                      <p className="bouteille__nom">{bouteille.nom}</p>
-                      <div className="bouteille__infos--quantite">
-                        <button className="bouteille__infos--bouton" value="down" onClick={(evt) => handleQuantite(evt, bouteille.id, bouteille.pivot.quantite, false)}>-</button>
-                        {/* <img src={iconeNbrBouteille} alt="Nombre de bouteilles" className="icone-nbr-bouteille" />  */}
-                        <p className="bouteille__quantite">{bouteille.pivot.quantite}</p>
-                        <button className="bouteille__infos--bouton" value="up" onClick={(evt) => handleQuantite(evt, bouteille.id, bouteille.pivot.quantite, true)}>+</button>
-                      </div>
                     </div>
 
+                    <img src={bouteille.code_saq ? bouteille.url_img : bouteillePerso} alt="bouteille cellier" className="bouteille__img" />
+                    <div>
+                      <div className="bouteille__infos">
+                        <p className="bouteille__nom">{bouteille.nom}</p>
+                        <div className="bouteille__infos--quantite">
+                          <button className="bouteille__infos--bouton" value="down" onClick={(evt) => handleQuantite(evt, bouteille.id, bouteille.pivot.quantite, false)}>-</button>
+                          {/* <img src={iconeNbrBouteille} alt="Nombre de bouteilles" className="icone-nbr-bouteille" />  */}
+                          <p className="bouteille__quantite">{bouteille.pivot.quantite}</p>
+                          <button className="bouteille__infos--bouton" value="up" onClick={(evt) => handleQuantite(evt, bouteille.id, bouteille.pivot.quantite, true)}>+</button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div className="bouteille__carte--arriere bouteille__carte">
+                    <p><strong>・Type:</strong> {getTypeNom(bouteille.type_id)}</p>
+                    <p><strong>・Millésime:</strong> {bouteille.annee}</p>
+                    <p><strong>・Format:</strong> {bouteille.format} ml</p>
+                    <p><strong>・Pays:</strong> {bouteille.pays}</p>
+                    <p><strong>・Prix:</strong> {bouteille.prix ? bouteille.prix : ""} $</p>
+                    <img src={iconeInfos} alt="icone infos" className="icone-infos" />
                   </div>
                 </div>
-                <div className="bouteille__carte--arriere bouteille__carte">
-                  <p><strong>・Type:</strong> {getTypeNom(bouteille.type_id)}</p>
-                  <p><strong>・Millésime:</strong> {bouteille.annee}</p>
-                  <p><strong>・Format:</strong> {bouteille.format} ml</p>
-                  <p><strong>・Pays:</strong> {bouteille.pays}</p>
-                  <p><strong>・Prix:</strong> {bouteille.prix ? bouteille.prix : ""} $</p>
-                  <img src={iconeInfos} alt="icone infos" className="icone-infos" />
-                </div>
               </div>
-            </div>
-          </li>
-        );
-      });
+            </li>
+          );
+        });
     } else {
       listeBouteilles = <p>Aucune bouteille disponible</p>;
     }
@@ -183,7 +215,7 @@ export default function CellierShow() {
   }
 
   /**
- * Fonction qui permet de retourner la carte
+ * Fonction qui permet de retourner une carte
  * @param {*} id 
  */
   function handleFlip(id) { // prend en parametre le id de la bouteille
@@ -193,6 +225,22 @@ export default function CellierShow() {
       [id]: !prevFlip[id], // mise à jour de la propriété avec la clé "id" en inversant la valeur précédente
     }));
   }
+
+  /**
+   * Fonction qui permet de retourner toutes les cartes
+   */
+  function handleFlipAll() {
+    // j'utilise ci-dessous la fonction setFlipAll pour modifier l'état. (prevFlipAll est l'état précédent de flipAll.)
+    setFlipAll((prevFlipAll) => !prevFlipAll);
+    if (cellier.bouteilles && cellier.bouteilles.length > 0) {
+      const newFlip = {};
+      cellier.bouteilles.forEach((bouteille) => {
+        newFlip[bouteille.id] = !flipAll;
+      });
+      setFlip(newFlip);
+    }
+  }
+
 
 
 
@@ -256,6 +304,7 @@ export default function CellierShow() {
     let bouteille_id = id;
     let nouvelleQuantite;
 
+    quantite = parseInt(quantite, 10); // conversion la quantité en nombre entier
     if (bool == false) {
       nouvelleQuantite = (quantite - 1);
     } else if (bool == true) {
@@ -295,14 +344,15 @@ export default function CellierShow() {
   }
 
 
+
   return (
     <div className="container">
       <div className="recherche">
         <h1>Mon cellier</h1>
-        {/* <div className="recherche__wrapper">
-          <input type="text" name="recherche" id="recherche" placeholder="&#x1F50E;&#xFE0E;" />
+        <div className="recherche__wrapper">
+          <input type="text" name="recherche" id="recherche" placeholder="&#x1F50E;&#xFE0E;" value={rechercheValeur} onChange={handleRecherche} />
           <img className="recherche__icone" src="./img/magnifying-glass-11-svgrepo-com.svg" alt="" />
-        </div> */}
+        </div>
       </div>
       {/* <div className="filtre">
         <button className="filtre__btn">Type</button>
@@ -311,6 +361,11 @@ export default function CellierShow() {
         <button className="filtre__btn">Vide</button>
         <button className="filtre__btn">Nombre</button>
       </div> */}
+
+      <button onClick={handleFlipAll} >
+        <img className='cellier__cartes--iconeRotation' src={iconeFlip} alt="tourner toutes les cartes du cellier" />
+      </button>
+
       <ul className="bouteille">
         {afficherBouteilles()}
       </ul>
