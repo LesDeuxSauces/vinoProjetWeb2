@@ -151,6 +151,11 @@
   width: 30px;
 }
 
+.recherche__nettoyer {
+  position: absolute;
+  right: 10px;
+}
+
 .filtre {
   display: flex;
   flex-direction: row;
