@@ -130,7 +130,7 @@ export default function BouteilleUpdate() {
     if (confirmationMessage.display) {
       setTimeout(() => {
         navigate("/cellier/" + idCellier);
-      }, 3000);
+      }, 2000);
     }
   }, [confirmationMessage, navigate, idCellier]);
 
@@ -152,7 +152,7 @@ export default function BouteilleUpdate() {
         display: false,
         message: "",
       });
-    }, 3000);
+    }, 2000);
   }
 
 

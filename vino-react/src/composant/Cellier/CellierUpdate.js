@@ -46,6 +46,7 @@ export default function CellierUpdate() {
     if (confirmationMessage.display) {
       setTimeout(() => {
         navigate("/cellier");
+        window.location.reload();
       }, 2000);
     }
   }, [confirmationMessage]);
