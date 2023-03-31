@@ -102,7 +102,8 @@ export default function CellierList(props) {
         display: false,
         message: "",
       });
-    }, 3000);
+      window.location.reload();
+    }, 2000);
   }
 
 

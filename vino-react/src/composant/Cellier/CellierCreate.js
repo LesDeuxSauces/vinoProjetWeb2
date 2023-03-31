@@ -51,6 +51,7 @@ export default function CellierCreate() {
     showMessage("Cellier créé avec succès!");
     setTimeout(() => {
       navigate("/Cellier");
+      window.location.reload();
     }, 2000);
   }
 
