@@ -46,23 +46,47 @@ export default function CellierShow() {
 
 
   useEffect(() => {
-    const fetchCellier = async () => {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://127.0.0.1:8000/api/cellier/' + id, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-
-      setCellier(data);
-      console.log(data);
-    };
-
     fetchCellier();
   }, [id]);
+
+  const fetchCellier = async (filtre) => {
+    const token = localStorage.getItem("token");
+    const response = await fetch("http://127.0.0.1:8000/api/cellier/" + id, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+  
+    switch (filtre) {
+      case "type":
+        data.bouteilles.sort((a, b) => {
+          return a.type_id - b.type_id;
+        });
+        setCellier(data);
+        break;
+  
+      case "quantite":
+        data.bouteilles.sort((a, b) => {
+          return b.pivot.quantite - a.pivot.quantite;
+        });
+        setCellier(data);
+        break;
+  
+      case "millesime":
+        data.bouteilles.sort((a, b) => {
+          return b.annee - a.annee;
+        });
+        setCellier(data);
+        break;
+  
+      default:
+        setCellier(data);
+    }
+  };
 
 
   function showMessage(message) {
@@ -350,7 +374,20 @@ export default function CellierShow() {
     setRechercheValeur("");
   }
 
-
+  function handleFilterType() {
+    const filtre = "type";
+    fetchCellier(filtre);
+  }
+  
+  function handleFilterQuantite() {
+    const filtre = "quantite";
+    fetchCellier(filtre);
+  }
+  
+  function handleFilterMillesime() {
+    const filtre = "millesime";
+    fetchCellier(filtre);
+  }
 
 
   return (
@@ -366,13 +403,11 @@ export default function CellierShow() {
           <img className="recherche__icone" src="./img/magnifying-glass-11-svgrepo-com.svg" alt="" />
         </div>
       </div>
-      {/* <div className="filtre">
-        <button className="filtre__btn">Type</button>
-        <button className="filtre__btn">Favoris</button>
-        <button className="filtre__btn">Nouveautés</button>
-        <button className="filtre__btn">Vide</button>
-        <button className="filtre__btn">Nombre</button>
-      </div> */}
+      <div className="filtre">
+        <button className="filtre__btn" onClick={handleFilterType}>Type</button>
+        <button className="filtre__btn" onClick={handleFilterMillesime}>Millésime</button>
+        <button className="filtre__btn" onClick={handleFilterQuantite}>Quantité</button>
+      </div>
 
       <button onClick={handleFlipAll} >
         <img className='cellier__cartes--iconeRotation' src={iconeFlip} alt="tourner toutes les cartes du cellier" />
