@@ -1,24 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
-import './Cellier.css';
-import imageBouteille from '../../img/AlbertBichot-Chablis.png';
-import iconeAjouter from '../../img/icone-ajout.svg';
-import iconeModifier from '../../img/icone-modifier.svg';
-import iconeSupprimer from '../../img/icone-supprimer.svg';
-import iconeInfos from '../../img/icone-infos.svg';
-import iconeNbrBouteille from '../../img/icone-nbr-bouteille.svg';
-import Modal from '../Modal/Modal';
-import logoSaq from '../../img/logo-saq-no-text.png';
-import bouteillePerso from '../../img/bouteille-perso.png';
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import "./Cellier.css";
+import imageBouteille from "../../img/AlbertBichot-Chablis.png";
+import iconeAjouter from "../../img/icone-ajout.svg";
+import iconeModifier from "../../img/icone-modifier.svg";
+import iconeSupprimer from "../../img/icone-supprimer.svg";
+import iconeInfos from "../../img/icone-infos.svg";
+import iconeNbrBouteille from "../../img/icone-nbr-bouteille.svg";
+import Modal from "../Modal/Modal";
+import logoSaq from "../../img/logo-saq-no-text.png";
+import bouteillePerso from "../../img/bouteille-perso.png";
 import ModalInfos from "../ModalInfos/ModalInfos";
 import "../ModalInfos/ModalInfos.css";
 import iconeFlip from "../../img/icone-flip.svg";
 
-
-
 export default function CellierShow() {
   const navigate = useNavigate();
   const [cellier, setCellier] = useState({});
+  const [clickCountType, setClickCountType] = useState(1);
+  const [clickCountQuantite, setClickCountQuantite] = useState(1);
+  const [clickCountMillesime, setClickCountMillesime] = useState(1);
   const [dialog, setDialog] = useState({
     message: "",
     isLoading: false,
@@ -34,16 +35,14 @@ export default function CellierShow() {
       message,
       isLoading,
       produit,
-    })
-  }
+    });
+  };
   const [confirmationMessage, setConfirmationMessage] = useState({
     display: false,
     message: "",
   });
   const [rechercheValeur, setRechercheValeur] = useState(""); // ajout d'un nouvel état pour stocker la recherche de l'utilisateur
   const [flipAll, setFlipAll] = useState(false); //ajout d'un nouvel afin de retourner toutes les cartes du cellier
-
-
 
   useEffect(() => {
     fetchCellier();
@@ -59,35 +58,54 @@ export default function CellierShow() {
       },
     });
     const data = await response.json();
-    console.log(data);
-  
+
     switch (filtre) {
       case "type":
-        data.bouteilles.sort((a, b) => {
-          return a.type_id - b.type_id;
-        });
-        setCellier(data);
+        if (clickCountType === 1) {
+          data.bouteilles.sort((a, b) => {
+            return a.type_id - b.type_id;
+          });
+          setCellier(data);
+        } else if (clickCountType === 2) {
+          data.bouteilles.sort((a, b) => {
+            return b.type_id - a.type_id;
+          });
+          setCellier(data);
+        }
         break;
-  
+
       case "quantite":
-        data.bouteilles.sort((a, b) => {
-          return b.pivot.quantite - a.pivot.quantite;
-        });
-        setCellier(data);
+        if (clickCountQuantite === 1) {
+          data.bouteilles.sort((a, b) => {
+            return b.pivot.quantite - a.pivot.quantite;
+          });
+          setCellier(data);
+        } else if (clickCountQuantite === 2) {
+          data.bouteilles.sort((a, b) => {
+            return a.pivot.quantite - b.pivot.quantite;
+          });
+          setCellier(data);
+        }
         break;
-  
+
       case "millesime":
-        data.bouteilles.sort((a, b) => {
-          return b.annee - a.annee;
-        });
-        setCellier(data);
+        if (clickCountMillesime === 1) {
+          data.bouteilles.sort((a, b) => {
+            return b.annee - a.annee;
+          });
+          setCellier(data);
+        } else if (clickCountMillesime === 2) {
+          data.bouteilles.sort((a, b) => {
+            return a.annee - b.annee;
+          });
+          setCellier(data);
+        }
         break;
-  
+
       default:
         setCellier(data);
     }
   };
-
 
   function showMessage(message) {
     setConfirmationMessage({
@@ -111,9 +129,6 @@ export default function CellierShow() {
     setRechercheValeur(evt.target.value);
   }
 
-
-
-
   /**
    *  Fonction qui permet d'afficher la carte pour chacune des bouteilles
    * @returns  liste des bouteilles
@@ -122,15 +137,19 @@ export default function CellierShow() {
     let listeBouteilles = null;
     if (cellier.bouteilles && cellier.bouteilles.length > 0) {
       listeBouteilles = cellier.bouteilles
-        .filter((bouteille) => { // filtre les bouteilles selon la recherche de l'utilisateur
+        .filter((bouteille) => {
+          // filtre les bouteilles selon la recherche de l'utilisateur
           const recherche = rechercheValeur.toLowerCase(); // recherche de l'utilisateur, je converti la valeur en string pour pouvoir utiliser la méthode startsWith et includes
-          const annee = bouteille.annee ? bouteille.annee.toString().toLowerCase() : "";
+          const annee = bouteille.annee
+            ? bouteille.annee.toString().toLowerCase()
+            : "";
           // const typeNom = getTypeNom(bouteille.type_id) ? getTypeNom(bouteille.type_id).toLowerCase() : "";
           // const format = bouteille.format ? bouteille.format.toString().toLowerCase() : "";
           // const pays = bouteille.pays ? bouteille.pays.toLowerCase() : "";
           // const prix = bouteille.prix ? bouteille.prix.toString().toLowerCase() : "";
 
-          return ( // retourne les bouteilles qui correspondent à la recherche
+          return (
+            // retourne les bouteilles qui correspondent à la recherche
             rechercheValeur === "" ||
             bouteille.nom.toLowerCase().includes(recherche) ||
             annee.startsWith(recherche)
@@ -145,16 +164,25 @@ export default function CellierShow() {
           return (
             <li className="" key={bouteille.id}>
               <div
-                className={`flip-container ${flip[bouteille.id] ? "hover" : ""}`}
+                className={`flip-container ${
+                  flip[bouteille.id] ? "hover" : ""
+                }`}
                 onClick={() => handleFlip(bouteille.id)}
               >
                 <div className="bouteille__carte--tourner">
                   <div className="bouteille__carte--avant bouteille__carte">
-
                     <div className="bouteille__icones">
                       {bouteille.code_saq ? (
-                        <a href={bouteille.url_saq} target="_blank" rel="noreferrer">
-                          <img className="bouteille__logoSaq" src={logoSaq} alt="Logo SAQ" />
+                        <a
+                          href={bouteille.url_saq}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <img
+                            className="bouteille__logoSaq"
+                            src={logoSaq}
+                            alt="Logo SAQ"
+                          />
                         </a>
                       ) : (
                         <img
@@ -168,31 +196,81 @@ export default function CellierShow() {
                         className="bouteille__supprimer"
                         src={iconeSupprimer}
                         alt="Supprimer la bouteille"
-                        onClick={(evt) => handleDelete(evt, bouteille.id, bouteille.nom)}
+                        onClick={(evt) =>
+                          handleDelete(evt, bouteille.id, bouteille.nom)
+                        }
                       />
                     </div>
 
-                    <img src={bouteille.code_saq ? bouteille.url_img : bouteillePerso} alt="bouteille cellier" className="bouteille__img" />
+                    <img
+                      src={
+                        bouteille.code_saq ? bouteille.url_img : bouteillePerso
+                      }
+                      alt="bouteille cellier"
+                      className="bouteille__img"
+                    />
                     <div>
                       <div className="bouteille__infos">
                         <p className="bouteille__nom">{bouteille.nom}</p>
                         <div className="bouteille__infos--quantite">
-                          <button className="bouteille__infos--bouton" value="down" onClick={(evt) => handleQuantite(evt, bouteille.id, bouteille.pivot.quantite, false)}>-</button>
+                          <button
+                            className="bouteille__infos--bouton"
+                            value="down"
+                            onClick={(evt) =>
+                              handleQuantite(
+                                evt,
+                                bouteille.id,
+                                bouteille.pivot.quantite,
+                                false
+                              )
+                            }
+                          >
+                            -
+                          </button>
                           {/* <img src={iconeNbrBouteille} alt="Nombre de bouteilles" className="icone-nbr-bouteille" />  */}
-                          <p className="bouteille__quantite">{bouteille.pivot.quantite}</p>
-                          <button className="bouteille__infos--bouton" value="up" onClick={(evt) => handleQuantite(evt, bouteille.id, bouteille.pivot.quantite, true)}>+</button>
+                          <p className="bouteille__quantite">
+                            {bouteille.pivot.quantite}
+                          </p>
+                          <button
+                            className="bouteille__infos--bouton"
+                            value="up"
+                            onClick={(evt) =>
+                              handleQuantite(
+                                evt,
+                                bouteille.id,
+                                bouteille.pivot.quantite,
+                                true
+                              )
+                            }
+                          >
+                            +
+                          </button>
                         </div>
                       </div>
-
                     </div>
                   </div>
                   <div className="bouteille__carte--arriere bouteille__carte">
-                    <p><strong>・Type:</strong> {getTypeNom(bouteille.type_id)}</p>
-                    <p><strong>・Millésime:</strong> {bouteille.annee}</p>
-                    <p><strong>・Format:</strong> {bouteille.format} ml</p>
-                    <p><strong>・Pays:</strong> {bouteille.pays}</p>
-                    <p><strong>・Prix:</strong> {bouteille.prix ? bouteille.prix : ""} $</p>
-                    <img src={iconeInfos} alt="icone infos" className="icone-infos" />
+                    <p>
+                      <strong>・Type:</strong> {getTypeNom(bouteille.type_id)}
+                    </p>
+                    <p>
+                      <strong>・Millésime:</strong> {bouteille.annee}
+                    </p>
+                    <p>
+                      <strong>・Format:</strong> {bouteille.format} ml
+                    </p>
+                    <p>
+                      <strong>・Pays:</strong> {bouteille.pays}
+                    </p>
+                    <p>
+                      <strong>・Prix:</strong>{" "}
+                      {bouteille.prix ? bouteille.prix : ""} $
+                    </p>
+                    <img
+                      src={iconeInfos}
+                      alt="icone infos"
+                      className="icone-infos"
+                    />
                   </div>
                 </div>
               </div>
@@ -224,27 +302,29 @@ export default function CellierShow() {
   }
 
   async function updateBouteilles() {
-    const token = localStorage.getItem('token');
-    return fetch('http://127.0.0.1:8000/api/cellier/' + idCellier, {
-      method: 'GET',
+    const token = localStorage.getItem("token");
+    return fetch("http://127.0.0.1:8000/api/cellier/" + idCellier, {
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setCellier(data);
       });
   }
 
   /**
- * Fonction qui permet de retourner une carte
- * @param {*} id 
- */
-  function handleFlip(id) { // prend en parametre le id de la bouteille
+   * Fonction qui permet de retourner une carte
+   * @param {*} id
+   */
+  function handleFlip(id) {
+    // prend en parametre le id de la bouteille
     // on stoppe la propagation de l'événement
-    setFlip((prevFlip) => ({ // on utilise la fonction setFlip pour modifier le state. (prevFlip est l'état précédent de flip.))
+    setFlip((prevFlip) => ({
+      // on utilise la fonction setFlip pour modifier le state. (prevFlip est l'état précédent de flip.))
       ...prevFlip, // on copie l'état précédent de flip
       [id]: !prevFlip[id], // mise à jour de la propriété avec la clé "id" en inversant la valeur précédente
     }));
@@ -265,10 +345,6 @@ export default function CellierShow() {
     }
   }
 
-
-
-
-
   /**
    *  Fonction qui permet de supprimer une bouteille
    * @param {*} evt  événement
@@ -277,9 +353,10 @@ export default function CellierShow() {
   function handleDelete(evt, id, nom) {
     evt.stopPropagation(); // on stoppe la propagation de l'événement
     setDialog({
-      message: "Êtes-vous certain de vouloir supprimer toutes les bouteilles de : ",
+      message:
+        "Êtes-vous certain de vouloir supprimer toutes les bouteilles de : ",
       isLoading: true,
-      produit: nom
+      produit: nom,
     });
     idBouteilleRef.current = id;
     nomBouteilleRef.current = nom;
@@ -295,19 +372,21 @@ export default function CellierShow() {
       fetch(url, {
         method: "DELETE",
         headers: {
-          'Content-type': 'application/json'
-        }
+          "Content-type": "application/json",
+        },
       })
         .then((response) => {
           if (!response.ok) {
-            throw new Error('une erreur est survenue');
+            throw new Error("une erreur est survenue");
           } else {
             updateBouteilles();
             showMessage(
               <span>
                 Vous avez retiré de votre cellier:
                 <br />
-                <span className="modalInfos__nom--message">{nomBouteilleRef.current}</span>
+                <span className="modalInfos__nom--message">
+                  {nomBouteilleRef.current}
+                </span>
               </span>
             );
           }
@@ -318,8 +397,7 @@ export default function CellierShow() {
     } else {
       handleDialog("", false);
     }
-  }
-
+  };
 
   function handleQuantite(evt, id, quantite, bool) {
     evt.stopPropagation(); // on stoppe la propagation de l'événement
@@ -330,24 +408,24 @@ export default function CellierShow() {
 
     quantite = parseInt(quantite, 10); // conversion la quantité en nombre entier
     if (bool == false) {
-      nouvelleQuantite = (quantite - 1);
+      nouvelleQuantite = quantite - 1;
     } else if (bool == true) {
-      nouvelleQuantite = (quantite + 1);
+      nouvelleQuantite = quantite + 1;
     }
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     let url = `//127.0.0.1:8000/api/celliers_has_bouteilles?cellier_id=${cellier_id}&bouteille_id=${bouteille_id}&quantite=${nouvelleQuantite}`;
 
     fetch(url, {
       method: "PUT",
       headers: {
-        'Content-type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      }
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('une erreur est survenue');
+          throw new Error("une erreur est survenue");
         } else {
           updateBouteilles();
         }
@@ -375,53 +453,109 @@ export default function CellierShow() {
   }
 
   function handleFilterType() {
+    setClickCountType(clickCountType + 1);
+    if (clickCountType >= 3) {
+      setClickCountType(1);
+      fetchCellier();
+    }
     const filtre = "type";
     fetchCellier(filtre);
   }
-  
+
   function handleFilterQuantite() {
+    setClickCountQuantite(clickCountQuantite + 1);
+    if (clickCountQuantite >= 3) {
+      setClickCountQuantite(1);
+      fetchCellier();
+    }
     const filtre = "quantite";
     fetchCellier(filtre);
   }
-  
+
   function handleFilterMillesime() {
+    setClickCountMillesime(clickCountMillesime + 1);
+    if (clickCountMillesime >= 3) {
+      setClickCountMillesime(1);
+      fetchCellier();
+    }
     const filtre = "millesime";
     fetchCellier(filtre);
   }
-
 
   return (
     <div className="container">
       <div className="recherche">
         <h1>Mon cellier</h1>
         <div className="recherche__wrapper">
-          <input type="text" name="recherche" id="recherche" placeholder="&#x1F50E;&#xFE0E;" value={rechercheValeur} onChange={handleRecherche} />
+          <input
+            type="text"
+            name="recherche"
+            id="recherche"
+            placeholder="&#x1F50E;&#xFE0E;"
+            value={rechercheValeur}
+            onChange={handleRecherche}
+          />
           {rechercheValeur && (
-            <button className="recherche__nettoyer" onClick={handleNettoyerRecherche}>&#x2715;
+            <button
+              className="recherche__nettoyer"
+              onClick={handleNettoyerRecherche}
+            >
+              &#x2715;
             </button>
-            )}
-          <img className="recherche__icone" src="./img/magnifying-glass-11-svgrepo-com.svg" alt="" />
+          )}
+          <img
+            className="recherche__icone"
+            src="./img/magnifying-glass-11-svgrepo-com.svg"
+            alt=""
+          />
         </div>
       </div>
       <div className="filtre">
-        <button className="filtre__btn" onClick={handleFilterType}>Type</button>
-        <button className="filtre__btn" onClick={handleFilterMillesime}>Millésime</button>
-        <button className="filtre__btn" onClick={handleFilterQuantite}>Quantité</button>
+        <button className="filtre__btn" onClick={handleFilterType}>
+          Type
+        </button>
+        <button className="filtre__btn" onClick={handleFilterMillesime}>
+          Millésime
+        </button>
+        <button className="filtre__btn" onClick={handleFilterQuantite}>
+          Quantité
+        </button>
       </div>
 
-      <button onClick={handleFlipAll} >
-        <img className='cellier__cartes--iconeRotation' src={iconeFlip} alt="tourner toutes les cartes du cellier" />
+      <button onClick={handleFlipAll}>
+        <img
+          className="cellier__cartes--iconeRotation"
+          src={iconeFlip}
+          alt="tourner toutes les cartes du cellier"
+        />
       </button>
 
-      <ul className="bouteille">
-        {afficherBouteilles()}
-      </ul>
+      <ul className="bouteille">{afficherBouteilles()}</ul>
       <div className="bouteille__ajouter">
-        <Link to={'/bouteille/create/' + idCellier}><img className='bouteille__ajouter--hover' src={iconeAjouter} alt="" /></Link>
+        <Link to={"/bouteille/create/" + idCellier}>
+          <img
+            className="bouteille__ajouter--hover"
+            src={iconeAjouter}
+            alt=""
+          />
+        </Link>
       </div>
-      <Link to="/Cellier" className="cellier__btn--style ajout__btn--position cellier__btn--retour">Retour à la liste des celliers</Link>
-      {dialog.isLoading && <Modal onDialog={confirmation} message={dialog.message} produit={dialog.produit} />}
-      {confirmationMessage.display && (<ModalInfos message={confirmationMessage.message} />)}
+      <Link
+        to="/Cellier"
+        className="cellier__btn--style ajout__btn--position cellier__btn--retour"
+      >
+        Retour à la liste des celliers
+      </Link>
+      {dialog.isLoading && (
+        <Modal
+          onDialog={confirmation}
+          message={dialog.message}
+          produit={dialog.produit}
+        />
+      )}
+      {confirmationMessage.display && (
+        <ModalInfos message={confirmationMessage.message} />
+      )}
     </div>
   );
 }
