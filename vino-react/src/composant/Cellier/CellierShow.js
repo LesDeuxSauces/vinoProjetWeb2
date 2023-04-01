@@ -43,10 +43,36 @@ export default function CellierShow() {
   });
   const [rechercheValeur, setRechercheValeur] = useState(""); // ajout d'un nouvel état pour stocker la recherche de l'utilisateur
   const [flipAll, setFlipAll] = useState(false); //ajout d'un nouvel afin de retourner toutes les cartes du cellier
+  const [bouteillesFiltrees, setBouteillesFiltrees] = useState([]); // ajout d'un nouvel état pour stocker les bouteilles filtrées
+
+
 
   useEffect(() => {
     fetchCellier();
   }, [id]);
+
+  useEffect(() => {
+    if (cellier.bouteilles && cellier.bouteilles.length > 0) { // vérifie si le cellier contient des bouteilles
+      const bouteillesfiltreesUtilisateur = cellier.bouteilles.filter((bouteille) => {
+        // filtre les bouteilles selon la recherche de l'utilisateur
+        const recherche = rechercheValeur.toLowerCase();
+        const annee = bouteille.annee
+          ? bouteille.annee.toString().toLowerCase()
+          : "";
+
+        return (
+          // retourne les bouteilles qui correspondent à la recherche
+          rechercheValeur === "" ||
+          bouteille.nom.toLowerCase().includes(recherche) ||
+          annee.startsWith(recherche)
+        );
+      });
+      setBouteillesFiltrees(bouteillesfiltreesUtilisateur); 
+    } else {
+      setBouteillesFiltrees([]);
+    }
+  }, [cellier.bouteilles, rechercheValeur]);
+
 
   const fetchCellier = async (filtre) => {
     const token = localStorage.getItem("token");
@@ -136,152 +162,162 @@ export default function CellierShow() {
   function afficherBouteilles() {
     let listeBouteilles = null;
     if (cellier.bouteilles && cellier.bouteilles.length > 0) {
-      listeBouteilles = cellier.bouteilles
-        .filter((bouteille) => {
-          // filtre les bouteilles selon la recherche de l'utilisateur
-          const recherche = rechercheValeur.toLowerCase(); // recherche de l'utilisateur, je converti la valeur en string pour pouvoir utiliser la méthode startsWith et includes
-          const annee = bouteille.annee
-            ? bouteille.annee.toString().toLowerCase()
-            : "";
-          // const typeNom = getTypeNom(bouteille.type_id) ? getTypeNom(bouteille.type_id).toLowerCase() : "";
-          // const format = bouteille.format ? bouteille.format.toString().toLowerCase() : "";
-          // const pays = bouteille.pays ? bouteille.pays.toLowerCase() : "";
-          // const prix = bouteille.prix ? bouteille.prix.toString().toLowerCase() : "";
+      const bouteillesFiltrees = cellier.bouteilles.filter((bouteille) => {
+        // filtre les bouteilles selon la recherche de l'utilisateur
+        const recherche = rechercheValeur.toLowerCase(); // recherche de l'utilisateur, je converti la valeur en string pour pouvoir utiliser la méthode startsWith et includes
+        const annee = bouteille.annee
+          ? bouteille.annee.toString().toLowerCase()
+          : "";
+        // const typeNom = getTypeNom(bouteille.type_id) ? getTypeNom(bouteille.type_id).toLowerCase() : "";
+        // const format = bouteille.format ? bouteille.format.toString().toLowerCase() : "";
+        // const pays = bouteille.pays ? bouteille.pays.toLowerCase() : "";
+        // const prix = bouteille.prix ? bouteille.prix.toString().toLowerCase() : "";
 
-          return (
-            // retourne les bouteilles qui correspondent à la recherche
-            rechercheValeur === "" ||
-            bouteille.nom.toLowerCase().includes(recherche) ||
-            annee.startsWith(recherche)
-            // prix.startsWith(recherche) ||
-            // typeNom.startsWith(recherche) ||
-            // format.startsWith(recherche) ||
-            // pays.startsWith(recherche)
-          );
-        })
-        .map((bouteille) => {
-          // console.log(bouteille);
-          return (
-            <li className="" key={bouteille.id}>
-              <div
-                className={`flip-container ${
-                  flip[bouteille.id] ? "hover" : ""
-                }`}
-                onClick={() => handleFlip(bouteille.id)}
-              >
-                <div className="bouteille__carte--tourner">
-                  <div className="bouteille__carte--avant bouteille__carte">
-                    <div className="bouteille__icones">
-                      {bouteille.code_saq ? (
-                        <a
-                          href={bouteille.url_saq}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
+        return (
+          // retourne les bouteilles qui correspondent à la recherche
+          rechercheValeur === "" ||
+          bouteille.nom.toLowerCase().includes(recherche) ||
+          annee.startsWith(recherche)
+          // prix.startsWith(recherche) ||
+          // typeNom.startsWith(recherche) ||
+          // format.startsWith(recherche) ||
+          // pays.startsWith(recherche)
+        );
+      })
+      if (bouteillesFiltrees && bouteillesFiltrees.length > 0) {
+        listeBouteilles = (
+          <>
+            {bouteillesFiltrees.map((bouteille) => {
+
+              // console.log(bouteille);
+              return (
+                <li className="" key={bouteille.id}>
+                  <div
+                    className={`flip-container ${flip[bouteille.id] ? "hover" : ""
+                      }`}
+                    onClick={() => handleFlip(bouteille.id)}
+                  >
+                    <div className="bouteille__carte--tourner">
+                      <div className="bouteille__carte--avant bouteille__carte">
+                        <div className="bouteille__icones">
+                          {bouteille.code_saq ? (
+                            <a
+                              href={bouteille.url_saq}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <img
+                                className="bouteille__logoSaq"
+                                src={logoSaq}
+                                alt="Logo SAQ"
+                              />
+                            </a>
+                          ) : (
+                            <img
+                              className="bouteille__modifier"
+                              src={iconeModifier}
+                              alt="Modifier la bouteille"
+                              onClick={(evt) => handleModifier(evt, bouteille.id)}
+                            />
+                          )}
                           <img
-                            className="bouteille__logoSaq"
-                            src={logoSaq}
-                            alt="Logo SAQ"
+                            className="bouteille__supprimer"
+                            src={iconeSupprimer}
+                            alt="Supprimer la bouteille"
+                            onClick={(evt) =>
+                              handleDelete(evt, bouteille.id, bouteille.nom)
+                            }
                           />
-                        </a>
-                      ) : (
-                        <img
-                          className="bouteille__modifier"
-                          src={iconeModifier}
-                          alt="Modifier la bouteille"
-                          onClick={(evt) => handleModifier(evt, bouteille.id)}
-                        />
-                      )}
-                      <img
-                        className="bouteille__supprimer"
-                        src={iconeSupprimer}
-                        alt="Supprimer la bouteille"
-                        onClick={(evt) =>
-                          handleDelete(evt, bouteille.id, bouteille.nom)
-                        }
-                      />
-                    </div>
-
-                    <img
-                      src={
-                        bouteille.code_saq ? bouteille.url_img : bouteillePerso
-                      }
-                      alt="bouteille cellier"
-                      className="bouteille__img"
-                    />
-                    <div>
-                      <div className="bouteille__infos">
-                        <p className="bouteille__nom">{bouteille.nom}</p>
-                        <div className="bouteille__infos--quantite">
-                          <button
-                            className="bouteille__infos--bouton"
-                            value="down"
-                            onClick={(evt) =>
-                              handleQuantite(
-                                evt,
-                                bouteille.id,
-                                bouteille.pivot.quantite,
-                                false
-                              )
-                            }
-                          >
-                            -
-                          </button>
-                          {/* <img src={iconeNbrBouteille} alt="Nombre de bouteilles" className="icone-nbr-bouteille" />  */}
-                          <p className="bouteille__quantite">
-                            {bouteille.pivot.quantite}
-                          </p>
-                          <button
-                            className="bouteille__infos--bouton"
-                            value="up"
-                            onClick={(evt) =>
-                              handleQuantite(
-                                evt,
-                                bouteille.id,
-                                bouteille.pivot.quantite,
-                                true
-                              )
-                            }
-                          >
-                            +
-                          </button>
                         </div>
+
+                        <img
+                          src={
+                            bouteille.code_saq ? bouteille.url_img : bouteillePerso
+                          }
+                          alt="bouteille cellier"
+                          className="bouteille__img"
+                        />
+                        <div>
+                          <div className="bouteille__infos">
+                            <p className="bouteille__nom">{bouteille.nom}</p>
+                            <div className="bouteille__infos--quantite">
+                              <button
+                                className="bouteille__infos--bouton"
+                                value="down"
+                                onClick={(evt) =>
+                                  handleQuantite(
+                                    evt,
+                                    bouteille.id,
+                                    bouteille.pivot.quantite,
+                                    false
+                                  )
+                                }
+                              >
+                                -
+                              </button>
+                              {/* <img src={iconeNbrBouteille} alt="Nombre de bouteilles" className="icone-nbr-bouteille" />  */}
+                              <p className="bouteille__quantite">
+                                {bouteille.pivot.quantite}
+                              </p>
+                              <button
+                                className="bouteille__infos--bouton"
+                                value="up"
+                                onClick={(evt) =>
+                                  handleQuantite(
+                                    evt,
+                                    bouteille.id,
+                                    bouteille.pivot.quantite,
+                                    true
+                                  )
+                                }
+                              >
+                                +
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="bouteille__carte--arriere bouteille__carte">
+                        <p>
+                          <strong>・Type:</strong> {getTypeNom(bouteille.type_id)}
+                        </p>
+                        <p>
+                          <strong>・Millésime:</strong> {bouteille.annee}
+                        </p>
+                        <p>
+                          <strong>・Format:</strong> {bouteille.format} ml
+                        </p>
+                        <p>
+                          <strong>・Pays:</strong> {bouteille.pays}
+                        </p>
+                        <p>
+                          <strong>・Prix:</strong>{" "}
+                          {bouteille.prix ? bouteille.prix : ""} $
+                        </p>
+                        <img
+                          src={iconeInfos}
+                          alt="icone infos"
+                          className="icone-infos"
+                        />
                       </div>
                     </div>
                   </div>
-                  <div className="bouteille__carte--arriere bouteille__carte">
-                    <p>
-                      <strong>・Type:</strong> {getTypeNom(bouteille.type_id)}
-                    </p>
-                    <p>
-                      <strong>・Millésime:</strong> {bouteille.annee}
-                    </p>
-                    <p>
-                      <strong>・Format:</strong> {bouteille.format} ml
-                    </p>
-                    <p>
-                      <strong>・Pays:</strong> {bouteille.pays}
-                    </p>
-                    <p>
-                      <strong>・Prix:</strong>{" "}
-                      {bouteille.prix ? bouteille.prix : ""} $
-                    </p>
-                    <img
-                      src={iconeInfos}
-                      alt="icone infos"
-                      className="icone-infos"
-                    />
-                  </div>
-                </div>
-              </div>
-            </li>
-          );
-        });
-    } else {
-      listeBouteilles = <p>Aucune bouteille disponible</p>;
+                </li>
+              );
+            })}
+          </>
+        );
+      } else {
+        listeBouteilles = <p>Aucune bouteille disponible</p>;
+      }
+
     }
+    console.log(listeBouteilles);
     return listeBouteilles;
+
   }
+
+
 
   /**
    *  Fonction qui permet de retourner le nom du type de vin
@@ -522,15 +558,18 @@ export default function CellierShow() {
         </button>
       </div>
 
-      <button onClick={handleFlipAll}>
-        <img
-          className="cellier__cartes--iconeRotation"
-          src={iconeFlip}
-          alt="tourner toutes les cartes du cellier"
-        />
-      </button>
+      {bouteillesFiltrees && bouteillesFiltrees.length > 0 && (
+        <button onClick={handleFlipAll}>
+          <img
+            className="cellier__cartes--iconeRotation"
+            src={iconeFlip}
+            alt="tourner toutes les cartes du cellier"
+          />
+        </button>
+      )}
 
       <ul className="bouteille">{afficherBouteilles()}</ul>
+
       <div className="bouteille__ajouter">
         <Link to={"/bouteille/create/" + idCellier}>
           <img
