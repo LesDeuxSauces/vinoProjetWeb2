@@ -82,6 +82,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 // Routes Publique, pour avoir pays, types et les bouteilles de la SAQ
 Route::get('/bouteillessaq',[BouteilleController::class, 'bouteillesSAQ']);
 Route::get('/types', [BouteilleController::class, 'afficherTypes']);
+Route::get('bouteillescompletes', [BouteilleController::class, 'index']);
+Route::get('cellierscompletes', [CellierController::class, 'index']);
 
 //Route pour le scraping de la SAQ
 Route::post('scraping',[BouteilleController::class,'ajouterBouteilleSAQ']);
+Route::get('misajoursaq',[BouteilleController::class,'misAjourBD']);

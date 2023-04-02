@@ -14,7 +14,10 @@ use App\Models\CelliersHasBouteilles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-
+use Symfony\Component\Process\Exception\ProcessFailedException;
+// use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Process;
+use Symfony\Component\Console\Output\Output;
 
 class BouteilleController extends Controller
 {
@@ -156,22 +159,22 @@ class BouteilleController extends Controller
         'status' => 400,
         'message' => 'La modification de la bouteille avec un code_saq existant n\'est pas autorisée'
       ], 400);
-    } 
+    }
 
     $validation = Validator::make($request->all(), [
 
       'nom' => 'required',
-    
+
 
     ]);
-    if($validation->fails()){
+    if ($validation->fails()) {
       return response()->json([
 
-        'status'=>422,
-        'errors'=>$validation->messages(),
-        'botella'=>$bouteille,
-        'request'=>$request
-      ],422);
+        'status' => 422,
+        'errors' => $validation->messages(),
+        'botella' => $bouteille,
+        'request' => $request
+      ], 422);
     } else {
 
       $bouteille->update([
@@ -277,5 +280,36 @@ class BouteilleController extends Controller
     $bouteillesSAQ = Bouteille::whereNotNull('code_saq')->get();
     return response()->json(['bouteillessaq' => $bouteillesSAQ]);
   }
-}
+  /**
+   * avoir uniquement les bouteilles de la SAQ
+   */
+  public function misAjourBD()
+  {
+    // $path = '/Users/rosemberg/Desktop/projet-web2/code_projet/vinoProjetWeb2/vino-Laravel/public/scraping';
+    $path = public_path('scraping');
+  //  $process =  Process::path($path)->run('du -h scraping.js')->output();
+   $process =  Process::path($path)->timeout(60)->run('node scraping.js')->output();
+    
+    // $command = ' du -h'. $path;
+    // echo $command;
+    // $process = new Process(['du -h',$path]);
+    // $process->run();
 
+    // if(!$process->isSuccessful()){
+    //   throw new ProcessFailedException($process);
+    // } else {
+    //   return $process->getOutput();
+    // }
+    // echo $process->getOutput();
+    // $resultat = json_decode($process);
+    $resultat = $process;
+
+   
+    // return $path;
+    return response()->json($resultat);
+   
+    
+    
+
+  }
+}
