@@ -73,14 +73,37 @@ class UserController extends Controller
 
         return response()->json($celliers);
     }
+
     
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
-        // $user = User::find($user->id);
-        $user->update($request->all());
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+            'password' => 'required|string|min:6',
+        ],[
+            'name.required' => 'Le nom est obligatoire',
+            'email.required' => 'Le courriel est obligatoire',
+            'email.regex' => 'Le courriel doit être une adresse email valide',
+            'email.unique' => 'Ce courriel est déjà utilisé',
+            'password.required' => 'Le mot de passe est obligatoire',
+            'password.min' => 'Le mot de passe doit contenir au moins 6 caractères',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $user = User::find($request->user_id);
+        // $user->update($request->all());
+        $user->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+        ]);
 
         return response()->json([
             'user' => $user,
