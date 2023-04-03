@@ -61,11 +61,11 @@
 }
 
 .cellier__infos--quantite {
-    font-size: 20px;
-    color: var(--blanc-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  font-size: 20px;
+  color: var(--blanc-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cellier__infos--nom {
@@ -94,6 +94,12 @@
   width: 60px;
 }
 
+.cellier__ajouter:hover {
+  transform: scale(1.1);
+  transition-duration: 0.2s;
+  cursor: pointer;
+}
+
 .cellier__ajouter_style:hover {
   transform: scale(1.1);
   transition-duration: 0.2s;
@@ -116,6 +122,19 @@
 .cellier__cartes--iconeRotation:hover {
   transform: scale(1.1);
   transition-duration: 0.2s;
+}
+
+.cellier__iconeGrp--position {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cellier__cartes--iconeBalais {
+  width: 45px;
+  margin-right: 15px;
+  margin-bottom: 15px;
 }
 
 /******************/
@@ -224,7 +243,7 @@
 .bouteille__quantite {
   font-size: 16px;
   padding: 5px;
-margin: 2px;
+  margin: 2px;
 }
 
 .bouteille p {
@@ -257,11 +276,10 @@ margin: 2px;
   border-radius: 5px;
 }
 
-.bouteille__infos--bouton:hover
-{
+.bouteille__infos--bouton:hover {
   background-color: var(--rouge-color);
   color: var(--blanc-color);
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .bouteille__ajouter {
@@ -281,8 +299,8 @@ margin: 2px;
 }
 
 .bouteille__modifier {
-  width: 24px;
-  height: 24px;
+  width: 29px;
+  height: auto;
   cursor: pointer;
 }
 

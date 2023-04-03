@@ -13,6 +13,7 @@ import bouteillePerso from "../../img/bouteille-perso.png";
 import ModalInfos from "../ModalInfos/ModalInfos";
 import "../ModalInfos/ModalInfos.css";
 import iconeFlip from "../../img/icone-flip.svg";
+import iconeBalai from "../../img/icone-balai.svg";
 
 export default function CellierShow() {
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ export default function CellierShow() {
   const [rechercheValeur, setRechercheValeur] = useState(""); // ajout d'un nouvel état pour stocker la recherche de l'utilisateur
   const [flipAll, setFlipAll] = useState(false); //ajout d'un nouvel afin de retourner toutes les cartes du cellier
   const [bouteillesFiltrees, setBouteillesFiltrees] = useState([]); // ajout d'un nouvel état pour stocker les bouteilles filtrées
+  const [iconeBalaiVisible, setIconeBalaiVisible] = useState(false); // ajout d'un nouvel état pour gerer l'affichage de l'icone du balai afin de reinitialiser les tri / recherche
 
 
 
@@ -67,11 +69,12 @@ export default function CellierShow() {
           annee.startsWith(recherche)
         );
       });
-      setBouteillesFiltrees(bouteillesfiltreesUtilisateur); 
+      setBouteillesFiltrees(bouteillesfiltreesUtilisateur);
     } else {
       setBouteillesFiltrees([]);
     }
   }, [cellier.bouteilles, rechercheValeur]);
+
 
 
   const fetchCellier = async (filtre) => {
@@ -154,6 +157,12 @@ export default function CellierShow() {
   function handleRecherche(evt) {
     setRechercheValeur(evt.target.value);
   }
+
+
+  const rechargerPage = () => { // fonction qui permet de recharger la page suite au tri
+    window.location.reload();
+  };
+
 
   /**
    *  Fonction qui permet d'afficher la carte pour chacune des bouteilles
@@ -312,7 +321,7 @@ export default function CellierShow() {
       }
 
     }
-    console.log(listeBouteilles);
+    // console.log(listeBouteilles);
     return listeBouteilles;
 
   }
@@ -428,7 +437,7 @@ export default function CellierShow() {
           }
         })
         .catch((evt) => {
-          console.log(evt);
+          // console.log(evt);
         });
     } else {
       handleDialog("", false);
@@ -467,7 +476,7 @@ export default function CellierShow() {
         }
       })
       .catch((evt) => {
-        console.log(evt);
+        // console.log(evt);
       });
   }
 
@@ -518,6 +527,8 @@ export default function CellierShow() {
     fetchCellier(filtre);
   }
 
+  console.log(iconeBalaiVisible);
+
   return (
     <div className="container">
       <div className="recherche">
@@ -547,26 +558,42 @@ export default function CellierShow() {
         </div>
       </div>
       <div className="filtre">
-        <button className="filtre__btn" onClick={handleFilterType}>
+        <button className="filtre__btn" onClick={() => { handleFilterType(); setIconeBalaiVisible(true); }}>
           Type
         </button>
-        <button className="filtre__btn" onClick={handleFilterMillesime}>
+        <button className="filtre__btn" onClick={() => { handleFilterMillesime(); setIconeBalaiVisible(true); }}>
           Millésime
         </button>
-        <button className="filtre__btn" onClick={handleFilterQuantite}>
+        <button className="filtre__btn" onClick={() => { handleFilterQuantite(); setIconeBalaiVisible(true); }}>
           Quantité
         </button>
+
       </div>
 
-      {bouteillesFiltrees && bouteillesFiltrees.length > 0 && (
-        <button onClick={handleFlipAll}>
+
+      <div className="cellier__iconeGrp--position">
+        {bouteillesFiltrees && bouteillesFiltrees.length > 0 && (
+          <button onClick={handleFlipAll}>
+            <img
+              className="cellier__cartes--iconeRotation"
+              src={iconeFlip}
+              alt="tourner toutes les cartes du cellier"
+            />
+          </button>
+        )}
+
+        {(iconeBalaiVisible || rechercheValeur !== "" ) && (
           <img
-            className="cellier__cartes--iconeRotation"
-            src={iconeFlip}
-            alt="tourner toutes les cartes du cellier"
+            className="bouteille__supprimer cellier__cartes--iconeBalais"
+            src={iconeBalai}
+            alt="Supprimer la bouteille"
+            onClick={() => rechargerPage()}
           />
-        </button>
-      )}
+        )}
+
+      </div>
+
+
 
       <ul className="bouteille">{afficherBouteilles()}</ul>
 
