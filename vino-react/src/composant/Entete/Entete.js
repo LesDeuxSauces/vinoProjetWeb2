@@ -11,6 +11,31 @@ import { ReactComponent as BurgerIcon } from "../../img/menu_burger_blanc.svg";
 import React, { useState, useEffect, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 
+/**
+ *  Hook qui permet de détecter le clic en dehors d'un élément
+ * @param {*} ref  // référence de l'élément
+ * @param {*} handler  // fonction qui sera appelée lors du clic en dehors de l'élément
+ */
+function useOnClickOutside(ref, handler) {
+  useEffect(() => {
+    const listener = (event) => {
+      if (!ref.current || ref.current.contains(event.target)) {
+        return;
+      }
+      handler(event);
+    };
+
+    document.addEventListener("mousedown", listener);
+    document.addEventListener("touchstart", listener);
+
+    return () => {
+      document.removeEventListener("mousedown", listener);
+      document.removeEventListener("touchstart", listener);
+    };
+  }, [ref, handler]);
+}
+
+
 function DropdownItem(props) {
     const [activeMenu, setActiveMenu] = useState("main");
     return (
@@ -93,9 +118,15 @@ export default function Entete(props) {
 
     function NavItem(props) {
         const [open, setOpen] = useState(false);
+        const navItemRef = useRef(); // référence pour le nav-item
+
+      
+        useOnClickOutside(navItemRef, () => { // détecter le clic en dehors de l'élément
+          setOpen(false);
+        });
 
         return (
-            <li className="nav-item">
+            <li className="nav-item" ref={navItemRef}>
                 <a href="#" className="icon-buttonMain" onClick={() => setOpen(!open)}>
                     {props.icon}
                 </a>

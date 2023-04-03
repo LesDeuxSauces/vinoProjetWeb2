@@ -144,6 +144,8 @@ a {
 
 .icon-buttonMain:hover {
   filter: brightness(1.2);
+  transform: scale(1.1);
+  transition-duration: 0.2s;
 }
 
 .icon-buttonMain svg { 
