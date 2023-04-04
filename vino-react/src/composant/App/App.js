@@ -19,7 +19,8 @@ import BouteilleUpdate from '../Bouteille/BouteilleUpdate';
 import { action as logoutAction } from '../Logout';
 import { checkAuthLoader, checkAuthConnexionLoader } from '../Auth';
 import EspaceMembre from '../EspaceMembre/EspaceMembre';
-import Admin from '../Admin/Admin'
+import Admin from '../Admin/Admin';
+import '@fortawesome/fontawesome-free/css/all.css';
 
 const router = createBrowserRouter([
   { path: '/', element: <Accueil />, errorElement: <PageErreur /> },

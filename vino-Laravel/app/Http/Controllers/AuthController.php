@@ -18,7 +18,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+            'email' => 'required|unique:users|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
             'password' => 'required|string|min:6',
         ],[
             'name.required' => 'Le nom est obligatoire',
@@ -48,11 +48,11 @@ class AuthController extends Controller
     public function authentification(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|max:255',
+            'email' => 'required|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/|max:255',
             'password' => 'required|string|min:6',
         ],[
             'email.required' => 'Le courriel est obligatoire',
-            'email.email' => 'Le courriel doit être un format courriel valide',
+            'email.regex' => 'Le courriel doit être une adresse email valide',
             'password.required' => 'Le mot de passe est obligatoire',
             'password.password' => 'Mot de passe invalide',
             'password.min' => 'Le mot de passe doit faire au moins 6 caractères'

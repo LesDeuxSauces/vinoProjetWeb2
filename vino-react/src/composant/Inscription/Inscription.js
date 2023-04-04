@@ -66,7 +66,7 @@ export default function Inscription(props) {
           </Link>
           <div className="inscription__titre">Créer un compte</div>
         </div>
-        {erreur && (
+        {/* {erreur && (
           <div>
             <ul className="ul-erreurs">
               {Object.values(erreur).map((err) => (
@@ -76,7 +76,7 @@ export default function Inscription(props) {
               ))}
             </ul>
           </div>
-        )}
+        )} */}
         <form className="inscription__form" onSubmit={submitHandler}>
           <div className="form__group field">
             <input
@@ -89,6 +89,7 @@ export default function Inscription(props) {
               onChange={nameChangeHandler}
             />
             <label className="form__label">Nom</label>
+            {erreur && (<p className="erreurs">{erreur.name}</p>)}
           </div>
           <div className="form__group field">
             <input
@@ -101,6 +102,7 @@ export default function Inscription(props) {
               onChange={emailChangeHandler}
             />
             <label className="form__label">Courriel</label>
+            {erreur && (<p className="erreurs">{erreur.email}</p>)}
           </div>
           <div className="form__group field">
             <input
@@ -108,11 +110,12 @@ export default function Inscription(props) {
               className="form__field"
               id="password"
               name="password"
-              type="text"
+              type="password"
               value={password}
               onChange={passwordChangeHandler}
             />
             <label className="form__label">Mot de passe</label>
+            {erreur && (<p className="erreurs">{erreur.password}</p>)}
           </div>
           <div className="inscription__bouton">
             <button className="inscription__bouton--btn" type="submit">

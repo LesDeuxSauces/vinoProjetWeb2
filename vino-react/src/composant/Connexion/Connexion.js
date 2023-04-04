@@ -80,7 +80,7 @@ export default function Connexion() {
           </Link>
           <div className="connexion__titre">Connexion</div>
         </div>
-        {erreur && (
+        {/* {erreur && (
           <div>
             <ul className="ul-erreurs">
               {Object.values(erreur).map((err) => (
@@ -90,8 +90,9 @@ export default function Connexion() {
               ))}
             </ul>
           </div>
-        )}
+        )} */}
         <form className="connexion__form" onSubmit={submitHandler}>
+        {erreur && (<p className="erreurs">{erreur.message}</p>)}
           <div className="form__group field">
             <input
               placeholder="Email"
@@ -103,6 +104,7 @@ export default function Connexion() {
               onChange={emailChangeHandler}
             />
             <label className="form__label">Courriel</label>
+            {erreur && (<p className="erreurs">{erreur.email}</p>)}
           </div>
           <div className="form__group field">
             <input
@@ -115,6 +117,7 @@ export default function Connexion() {
               onChange={passwordChangeHandler}
             />
             <label className="form__label">Mot de passe</label>
+            {erreur && (<p className="erreurs">{erreur.password}</p>)}
           </div>
 
           <div className="connexion__bouton">
