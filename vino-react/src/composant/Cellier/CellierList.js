@@ -26,6 +26,8 @@ export default function CellierList(props) {
     display: false,
     message: "",
   });
+  const [dataCharge, setDataCharge] = useState(false); // création d'un etat pour indiquer si les données sont chargées
+
 
 
 
@@ -71,6 +73,7 @@ export default function CellierList(props) {
 
     // console.log("cellier:", celliersAvecQuantite);
     setCelliers(celliersAvecQuantite);
+    setDataCharge(true); // indique que les données sont chargées
   }
 
   /**
@@ -196,11 +199,16 @@ export default function CellierList(props) {
       <div className="cellier__titre">
         <h1>Mes celliers</h1>
       </div>
-      {celliers.length > 0 ? (
+
+      {dataCharge && celliers.length > 0 ? (
         <ul className="cellier">{afficheCelliers()}</ul>
-      ) : (
+      ) : dataCharge && celliers.length === 0 ? (
         <p>Aucun cellier trouvé</p>
+      ) : (
+        <p>Chargement des celliers...</p>
       )}
+
+
       <div className="cellier__ajouter">
         <Link to="/cellier/create">
           <img src={iconeAjout} alt="Ajouter" />
