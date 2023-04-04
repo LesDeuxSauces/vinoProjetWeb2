@@ -34,6 +34,7 @@ class UserController extends Controller
         foreach ($celliers as $cellier) {
             $bouteillesInCellier = CelliersHasBouteilles::join('bouteilles', 'celliers_has_bouteilles.bouteille_id', '=', 'bouteilles.id')
                 ->where('celliers_has_bouteilles.cellier_id', $cellier)
+                ->where('celliers_has_bouteilles.quantite', ">", 0)
                 ->select('bouteilles.*')
                 ->get();
             $bouteilles = $bouteilles->concat($bouteillesInCellier);
