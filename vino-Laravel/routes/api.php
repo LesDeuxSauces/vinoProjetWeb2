@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
   Route::get('/celliersQuantite', [UserController::class, 'UserCelliersQuantite']);
   Route::delete('/user/{user}', [UserController::class, 'destroy']);
   Route::put('/user/{user}', [UserController::class, 'update']);
+  Route::get('/user/{user}', [UserController::class, 'index']);
   Route::get('/user/{user}/bouteilles', [UserController::class, 'getUserBouteilles']);
   Route::get('/user/{user}/archives', [UserController::class, 'getUserArchives']);
 });

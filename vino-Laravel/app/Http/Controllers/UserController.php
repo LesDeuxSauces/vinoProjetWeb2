@@ -18,7 +18,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $user_id = auth()->user()->id;
+        $user = User::where('id', $user_id)->get();
+        return response()->json($user);
     }
 
     /**
@@ -82,33 +84,34 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+            'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
             'password' => 'required|string|min:6',
         ],[
             'name.required' => 'Le nom est obligatoire',
             'email.required' => 'Le courriel est obligatoire',
             'email.regex' => 'Le courriel doit être une adresse email valide',
-            'email.unique' => 'Ce courriel est déjà utilisé',
             'password.required' => 'Le mot de passe est obligatoire',
             'password.min' => 'Le mot de passe doit contenir au moins 6 caractères',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
+        } else {
+            $user = User::find($request->user_id);
+            // $user->update($request->all());
+            $user->update([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'password' => Hash::make($request->input('password')),
+            ]);
+    
+            return response()->json([
+                'user' => $user,
+                'message' => 'Modification effectuée'
+            ], 201);
         }
 
-        $user = User::find($request->user_id);
-        // $user->update($request->all());
-        $user->update([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-        ]);
 
-        return response()->json([
-            'user' => $user,
-            'message' => 'Modification effectuée'
-        ], 201);
     }
 
     /**
