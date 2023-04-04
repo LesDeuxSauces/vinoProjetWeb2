@@ -174,6 +174,7 @@ export default function CellierShow() {
       const bouteillesFiltrees = cellier.bouteilles.filter((bouteille) => {
         // filtre les bouteilles selon la recherche de l'utilisateur
         const recherche = rechercheValeur.toLowerCase(); // recherche de l'utilisateur, je converti la valeur en string pour pouvoir utiliser la méthode startsWith et includes
+        // const quantite = bouteille.pivot.quantite;
         const annee = bouteille.annee
           ? bouteille.annee.toString().toLowerCase()
           : "";
@@ -184,9 +185,9 @@ export default function CellierShow() {
 
         return (
           // retourne les bouteilles qui correspondent à la recherche
-          rechercheValeur === "" ||
+          bouteille.pivot.quantite > 0 && (rechercheValeur === "" ||
           bouteille.nom.toLowerCase().includes(recherche) ||
-          annee.startsWith(recherche)
+          annee.startsWith(recherche))
           // prix.startsWith(recherche) ||
           // typeNom.startsWith(recherche) ||
           // format.startsWith(recherche) ||
@@ -452,9 +453,9 @@ export default function CellierShow() {
     let nouvelleQuantite;
 
     quantite = parseInt(quantite, 10); // conversion la quantité en nombre entier
-    if (bool == false) {
+    if (bool === false) {
       nouvelleQuantite = quantite - 1;
-    } else if (bool == true) {
+    } else if (bool === true) {
       nouvelleQuantite = quantite + 1;
     }
 
