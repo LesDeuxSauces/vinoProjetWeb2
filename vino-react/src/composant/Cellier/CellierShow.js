@@ -13,7 +13,7 @@ import bouteillePerso from "../../img/bouteille-perso.png";
 import ModalInfos from "../ModalInfos/ModalInfos";
 import "../ModalInfos/ModalInfos.css";
 import iconeFlip from "../../img/icone-flip.svg";
-import iconeBalai from "../../img/icone-balai.svg";
+// import iconeBalai from "../../img/icone-balai.svg";
 import "@fortawesome/fontawesome-free/css/all.css";
 
 export default function CellierShow() {
@@ -54,7 +54,7 @@ export default function CellierShow() {
   const [rechercheValeur, setRechercheValeur] = useState(""); // ajout d'un nouvel état pour stocker la recherche de l'utilisateur
   const [flipAll, setFlipAll] = useState(false); //ajout d'un nouvel afin de retourner toutes les cartes du cellier
   const [bouteillesFiltrees, setBouteillesFiltrees] = useState([]); // ajout d'un nouvel état pour stocker les bouteilles filtrées
-  const [iconeBalaiVisible, setIconeBalaiVisible] = useState(false); // ajout d'un nouvel état pour gerer l'affichage de l'icone du balai afin de reinitialiser les tri / recherche
+  // const [iconeBalaiVisible, setIconeBalaiVisible] = useState(false); // ajout d'un nouvel état pour gerer l'affichage de l'icone du balai afin de reinitialiser les tri / recherche
 
   useEffect(() => {
     fetchCellier();
@@ -662,14 +662,14 @@ export default function CellierShow() {
           </button>
         )}
 
-        {(iconeBalaiVisible || rechercheValeur !== "") && (
+        {/* {(iconeBalaiVisible || rechercheValeur !== "") && (
           <img
             className="bouteille__supprimer cellier__cartes--iconeBalais"
             src={iconeBalai}
             alt="Supprimer la bouteille"
             onClick={() => rechargerPage()}
           />
-        )}
+        )} */}
       </div>
 
       <ul className="bouteille">{afficherBouteilles()}</ul>
