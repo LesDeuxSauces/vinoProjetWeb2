@@ -155,9 +155,8 @@ export default function EspaceMembre() {
               <div>
                 {bouteilles.map((uneBouteille) => (
                   <div key={uneBouteille.id} className="espaceMembre__contenu--item">
-                    <img src={uneBouteille.url_img} alt="Image de la bouteille" className="bouteille__img" />
+                    <img src={ uneBouteille.code_saq ? uneBouteille.url_img : bouteillePerso} alt="Image de la bouteille" className="bouteille__img" />
                     <p className="bouteille__nom">{uneBouteille.nom}</p>
-                    <img src={etoiles} alt="Note de la bouteille" className="bouteille__note" />
                   </div>
                 ))}
               </div>
@@ -204,7 +203,7 @@ export default function EspaceMembre() {
     return (
       <div>
         <div className="ajouter__bouteille--titre ">
-          <h1>Modifier les informations personnelles</h1>
+          <h3>Modifier les informations personnelles</h3>
         </div>
         <form className="ajouter__bouteille--form" onSubmit={handleSubmit}>
           <div className="ajouter__bouteille--form--row">
@@ -240,7 +239,7 @@ export default function EspaceMembre() {
                 className="form__field"
                 id="password"
                 name="password"
-                type="text"
+                type="password"
                 value={userValeur.password}
                 onChange={handleChange}
               />
