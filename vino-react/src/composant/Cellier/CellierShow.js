@@ -344,7 +344,8 @@ export default function CellierShow() {
    * @returns  nom du type de vin
    */
   function getTypeNom(type_id) {
-    switch (type_id) {
+    const typeConvertionNbr = parseInt(type_id, 10); // Convertit type_id en nombre afin d,afficher la valeur sur l'hébergeur en ligne
+    switch (typeConvertionNbr) {
       case 1:
         return "Rouge";
       case 2:
@@ -456,21 +457,21 @@ export default function CellierShow() {
 
   function handleQuantite(evt, id, quantite, bool) {
     evt.stopPropagation(); // on stoppe la propagation de l'événement
-
+  
     let cellier_id = idCellier;
     let bouteille_id = id;
     let nouvelleQuantite;
-
+  
     quantite = parseInt(quantite, 10); // conversion la quantité en nombre entier
     if (bool === false) {
       nouvelleQuantite = quantite - 1;
     } else if (bool === true) {
       nouvelleQuantite = quantite + 1;
     }
-
+  
     const token = localStorage.getItem("token");
     let url = `//127.0.0.1:8000/api/celliers_has_bouteilles?cellier_id=${cellier_id}&bouteille_id=${bouteille_id}&quantite=${nouvelleQuantite}`;
-
+  
     fetch(url, {
       method: "PUT",
       headers: {
@@ -482,13 +483,26 @@ export default function CellierShow() {
         if (!response.ok) {
           throw new Error("une erreur est survenue");
         } else {
-          updateBouteilles();
+          setCellier((prevCellier) => {
+            const updatedBouteilles = prevCellier.bouteilles.map((bouteille) => {
+              if (bouteille.id === bouteille_id) {
+                return {
+                  ...bouteille,
+                  pivot: { ...bouteille.pivot, quantite: nouvelleQuantite },
+                };
+              }
+              return bouteille;
+            });
+  
+            return { ...prevCellier, bouteilles: updatedBouteilles };
+          });
         }
       })
       .catch((evt) => {
         // console.log(evt);
       });
   }
+  
 
   /**
    *  Fonction qui permet d'éditer une bouteille
