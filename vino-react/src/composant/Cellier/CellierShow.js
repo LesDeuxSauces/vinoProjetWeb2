@@ -184,7 +184,7 @@ export default function CellierShow() {
         const annee = bouteille.annee
           ? bouteille.annee.toString().toLowerCase()
           : "";
-        // const typeNom = getTypeNom(bouteille.type_id) ? getTypeNom(bouteille.type_id).toLowerCase() : "";
+        const typeNom = getTypeNom(bouteille.type_id) ? getTypeNom(bouteille.type_id).toLowerCase() : "";
         // const format = bouteille.format ? bouteille.format.toString().toLowerCase() : "";
         // const pays = bouteille.pays ? bouteille.pays.toLowerCase() : "";
         // const prix = bouteille.prix ? bouteille.prix.toString().toLowerCase() : "";
@@ -194,9 +194,9 @@ export default function CellierShow() {
           bouteille.pivot.quantite > 0 &&
           (rechercheValeur === "" ||
             bouteille.nom.toLowerCase().includes(recherche) ||
-            annee.startsWith(recherche))
+            annee.startsWith(recherche)) ||
+            typeNom.startsWith(recherche)
           // prix.startsWith(recherche) ||
-          // typeNom.startsWith(recherche) ||
           // format.startsWith(recherche) ||
           // pays.startsWith(recherche)
         );
