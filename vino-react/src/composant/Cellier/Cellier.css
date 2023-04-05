@@ -461,6 +461,11 @@ Creer un cellier
   transition-duration: 0.2s;
 }
 
+.cellier__aucunCellier--position {
+  text-align: center;
+    margin-bottom: 60px;
+}
+
 /*******************************************/
 /*    Cellier detail / cellierShow     */
 /*******************************************/

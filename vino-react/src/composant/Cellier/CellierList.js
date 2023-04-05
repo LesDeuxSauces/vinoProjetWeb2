@@ -203,9 +203,9 @@ export default function CellierList(props) {
       {dataCharge && celliers.length > 0 ? (
         <ul className="cellier">{afficheCelliers()}</ul>
       ) : dataCharge && celliers.length === 0 ? (
-        <p>Aucun cellier trouvé</p>
+        <p className="cellier__aucunCellier--position">Aucun cellier trouvé</p>
       ) : (
-        <p>Chargement des celliers...</p>
+        <p className="cellier__aucunCellier--position">Chargement des celliers...</p>
       )}
 
 
