@@ -197,6 +197,20 @@
   font-family: "Source Sans Pro", sans-serif;
 }
 
+.filtre__btn__negative{
+  width: 130px;
+  padding: 5px 10px;
+  border: 2px solid var(--blanc-color);
+  border-radius: 30px;
+  background-color: var(--rouge-color);
+  color: var(--blanc-color);
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Source Sans Pro", sans-serif;
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .bouteille {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(217px, 1fr));
