@@ -506,6 +506,9 @@ export default function CellierShow() {
     setRechercheValeur("");
   }
 
+  /**
+   * Fonction qui, suite au clic sur un des filtres, change dynamiquement le filtrage et le visuel.
+   */
   function handleFilterPrix() {
     const filtre = "prix";
     fetchCellier(filtre);
