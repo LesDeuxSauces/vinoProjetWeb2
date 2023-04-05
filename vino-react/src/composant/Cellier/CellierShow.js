@@ -39,6 +39,7 @@ export default function CellierShow() {
   const idCellier = id;
   const idBouteilleRef = useRef();
   const nomBouteilleRef = useRef();
+  const nomCellierRef = useRef();
   const handleDialog = (message, isLoading, produit) => {
     setDialog({
       message,
@@ -94,7 +95,7 @@ export default function CellierShow() {
       },
     });
     const data = await response.json();
-
+    nomCellierRef.current = data.cellier.nom;
     switch (filtre) {
       case "prix":
         if (clickCountPrix === 1) {
@@ -584,7 +585,7 @@ export default function CellierShow() {
   return (
     <div className="container">
       <div className="recherche">
-        <h1>Mon cellier</h1>
+        <h1>{nomCellierRef.current}</h1>
         <div className="recherche__wrapper">
           <input
             type="text"
