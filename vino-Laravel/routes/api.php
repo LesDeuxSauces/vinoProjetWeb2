@@ -89,3 +89,5 @@ Route::get('cellierscompletes', [CellierController::class, 'index']);
 //Route pour le scraping de la SAQ
 Route::post('scraping',[BouteilleController::class,'ajouterBouteilleSAQ']);
 Route::get('misajoursaq',[BouteilleController::class,'misAjourBD']);
+Route::get('misajoursaqderniere',[BouteilleController::class,'misaJourSAQDerniere']);
+Route::get('misajoursaqcomplete',[BouteilleController::class,'misaJourSAQComplete']);

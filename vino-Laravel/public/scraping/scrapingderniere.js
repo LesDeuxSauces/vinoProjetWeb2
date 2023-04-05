@@ -9,7 +9,6 @@ async function main(a, b) {
     const page = await browser.newPage();
     const allProduits = [];
     for (let i = a; i <= b; i++) {
-        // let urls = 'https://www.saq.com/fr/produits/vin?p=' + i + '&product_list_limit=96';
         let urls = 'https://www.saq.com/fr/produits?nouveaute_marketing=Nouvel+arrivage&p='+i+'&product_list_limit=96';
         await page.goto(urls);
         await page.waitForSelector('#maincontent > div > div.column.main > div.products.wrapper.grid.products-grid > ol > li')
@@ -45,7 +44,7 @@ async function main(a, b) {
 
 }
 
-// main();
+
 main(1,2);
-// main(20,21);
+
 
