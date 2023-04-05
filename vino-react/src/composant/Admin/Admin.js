@@ -9,13 +9,13 @@ export default function Admin() {
     let compteurErreur = 0
     const api_url = "http://127.0.0.1:8000/api/";
     const navigate = useNavigate();
-    const [message, setMessage] = useState('Mis à jour de la Base de Donnée')
+    const [message, setMessage] = useState('Mis à jour de la Base de Données')
     const [compteur, setCompteur] = useState(0);
-    // const [compteurErreur, setCompteurErreur] = useState(0);
     const [chargement, setChargement] = useState(false)
     const [bouteilles, setBouteilles] = useState();
     const [celliers, setCelliers] = useState();
     const [nouveaute, setNouveaute] = useState([]);
+    const [messageProgresse,setMessageProgresse]= useState(' ')
 
     useEffect(() => {
         // fetch pour obtenir toutes les bouteilles à la base de donnée 
@@ -33,53 +33,46 @@ export default function Admin() {
         console.log(nouveaute, "las nuevas");
     }, [chargement])
 
-    async function misAJourBD() {
+    /**
+     * Fonction qui permet faire le mis à jour sur la base de données 
+     */
+    async function misaJourSAQComplete() {
+        console.log("bouteilles completes");
+        setMessageProgresse('Cette mise à jour peut prendre 15 minutes Veuillez patienter ')
         setCompteur(0)
         setNouveaute('');
         setChargement(true)
-        const response = await fetch(api_url + "misajoursaq")
+        const response = await fetch(api_url + "misajoursaqcomplete")
         const res = await response.json()
         let value = JSON.parse(res)
-        // console.log(res);
         console.log(value);
 
-        // value.forEach(async vin => {
-        //     let options = {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-type": "application/json",
-        //             accept: "application/json",
-        //         },
-        //         body: JSON.stringify(vin),
-        //     };
+        const petiteQuantite = 200; // cantidad de elementos por sub-arreglo
+        for (let i = 0; i < value.length; i += petiteQuantite) {
+            const quantite = value.slice(i, i + petiteQuantite); // obtener un sub-arreglo de tamaño petiteQuantite
+            await fetchAndUpdateBouteilles(quantite);
+        }
+        // fetchAndUpdateBouteilles(value);
 
-        //     // async await 
-        //     const misAjour = await fetch("http://127.0.0.1:8000/api/scraping", options)
-        //     const responseMisAJour = await misAjour.json();
-        //     // console.log(responseMisAJour);
-        //     // if (responseMisAJour.line == 760) {
-        //     //     console.log("no se pudo agregar ");
-        //     //     setMessage("Mise à jour effectuée, aucune bouteille n'a été ajoutée")
-        //     //     setChargement(false)
-        //     //     setCompteurErreur((prevCompteur) => prevCompteur + 1);
-        //     // }
-        //     if (responseMisAJour.status == 200) {
+    }
 
-        //         console.log("agregada");
-        //         setNouveaute(dernierBouteille => [...dernierBouteille, responseMisAJour.bouteilleSAQ])
-        //         setMessage('Bouteilles ajoutées')
-        //         setCompteurAjoute((compteurAjoute) => compteurAjoute + 1);
-        //     } else {
-        //         console.log("no se pudo agregar ");
-        //         setMessage("Mise à jour effectuée, aucune bouteille n'a été ajoutée")
+    async function misaJourSAQDerniere() {
+        setMessageProgresse('Mis à jour en cours')
+        console.log("dernier bouteilles");
+        setCompteur(0)
+        setNouveaute('');
+        setChargement(true)
+        const response = await fetch(api_url + "misajoursaqderniere")
+        const res = await response.json()
+        let value = JSON.parse(res)
+        console.log(value);
+        fetchAndUpdateBouteilles(value);
 
-        //         setCompteurErreur((compteurErreur) => compteurErreur + 1);
-        //         console.log(compteurErreur);
-        //     }
+    }
 
-        // });
 
-        const promises = value.map(vin => {
+    async function fetchAndUpdateBouteilles(value) {
+        const promises = value.map(async (vin) => {
             let options = {
                 method: "POST",
                 headers: {
@@ -89,47 +82,37 @@ export default function Admin() {
                 body: JSON.stringify(vin),
             };
 
-            return fetch("http://127.0.0.1:8000/api/scraping", options)
-                .then(misAjour => misAjour.json())
-                .then(responseMisAJour => {
-                    if (responseMisAJour.status == 200) {
-                        console.log("agregada");
-                        setNouveaute(dernierBouteille => [...dernierBouteille, responseMisAJour.bouteilleSAQ]);
-                        compteurAjoute++
+            try {
+                const misAjour = await fetch("http://127.0.0.1:8000/api/scraping", options);
+                const responseMisAJour = await misAjour.json();
 
-                    } else {
-                        console.log("no se pudo agregar ");
-                        compteurErreur++
-                        // setCompteurErreur(compteurErreur + 1);
-                        // setCompteurErreur(compteurErreur => compteurErreur + 1);
-                    }
-                });
+                if (responseMisAJour.status == 200) {
+                    setNouveaute((dernierBouteille) => [...dernierBouteille, responseMisAJour.bouteilleSAQ,]);
+                    compteurAjoute++;
+                } else {
+                    compteurErreur++;
+                }
+            } catch (error) {
+                console.error("Ha ocurrido un error:", error);
+            }
         });
 
-        Promise.all(promises)
-            .then(() => {
-                console.log("Todas las peticiones han sido completadas");
-                console.log(compteurErreur, "errores");
-                console.log(compteurAjoute, "ajoute");
-                setChargement(false)
-                if (compteurAjoute > 0) {
-                    setMessage('Bouteilles ajoutées');
-                    setCompteur(compteurAjoute)
-                } else {
-                    setMessage("Mise à jour effectuée, aucune bouteille n'a été ajoutée");
-                }
-            })
-            .catch(error => {
-                console.error("Ha ocurrido un error:", error);
-            });
+        try {
+            await Promise.all(promises);
+            setChargement(false);
 
-
-
-
-
-
-
+            if (compteurAjoute > 0) {
+                setMessage("Bouteilles ajoutées");
+                setCompteur(compteurAjoute);
+            } else {
+                setMessage("Mise à jour effectuée, aucune bouteille n'a été ajoutée");
+            }
+        } catch (error) {
+            console.error("Ha ocurrido un error:", error);
+        }
     }
+
+
 
 
     return (
@@ -168,20 +151,21 @@ export default function Admin() {
                     </div>
                 </div>
 
-                <button onClick={misAJourBD} className="btn-misajour request-admin" >
-                    <span className="button_top">  Mettre à jour
+                <button onClick={misaJourSAQDerniere} className="btn-misajour request-admin" >
+                    <span className="button_top">  Ajout "Nouveautés SAQ"
+                    </span>
+                </button>
+                <button onClick={misaJourSAQComplete} className="btn-misajour request-admin" >
+                    <span className="button_top">  Mise à jour complète des bouteilles 
                     </span>
                 </button>
             </div>
 
-            {/* <div className="barre__chargement">
-                <p className="texte_chargeur">Mis à jour en cours</p>
-                <div className="chargeur_bd"></div>
-            </div> */}
             <div className="barre__chargement">
                 {chargement && chargement ? (
                     <>
-                        <p className="texte_chargeur">Mis à jour en cours</p>
+                        {/* <p className="texte_chargeur">Mis à jour en cours</p> */}
+                        <p className="texte_chargeur">{messageProgresse}</p>
                         <div className="chargeur_bd"></div>
                     </>
 
@@ -189,8 +173,6 @@ export default function Admin() {
                     <p className="message_ajoute"> {message && message} <span> {compteur > 0 && compteur} </span>  </p>
                 )}
             </div>
-
-
             <section className="wrapper_card_adminV">
                 {nouveaute && nouveaute.map((vin) => (
                     <article className="card_adminV">

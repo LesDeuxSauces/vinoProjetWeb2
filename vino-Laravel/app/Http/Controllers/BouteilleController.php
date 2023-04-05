@@ -280,36 +280,27 @@ class BouteilleController extends Controller
     $bouteillesSAQ = Bouteille::whereNotNull('code_saq')->get();
     return response()->json(['bouteillessaq' => $bouteillesSAQ]);
   }
+
   /**
    * avoir uniquement les bouteilles de la SAQ
    */
-  public function misAjourBD()
+  public function misaJourSAQDerniere()
   {
-    // $path = '/Users/rosemberg/Desktop/projet-web2/code_projet/vinoProjetWeb2/vino-Laravel/public/scraping';
+   
     $path = public_path('scraping');
-  //  $process =  Process::path($path)->run('du -h scraping.js')->output();
-   $process =  Process::path($path)->timeout(60)->run('node scraping.js')->output();
-    
-    // $command = ' du -h'. $path;
-    // echo $command;
-    // $process = new Process(['du -h',$path]);
-    // $process->run();
-
-    // if(!$process->isSuccessful()){
-    //   throw new ProcessFailedException($process);
-    // } else {
-    //   return $process->getOutput();
-    // }
-    // echo $process->getOutput();
-    // $resultat = json_decode($process);
+    $process =  Process::path($path)->timeout(60)->run('node scrapingderniere.js')->output();
     $resultat = $process;
-
-   
-    // return $path;
     return response()->json($resultat);
-   
-    
-    
+  }
+  /**
+   * avoir uniquement les bouteilles de la SAQ
+   */
+  public function misaJourSAQComplete()
+  {
 
+    $path = public_path('scraping');
+    $process =  Process::path($path)->timeout(800)->run('node scrapingcomplete.js')->output();
+    $resultat = $process;
+    return response()->json($resultat);
   }
 }
