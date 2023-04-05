@@ -144,12 +144,13 @@
 .recherche {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 20px 10px;
 }
 
 .recherche h1 {
   text-transform: capitalize;
-  margin: auto;
+  /* margin: auto; */
 }
 
 .recherche__wrapper input {
