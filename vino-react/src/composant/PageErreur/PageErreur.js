@@ -1,4 +1,6 @@
 import Entete from "../Entete/Entete";
+import "./PageErreur.css";
+import erreur from "../../img/404.png";
 
 function PageErreur(){
 
@@ -6,8 +8,9 @@ function PageErreur(){
     <>
     <Entete/>
     <main>
-      <h1>Oops, on dirait qu'une erreur est survenue</h1>
-      <p>Cette page ne semble pas exister</p>
+      
+      <img src={erreur} alt="Image d'Erreur" />
+      <h1>Oopsi, cette page ne semble pas exister</h1>
     </main>
     </>
   );
