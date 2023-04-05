@@ -192,7 +192,6 @@ export default function CellierShow() {
 
         return (
           // retourne les bouteilles qui correspondent à la recherche
-          bouteille.pivot.quantite > 0 &&
           (rechercheValeur === "" ||
             bouteille.nom.toLowerCase().includes(recherche) ||
             annee.startsWith(recherche) ||
