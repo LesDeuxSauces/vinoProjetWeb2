@@ -33,8 +33,9 @@ export default function Admin() {
         console.log(nouveaute, "las nuevas");
     }, [chargement])
 
-    /**
-     * Fonction qui permet faire le mis à jour sur la base de données 
+     /**
+     * Fonction qui permet faire le mis à jour sur la base de données avec toutes les bouteilles
+     * * @returns {Promise<void>} Une promesse qui se résout et renvoie toutes les bouteilles de la SAQ.
      */
     async function misaJourSAQComplete() {
         console.log("bouteilles completes");
@@ -45,7 +46,6 @@ export default function Admin() {
         const response = await fetch(api_url + "misajoursaqcomplete")
         const res = await response.json()
         let value = JSON.parse(res)
-        console.log(value);
 
         const petiteQuantite = 200; // cantidad de elementos por sub-arreglo
         for (let i = 0; i < value.length; i += petiteQuantite) {
@@ -55,22 +55,28 @@ export default function Admin() {
         // fetchAndUpdateBouteilles(value);
 
     }
-
+     /**
+     * Fonction qui permet faire le mis à jour sur la base de données avec les dernières bouteilles
+     * * @returns {Promise<void>} Une promesse qui se résout et renvoie les dernières bouteilles de la SAQ.
+     */
     async function misaJourSAQDerniere() {
         setMessageProgresse('Mis à jour en cours')
-        console.log("dernier bouteilles");
         setCompteur(0)
         setNouveaute('');
         setChargement(true)
         const response = await fetch(api_url + "misajoursaqderniere")
         const res = await response.json()
         let value = JSON.parse(res)
-        console.log(value);
         fetchAndUpdateBouteilles(value);
 
     }
 
-
+/**
+ * Récupère les informations des bouteilles et met à jour l'état avec les nouvelles données.
+ *
+ * @param {Array} value Un tableau contenant les objets bouteille à ajouter 
+ * @returns {Promise<void>} Une promesse qui se résout une fois que toutes les opérations de récupération et de mise à jour sont terminées.
+ */
     async function fetchAndUpdateBouteilles(value) {
         const promises = value.map(async (vin) => {
             let options = {

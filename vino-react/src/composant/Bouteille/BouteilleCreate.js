@@ -48,9 +48,9 @@ export default function BouteilleCreate() {
   }, []);
 
   /**
- * Obtenez les bouteilles de l’API et mettez à jour l’état de l’application avec les informations reçues.
- * @function
- */
+   * Obtenez les bouteilles de l’API et mettez à jour l’état de l’application avec les informations reçues.
+   * @function
+   */
   const dataBouteillesAPI = () => {
     fetch(api_url + "bouteillessaq")
       .then((response) => response.json())
@@ -65,7 +65,12 @@ export default function BouteilleCreate() {
     setBouteilleSAQ(filtreBouteille(value));
 
   }
-
+  /**
+   * Filtre les bouteilles en fonction de la valeur de recherche saisie par l'utilisateur.
+   *
+   * @param {string} value La valeur de recherche saisie par l'utilisateur.
+   * @returns {Array} Un tableau de bouteilles filtrées correspondant à la valeur de recherche
+   */
   const filtreBouteille = (value) => {
     const inputValue = value.trim().toLowerCase();
 
@@ -87,16 +92,31 @@ export default function BouteilleCreate() {
     }
   }
 
-
+  /**
+ * Efface les suggestions de bouteilles lorsque la demande est déclenchée.
+ */
   const onSuggestionsClearRequested = () => {
     setBouteilleSAQ([]);
-
   }
 
+
+  /**
+   * Récupère la valeur d'une suggestion en fonction de l'objet suggéré.
+   *
+   * @param {Object} suggestion L'objet suggestion contenant les informations d'une bouteille.
+   * @returns {string} La valeur de la suggestion à afficher.
+   */
   const getSuggestionValue = (suggestion) => {
     return `${suggestion.nom} `;
   }
 
+
+  /**
+   * Rend une suggestion de bouteille sous forme d'élément JSX.
+   *
+   * @param {Object} suggestion L'objet suggestion contenant les informations d'une bouteille.
+   * @returns {JSX.Element} L'élément JSX représentant la suggestion de bouteille nom et image.
+   */
   const renderSuggestion = (suggestion) => (
     <div className='suggestion__wrapper' onClick={() => choisirBouteille(suggestion)}>
       <div className="suggestion_recherche">
@@ -106,6 +126,13 @@ export default function BouteilleCreate() {
     </div>
   );
 
+
+
+  /**
+   * Sélectionne une bouteille et met à jour l'état des variables associées au affichage et modification
+   *
+   * @param {Object} uneBouteille L'objet bouteille sélectionné (pour la suggestion).
+   */
   const choisirBouteille = (uneBouteille) => {
     uneBouteille.quantite = "1"
     setBouteilleSelectionnee(uneBouteille);
@@ -114,15 +141,27 @@ export default function BouteilleCreate() {
     setValiderNom(false)
     setvaliderType(false)
     setvaliderQuantite(false)
-
-    // ajouterBouteilleSAQ(uneBouteille);
   }
 
-
+  /**
+   * Met à jour la valeur de la recherche de bouteille lorsqu'un changement est détecté.
+   *
+   * @param {Event} e L'événement déclenché par le changement.
+   * @param {Object} param1 L'objet contenant la nouvelle valeur de la recherche.
+   * @param {string} param1.newValue La nouvelle valeur de la recherche.
+   */
   const onChange = (e, { newValue }) => {
     setRechercheBouteille(newValue);
   }
 
+
+  /**
+   * Les propriétés d'entrée pour le composant de saisie de la recherche de bouteille.
+   * @type {Object}
+   * @property {string} placeholder Le texte d'aide à afficher dans le champ de recherche.
+   * @property {string} value La valeur actuelle du champ de recherche.
+   * @property {Function} onChange La fonction à appeler lorsqu'un changement est détecté dans le champ de recherche.
+   */
   const inputProps = {
     placeholder: "Entrez au moins 2 characteres",
     value: rechercheBouteille,
@@ -153,6 +192,12 @@ export default function BouteilleCreate() {
     e.preventDefault();
   }
 
+
+  /**
+   * Met à jour l'état de bouteilleValeur en fonction des modifications apportées dans les champs d'entrée.
+   *
+   * @param {Event} evt L'événement déclenché par le changement dans un champ d'entrée.
+   */
   function handleChange(evt) {
     /**
      * e.target est l'élément qui a exécuté l'événement nom
@@ -180,9 +225,9 @@ export default function BouteilleCreate() {
 
 
   /**
- * Ajoutez une bouteille au cellier spécifié en utilisant la fonction PostCellierHasBouteille.
- *
- */
+   * Ajoutez une bouteille au cellier spécifié en utilisant la fonction PostCellierHasBouteille.
+   *
+   */
   const ajouterBouteille = async () => {
     bouteilleValeur.cellier_id = idCellier;
 
@@ -197,6 +242,7 @@ export default function BouteilleCreate() {
       PostCellierHasBouteille(bouteilleValeur); // si la bouteille n'existe pas, je fais l'ajout
     }
   };
+
 
 
   /**
@@ -266,7 +312,9 @@ export default function BouteilleCreate() {
     }
 
   }
-
+  /**
+   * Réinitialise l'état des variables liées à la bouteille sélectionnée et désactive la sélection.
+   */
   const enleverBouteille = () => {
     setEstActive(false);
     setBouteilleValeur({
