@@ -507,7 +507,7 @@ export default function CellierShow() {
   }
 
   /**
-   * Fonction qui, suite au clic sur un des filtres, change dynamiquement le filtrage et le visuel.
+   * Fonction qui, suite au clic sur un des filtres, change dynamiquement le filtrage et le visuel (fleches et background).
    */
   function handleFilterPrix() {
     const filtre = "prix";
