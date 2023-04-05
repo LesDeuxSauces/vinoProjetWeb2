@@ -23,7 +23,11 @@ class BouteilleController extends Controller
 {
   /**
    * Display a listing of the resource.
+   * 
+   * Récupère toutes les bouteilles présentes dans la base de données.
+   * @return JsonResponse Retourne une réponse JSON avec le statut et les informations des bouteilles, ou un message indiquant qu'aucune bouteille n'a été ajoutée.
    */
+
   public function index()
   {
     $bouteille = Bouteille::all();
@@ -39,8 +43,6 @@ class BouteilleController extends Controller
         'bouteilles' => 'aucune bouteille n\'a été ajoutée'
       ], 200);
     }
-
-    //return new BouteilleCollection(Bouteille::all());
   }
 
   /**
@@ -53,7 +55,12 @@ class BouteilleController extends Controller
 
   /**
    * Store a newly created resource in storage.
+   * 
+   * Ajoute une nouvelle bouteille à un cellier spécifique en fonction des données fournies dans la requête.
+   * @param Request $request La requête contenant les informations sur la bouteille à ajouter et le cellier cible.
+   * @return JsonResponse Retourne une réponse JSON avec le statut, le message et, si réussi, les informations de la bouteille ajoutée.
    */
+
   public function store(Request $request)
   {
 
@@ -148,7 +155,12 @@ class BouteilleController extends Controller
   }
 
   /**
-   * Update the specified resource in storage.
+   * Met à jour les informations d'une bouteille dans la base de données en fonction des données fournies dans la requête.
+   * La mise à jour des bouteilles ayant un code_saq existant n'est pas autorisée.
+   *
+   * @param Request $request La requête contenant les informations à mettre à jour pour la bouteille.
+   * @param Bouteille $bouteille L'instance de la bouteille à mettre à jour.
+   * @return JsonResponse Retourne une réponse JSON avec le statut et le message de la mise à jour.
    */
   public function update(Request $request, Bouteille $bouteille)
   {
@@ -162,10 +174,7 @@ class BouteilleController extends Controller
     }
 
     $validation = Validator::make($request->all(), [
-
       'nom' => 'required',
-
-
     ]);
     if ($validation->fails()) {
       return response()->json([
@@ -214,7 +223,8 @@ class BouteilleController extends Controller
   }
 
   /**
-   * avoir les types du vin de la base de donnée
+   * Récupère toutes les types présentes dans la base de données.
+   * @return JsonResponse Retourne une réponse JSON contenant la liste des types.
    */
   public function afficherTypes()
   {
@@ -224,7 +234,10 @@ class BouteilleController extends Controller
 
 
   /**
-   * avoir les donnes pour scraping
+   * Ajoute une bouteille de la SAQ en fonction des informations fournies dans la requête (scraping).
+   *
+   * @param Request $request La requête contenant les informations sur la bouteille à ajouter.
+   * @return JsonResponse Retourne une réponse JSON avec le statut, le message et, si réussi, les informations de la bouteille ajoutée.
    */
   public function ajouterBouteilleSAQ(Request $request)
   {
@@ -273,7 +286,8 @@ class BouteilleController extends Controller
   }
 
   /**
-   * avoir uniquement les bouteilles de la SAQ
+   * Récupère toutes les bouteilles de la SAQ présentes dans la base de données.
+   * @return JsonResponse Retourne une réponse JSON contenant la liste des bouteilles de la SAQ.
    */
   public function bouteillesSAQ()
   {
@@ -282,24 +296,29 @@ class BouteilleController extends Controller
   }
 
   /**
-   * avoir uniquement les bouteilles de la SAQ
+   * Fait un appel pour exécuter un scraping qui permet d'obtenir les dernières bouteilles de la SAQ
+   * @return JsonResponse Retourne une réponse JSON contenant le résultat du processus de scraping (dernieres bouteilles de la SAQ)
    */
   public function misaJourSAQDerniere()
   {
-   
+
     $path = public_path('scraping');
+    // exécuter le scrip trouvé dans le dossier public
     $process =  Process::path($path)->timeout(60)->run('node scrapingderniere.js')->output();
     $resultat = $process;
     return response()->json($resultat);
   }
+
   /**
-   * avoir uniquement les bouteilles de la SAQ
+   * Fait un appel pour exécuter un scraping qui permet d'obtenir toutes les bouteilles de la SAQ
+   * @return JsonResponse Retourne une réponse JSON contenant le résultat du processus de scraping (toutes les bouteilles de la SAQ)
    */
   public function misaJourSAQComplete()
   {
 
     $path = public_path('scraping');
-    $process =  Process::path($path)->timeout(800)->run('node scrapingcomplete.js')->output();
+    // exécuter le scrip trouvé dans le dossier public
+    $process =  Process::path($path)->timeout(1000)->run('node scrapingcomplete.js')->output();
     $resultat = $process;
     return response()->json($resultat);
   }

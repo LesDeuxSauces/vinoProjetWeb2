@@ -3,6 +3,12 @@ import puppeteer from "puppeteer";
 import fetch from "node-fetch";
 
 
+/**
+ * Extrait les informations sur les bouteilles de vin en parcourant les pages du site de la SAQ (nouveaute bouteilles )et les stocke dans un tableau.
+ * @param {number} a - La page de départ pour l'extraction des données.
+ * @param {number} b - La page finale pour l'extraction des données.
+ * @returns {Promise<void>} Une promesse qui se résout une fois que toutes les données ont été extraites.
+ */
 
 async function main(a, b) {
     const browser = await puppeteer.launch();
@@ -16,7 +22,6 @@ async function main(a, b) {
             const produits = document.querySelectorAll('#maincontent > div > div.column.main > div.products.wrapper.grid.products-grid > ol > li');
             return Array.from(produits).map((produit, i) => {
                 const regexNumero = /[0-9]/;
-                // const id = i;
                 const nom = produit.querySelector('.product-item-link').innerText.replace(/\d+$/, "").trim();
                 const format = produit.querySelector('strong.product.product-item-identity-format > span').innerText.split(' | ')[1].trim().split(' ')[0];
                 const prix = produit.querySelector('.price').innerText.split(' ')[0].slice(0, -2).replace(',', '.');
@@ -25,8 +30,6 @@ async function main(a, b) {
                 const pays = produit.querySelector('strong.product.product-item-identity-format > span').innerText.split(' | ')[2].trim();
                 const type = produit.querySelector('strong.product.product-item-identity-format > span').innerText.split(' | ')[0].split(' ')[1];
                 const url_img = produit.querySelector('.product-image-photo').src;
-                // const url = produit.querySelector('.product-image-photo').src;
-                // const url_img = url.slice(0, url.lastIndexOf(".png") + 4);
                 const anneeVin = produit.querySelector('.product-item-link').innerText.split(' ').pop();
                 const annee = regexNumero.test(anneeVin) ? anneeVin : "";
 
@@ -37,7 +40,7 @@ async function main(a, b) {
         allProduits.push(...produits); // ajoute à chaque fois dans la variable allProduits le  produits qu'il vient de balayer
 
     }
-    //  console.log(allProduits);   
+    
     await browser.close();
     console.log(JSON.stringify(allProduits));
 
