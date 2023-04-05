@@ -14,13 +14,21 @@ import ModalInfos from "../ModalInfos/ModalInfos";
 import "../ModalInfos/ModalInfos.css";
 import iconeFlip from "../../img/icone-flip.svg";
 import iconeBalai from "../../img/icone-balai.svg";
+import "@fortawesome/fontawesome-free/css/all.css";
 
 export default function CellierShow() {
   const navigate = useNavigate();
   const [cellier, setCellier] = useState({});
-  const [clickCountType, setClickCountType] = useState(1);
+  const [clickCountPrix, setClickCountPrix] = useState(1);
   const [clickCountQuantite, setClickCountQuantite] = useState(1);
   const [clickCountMillesime, setClickCountMillesime] = useState(1);
+  const [btnPrixClass, setBtnPrixClass] = useState("filtre__btn");
+  const [btnQuantiteClass, setBtnQuantiteClass] = useState("filtre__btn");
+  const [btnMillesimeClass, setBtnMillesimeClass] = useState("filtre__btn");
+  const [arrowPrixDirection, setArrowPrixDirection] = useState("null");
+  const [arrowQuantiteDirection, setArrowQuantiteDirection] = useState("null");
+  const [arrowMillesimeDirection, setArrowMillesimeDirection] =
+    useState("null");
   const [dialog, setDialog] = useState({
     message: "",
     isLoading: false,
@@ -47,35 +55,34 @@ export default function CellierShow() {
   const [bouteillesFiltrees, setBouteillesFiltrees] = useState([]); // ajout d'un nouvel état pour stocker les bouteilles filtrées
   const [iconeBalaiVisible, setIconeBalaiVisible] = useState(false); // ajout d'un nouvel état pour gerer l'affichage de l'icone du balai afin de reinitialiser les tri / recherche
 
-
-
   useEffect(() => {
     fetchCellier();
   }, [id]);
 
   useEffect(() => {
-    if (cellier.bouteilles && cellier.bouteilles.length > 0) { // vérifie si le cellier contient des bouteilles
-      const bouteillesfiltreesUtilisateur = cellier.bouteilles.filter((bouteille) => {
-        // filtre les bouteilles selon la recherche de l'utilisateur
-        const recherche = rechercheValeur.toLowerCase();
-        const annee = bouteille.annee
-          ? bouteille.annee.toString().toLowerCase()
-          : "";
+    if (cellier.bouteilles && cellier.bouteilles.length > 0) {
+      // vérifie si le cellier contient des bouteilles
+      const bouteillesfiltreesUtilisateur = cellier.bouteilles.filter(
+        (bouteille) => {
+          // filtre les bouteilles selon la recherche de l'utilisateur
+          const recherche = rechercheValeur.toLowerCase();
+          const annee = bouteille.annee
+            ? bouteille.annee.toString().toLowerCase()
+            : "";
 
-        return (
-          // retourne les bouteilles qui correspondent à la recherche
-          rechercheValeur === "" ||
-          bouteille.nom.toLowerCase().includes(recherche) ||
-          annee.startsWith(recherche)
-        );
-      });
+          return (
+            // retourne les bouteilles qui correspondent à la recherche
+            rechercheValeur === "" ||
+            bouteille.nom.toLowerCase().includes(recherche) ||
+            annee.startsWith(recherche)
+          );
+        }
+      );
       setBouteillesFiltrees(bouteillesfiltreesUtilisateur);
     } else {
       setBouteillesFiltrees([]);
     }
   }, [cellier.bouteilles, rechercheValeur]);
-
-
 
   const fetchCellier = async (filtre) => {
     const token = localStorage.getItem("token");
@@ -89,15 +96,15 @@ export default function CellierShow() {
     const data = await response.json();
 
     switch (filtre) {
-      case "type":
-        if (clickCountType === 1) {
+      case "prix":
+        if (clickCountPrix === 1) {
           data.bouteilles.sort((a, b) => {
-            return a.type_id - b.type_id;
+            return b.prix - a.prix;
           });
           setCellier(data);
-        } else if (clickCountType === 2) {
+        } else if (clickCountPrix === 2) {
           data.bouteilles.sort((a, b) => {
-            return b.type_id - a.type_id;
+            return a.prix - b.prix;
           });
           setCellier(data);
         }
@@ -158,11 +165,10 @@ export default function CellierShow() {
     setRechercheValeur(evt.target.value);
   }
 
-
-  const rechargerPage = () => { // fonction qui permet de recharger la page suite au tri
+  const rechargerPage = () => {
+    // fonction qui permet de recharger la page suite au tri
     window.location.reload();
   };
-
 
   /**
    *  Fonction qui permet d'afficher la carte pour chacune des bouteilles
@@ -185,26 +191,27 @@ export default function CellierShow() {
 
         return (
           // retourne les bouteilles qui correspondent à la recherche
-          bouteille.pivot.quantite > 0 && (rechercheValeur === "" ||
-          bouteille.nom.toLowerCase().includes(recherche) ||
-          annee.startsWith(recherche))
+          bouteille.pivot.quantite > 0 &&
+          (rechercheValeur === "" ||
+            bouteille.nom.toLowerCase().includes(recherche) ||
+            annee.startsWith(recherche))
           // prix.startsWith(recherche) ||
           // typeNom.startsWith(recherche) ||
           // format.startsWith(recherche) ||
           // pays.startsWith(recherche)
         );
-      })
+      });
       if (bouteillesFiltrees && bouteillesFiltrees.length > 0) {
         listeBouteilles = (
           <>
             {bouteillesFiltrees.map((bouteille) => {
-
               // console.log(bouteille);
               return (
                 <li className="" key={bouteille.id}>
                   <div
-                    className={`flip-container ${flip[bouteille.id] ? "hover" : ""
-                      }`}
+                    className={`flip-container ${
+                      flip[bouteille.id] ? "hover" : ""
+                    }`}
                     onClick={() => handleFlip(bouteille.id)}
                   >
                     <div className="bouteille__carte--tourner">
@@ -227,7 +234,9 @@ export default function CellierShow() {
                               className="bouteille__modifier"
                               src={iconeModifier}
                               alt="Modifier la bouteille"
-                              onClick={(evt) => handleModifier(evt, bouteille.id)}
+                              onClick={(evt) =>
+                                handleModifier(evt, bouteille.id)
+                              }
                             />
                           )}
                           <img
@@ -242,7 +251,9 @@ export default function CellierShow() {
 
                         <img
                           src={
-                            bouteille.code_saq ? bouteille.url_img : bouteillePerso
+                            bouteille.code_saq
+                              ? bouteille.url_img
+                              : bouteillePerso
                           }
                           alt="bouteille cellier"
                           className="bouteille__img"
@@ -289,7 +300,8 @@ export default function CellierShow() {
                       </div>
                       <div className="bouteille__carte--arriere bouteille__carte">
                         <p>
-                          <strong>・Type:</strong> {getTypeNom(bouteille.type_id)}
+                          <strong>・Type:</strong>{" "}
+                          {getTypeNom(bouteille.type_id)}
                         </p>
                         <p>
                           <strong>・Millésime:</strong> {bouteille.annee}
@@ -320,14 +332,10 @@ export default function CellierShow() {
       } else {
         listeBouteilles = <p>Aucune bouteille disponible</p>;
       }
-
     }
     // console.log(listeBouteilles);
     return listeBouteilles;
-
   }
-
-
 
   /**
    *  Fonction qui permet de retourner le nom du type de vin
@@ -498,37 +506,77 @@ export default function CellierShow() {
     setRechercheValeur("");
   }
 
-  function handleFilterType() {
-    setClickCountType(clickCountType + 1);
-    if (clickCountType >= 3) {
-      setClickCountType(1);
-      fetchCellier();
-    }
-    const filtre = "type";
+  function handleFilterPrix() {
+    const filtre = "prix";
     fetchCellier(filtre);
+    setClickCountPrix(clickCountPrix + 1);
+
+    switch (clickCountPrix) {
+      case 1:
+        setArrowPrixDirection("down");
+        setBtnPrixClass("filtre__btn__negative");
+        break;
+      case 2:
+        setArrowPrixDirection("up");
+        setBtnPrixClass("filtre__btn__negative");
+        break;
+      case 3:
+        setBtnPrixClass("filtre__btn");
+        setArrowPrixDirection(null);
+        setClickCountPrix(1);
+        break;
+      default:
+        break;
+    }
   }
 
   function handleFilterQuantite() {
-    setClickCountQuantite(clickCountQuantite + 1);
-    if (clickCountQuantite >= 3) {
-      setClickCountQuantite(1);
-      fetchCellier();
-    }
     const filtre = "quantite";
     fetchCellier(filtre);
+    setClickCountQuantite(clickCountQuantite + 1);
+
+    switch (clickCountQuantite) {
+      case 1:
+        setArrowQuantiteDirection("down");
+        setBtnQuantiteClass("filtre__btn__negative");
+        break;
+      case 2:
+        setArrowQuantiteDirection("up");
+        setBtnQuantiteClass("filtre__btn__negative");
+        break;
+      case 3:
+        setBtnQuantiteClass("filtre__btn");
+        setArrowQuantiteDirection(null);
+        setClickCountQuantite(1);
+        break;
+      default:
+        break;
+    }
   }
 
   function handleFilterMillesime() {
-    setClickCountMillesime(clickCountMillesime + 1);
-    if (clickCountMillesime >= 3) {
-      setClickCountMillesime(1);
-      fetchCellier();
-    }
     const filtre = "millesime";
     fetchCellier(filtre);
-  }
+    setClickCountMillesime(clickCountMillesime + 1);
 
-  console.log(iconeBalaiVisible);
+    switch (clickCountMillesime) {
+      case 1:
+        setArrowMillesimeDirection("down");
+        setBtnMillesimeClass("filtre__btn__negative");
+        break;
+      case 2:
+        setArrowMillesimeDirection("up");
+        setBtnMillesimeClass("filtre__btn__negative");
+        break;
+      case 3:
+        setArrowMillesimeDirection(null);
+        setBtnMillesimeClass("filtre__btn");
+        setClickCountMillesime(1);
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <div className="container">
@@ -559,18 +607,31 @@ export default function CellierShow() {
         </div>
       </div>
       <div className="filtre">
-        <button className="filtre__btn" onClick={() => { handleFilterType(); setIconeBalaiVisible(true); }}>
-          Type
-        </button>
-        <button className="filtre__btn" onClick={() => { handleFilterMillesime(); setIconeBalaiVisible(true); }}>
+        <button
+          className={`${btnMillesimeClass}`}
+          onClick={handleFilterMillesime}
+        >
           Millésime
+          <span>
+            <i className={`fa-solid fa-caret-${arrowMillesimeDirection}`} />
+          </span>
         </button>
-        <button className="filtre__btn" onClick={() => { handleFilterQuantite(); setIconeBalaiVisible(true); }}>
+        <button
+          className={`${btnQuantiteClass}`}
+          onClick={handleFilterQuantite}
+        >
           Quantité
+          <span>
+            <i className={`fa-solid fa-caret-${arrowQuantiteDirection}`} />
+          </span>
         </button>
-
+        <button className={`${btnPrixClass}`} onClick={handleFilterPrix}>
+          Prix
+          <span>
+            <i className={`fa-solid fa-caret-${arrowPrixDirection}`} />
+          </span>
+        </button>
       </div>
-
 
       <div className="cellier__iconeGrp--position">
         {bouteillesFiltrees && bouteillesFiltrees.length > 0 && (
@@ -583,7 +644,7 @@ export default function CellierShow() {
           </button>
         )}
 
-        {(iconeBalaiVisible || rechercheValeur !== "" ) && (
+        {(iconeBalaiVisible || rechercheValeur !== "") && (
           <img
             className="bouteille__supprimer cellier__cartes--iconeBalais"
             src={iconeBalai}
@@ -591,10 +652,7 @@ export default function CellierShow() {
             onClick={() => rechargerPage()}
           />
         )}
-
       </div>
-
-
 
       <ul className="bouteille">{afficherBouteilles()}</ul>
 
