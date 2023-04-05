@@ -195,8 +195,8 @@ export default function CellierShow() {
           bouteille.pivot.quantite > 0 &&
           (rechercheValeur === "" ||
             bouteille.nom.toLowerCase().includes(recherche) ||
-            annee.startsWith(recherche)) ||
-            typeNom.startsWith(recherche)
+            annee.startsWith(recherche) ||
+            typeNom.startsWith(recherche))
           // prix.startsWith(recherche) ||
           // format.startsWith(recherche) ||
           // pays.startsWith(recherche)
