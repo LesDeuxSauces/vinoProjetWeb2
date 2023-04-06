@@ -16,7 +16,6 @@ class Cellier extends Model
   public function cellierHasUser()
   {
     return $this->belongsTo(User::class);
-    // return $this->hasOne('App\Models\User', 'id', 'user_id');
   }
 
   public function cellierHasBouteille()

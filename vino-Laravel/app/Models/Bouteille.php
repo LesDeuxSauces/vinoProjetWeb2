@@ -26,7 +26,6 @@ class Bouteille extends Model
 
     public function bouteilleHasCellier()
     {
-        // return $this->belongsTo('App\Models\Cellier', 'cellier_id', 'id');
         return $this->belongsTo(Cellier::class);
     }
 }
