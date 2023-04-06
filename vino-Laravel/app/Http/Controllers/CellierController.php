@@ -41,10 +41,6 @@ class CellierController extends Controller
 
     $user = auth()->user();
 
-    // $dataValide = $request->validate([
-    //   'nom' => 'required|string|min:2|max:50',
-    // ]);
-
     $dataValide = Validator::make($request->all(),[
       'nom' => 'required|string|min:2|max:50',
     ]);
@@ -60,22 +56,11 @@ class CellierController extends Controller
       $cellier = new Cellier;
       $cellier->nom = $request->input('nom');
       $cellier->user_id = $user->id;
-      // $cellier->user_id = 1; // pour le moment, j'ai forcé l'id de l'utilisateur à 1
       $cellier->save();
   
       return response()->json(['message' => 'Cellier ' . $cellier->nom . ' crée avec succès', 'cellier' => $cellier]);
 
     }
-
-
-    // $dataValide = $request->validate([
-    //   'nom' => 'required|string|max:50',
-    //   'user_id' => 'required|integer|exists:users,id',
-    // ]);
-
-    // $newCellier = Cellier::create($dataValide);
-
-    // return response()->json(['cellier' => $newCellier], 201);
   }
 
 
@@ -111,12 +96,6 @@ class CellierController extends Controller
    */
   public function update(Request $request, Cellier $cellier)
   {
-    // $dataValide = $request->validate([
-    //   'nom' => 'required|string|min:2|max:50',
-    // ]);
-
-    // $cellier->nom = $dataValide['nom'];
-    // $cellier->save();
     $dataValide = Validator::make($request->all(),[
       'nom' => 'required|string|min:2|max:50',
     ]);
