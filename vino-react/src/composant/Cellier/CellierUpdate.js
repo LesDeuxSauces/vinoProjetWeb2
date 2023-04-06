@@ -13,7 +13,7 @@ export default function CellierUpdate() {
   const [cellierValeur, setCellierValeur] = useState({
     nom: "",
   });
-  const [nomValider,setNomValider]=useState('');
+  const [nomValider, setNomValider] = useState('');
 
   async function fetchCellier() {
     const entete = new Headers();
@@ -32,7 +32,7 @@ export default function CellierUpdate() {
     display: false,
     message: "",
   });
-  
+
 
 
   useEffect(() => {
@@ -70,25 +70,20 @@ export default function CellierUpdate() {
   async function modifierCellier() {
     const response = await putCellier(cellierValeur, idCellier);
     const res = await response.json()
-  
-    if (res.status == 422){
+
+    if (res.status == 422) {
       setNomValider(res.errors.nom)
     } else {
       showMessage(
         <span>
-          Vous avez modifié le cellier: 
+          Vous avez modifié le cellier:
           <br />
           <span className="modalInfos__nom--message">{cellierValeur.nom}</span>
         </span>
       );
     }
-    // if (response.ok) {
-     
-    // } else {
-    //   showMessage("Une erreur s'est produite lors de la modification");
-    // }
   }
-  
+
 
 
   async function putCellier(cellierValeur, idCellier) {
@@ -102,14 +97,14 @@ export default function CellierUpdate() {
       headers: entete,
     });
 
-    
+
     return response;
   }
-  
-/**
- *  Affiche un message de confirmation suite à la modification du cellier
- * @param {*} message  Message à afficher
- */
+
+  /**
+   *  Affiche un message de confirmation suite à la modification du cellier
+   * @param {*} message  Message à afficher
+   */
   function showMessage(message) {
     setConfirmationMessage({
       display: true,
@@ -138,7 +133,7 @@ export default function CellierUpdate() {
             type="text"
             value={cellierValeur.nom}
             onChange={handleChange}
-            
+
           />
           <label className="form__label">Nom</label>
           {nomValider && <p className="erreurChamps">  Champ obligatoire</p>}

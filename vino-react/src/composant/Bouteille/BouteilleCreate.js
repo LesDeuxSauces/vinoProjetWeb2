@@ -4,8 +4,6 @@ import { useParams } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 import iconeSupprimer from '../../img/icone-supprimer.svg';
 import iconeBalai from '../../img/icone-balai.svg';
-// component React Autosuggest 
-// npm install react-autosuggest --save
 import Autosuggest from 'react-autosuggest';
 import ModalInfos from "../ModalInfos/ModalInfos";
 import "../ModalInfos/ModalInfos.css";
