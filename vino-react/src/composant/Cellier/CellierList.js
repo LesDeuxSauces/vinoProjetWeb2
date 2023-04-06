@@ -199,16 +199,17 @@ export default function CellierList(props) {
       <div className="cellier__titre">
         <h1>Mes celliers</h1>
       </div>
-
-      {dataCharge && celliers.length > 0 ? (
-        <ul className="cellier">{afficheCelliers()}</ul>
-      ) : dataCharge && celliers.length === 0 ? (
-        <p className="cellier__aucunCellier--position">Aucun cellier trouvé</p>
+  
+      {dataCharge ? (
+        celliers.length > 0 ? (
+          <ul className="cellier">{afficheCelliers()}</ul>
+        ) : (
+          <p className="cellier__aucunCellier--position">Aucun cellier disponible</p>
+        )
       ) : (
         <p className="cellier__aucunCellier--position">Chargement des celliers...</p>
       )}
-
-
+  
       <div className="cellier__ajouter">
         <Link to="/cellier/create">
           <img src={iconeAjout} alt="Ajouter" />
@@ -216,7 +217,8 @@ export default function CellierList(props) {
       </div>
       {dialog.isLoading && <Modal onDialog={confirmation} message={dialog.message} produit={dialog.produit} />}
       {confirmationMessage.display && (<ModalInfos message={confirmationMessage.message} />)}
-
+  
     </div>
   );
+  
 }
