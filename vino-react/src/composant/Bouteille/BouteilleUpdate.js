@@ -91,17 +91,17 @@ export default function BouteilleUpdate() {
     setBouteilleValeur(nouvellesValeurs);
   }
 
-  
-  
+
+
   async function modifierBouteille() {
     bouteilleValeur.cellier_id = idCellier;
     const response = await putCellierHasBouteille(bouteilleValeur, id);
     const res = await response.json()
-    if (res.status == 422){
+    if (res.status == 422) {
       setValiderNom(res.status)
 
-    }else {
-     
+    } else {
+
       showMessage(
         <span>
           Vous avez modifié la bouteille:
@@ -111,7 +111,7 @@ export default function BouteilleUpdate() {
       );
     }
   }
-  
+
   async function putCellierHasBouteille(bouteilleValeur, id) {
     const entete = new Headers();
     const token = localStorage.getItem("token");
@@ -172,7 +172,7 @@ export default function BouteilleUpdate() {
             type="text"
             value={bouteilleValeur.nom}
             onChange={handleChange}
-            
+
           />
           <label className="form__label">Nom</label>
           {validerNom && <p className="erreurChamps">  Champ obligatoire</p>}

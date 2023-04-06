@@ -45,48 +45,6 @@ const router = createBrowserRouter([
   },
 ])
 
-// function AppRoutes() {
-//   const location = useLocation();
-
-//   if (location.pathname === '/' || location.pathname === '/connexion' || location.pathname === '/inscription' || location.pathname === '/Connexion' || location.pathname === '/Inscription') {
-//     return (
-//       <Routes className="AppBody">
-//         <Route path="/" element={<Accueil />} />
-//         <Route path="/inscription" element={<Inscription />} />
-//         <Route path="/connexion" element={<Connexion />} />
-//         <Route path="/cellier" element={<CellierList />} />
-//         <Route path="/cellier/:id" element={<CellierShow />} />
-//         <Route path="/cellier/create" element={<CellierCreate />} />
-//         <Route path="/bouteille" element={<BouteilleList />} />
-//         <Route path="/bouteille/create/:idCellier" element={<BouteilleCreate />} />
-//         <Route path="/bouteille/:id" element={<BouteilleShow />} />
-//       </Routes>
-//     );
-//   } else {
-//     return (
-//       <>
-//         <Entete />
-//         <Routes className="AppBody">
-//           <Route path="/" element={<Accueil />} />
-//           <Route path="/inscription" element={<Inscription />} />
-//           <Route path="/connexion" element={<Connexion />} />
-//           <Route path="/cellier" element={<CellierList />} />
-//           <Route path="/cellier/:id" element={<CellierShow />} />
-//           <Route path="/cellier/create" element={<CellierCreate />} />
-//           <Route path="/bouteille" element={<BouteilleList />} />
-//           <Route path="/bouteille/create/:idCellier" element={<BouteilleCreate />} />
-//           <Route path="/bouteille/:id" element={<BouteilleShow />} />
-//         </Routes>
-//       </>
-//     );
-//   }
-// }
-
 export default function App() {
   return <RouterProvider router={router} />
-  // return (
-  //   <Router id="App">
-  //     <AppRoutes />
-  //   </Router>
-  // );
 }
