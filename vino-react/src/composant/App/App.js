@@ -1,8 +1,6 @@
 import './App.css';
 import React from 'react';
 import Entete from '../Entete/Entete';
-import BouteilleList from '../Bouteille/BouteilleList';
-import BouteilleShow from '../Bouteille/BouteilleShow';
 import BouteilleCreate from '../Bouteille/BouteilleCreate';
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -36,7 +34,6 @@ const router = createBrowserRouter([
       { path: "/cellier/create", element: <CellierCreate /> },
       { path: "/cellier/:id", element: <CellierShow /> },
       { path: "/cellier/update/:idCellier", element: <CellierUpdate /> },
-      { path: "/bouteille", element: <BouteilleList /> },
       { path: "/bouteille/create/:idCellier", element: <BouteilleCreate /> },
       { path: "/bouteille/:idCellier/update/:id", element: <BouteilleUpdate /> },
       { path: "/espacemembre", element: <EspaceMembre /> },
