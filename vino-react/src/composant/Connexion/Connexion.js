@@ -25,11 +25,9 @@ export default function Connexion() {
   async function loginUser(userObject) {
     let entete = new Headers();
     entete.append("Content-Type", "application/json");
-    console.log(userObject);
     const response = await fetch(api_url + "login", {
       method: "POST",
       body: JSON.stringify(userObject),
-
       headers: entete,
     });
 
@@ -41,7 +39,6 @@ export default function Connexion() {
       const responseCode = await response.json();
       const token = responseCode.access_token;
       const user = responseCode.user;
-      console.log(responseCode);
       localStorage.setItem("token", token);
       localStorage.setItem("user", user.name);
       localStorage.setItem("user_id", user.id);
@@ -52,12 +49,10 @@ export default function Connexion() {
   }
 
   const emailChangeHandler = (event) => {
-    // console.log(event.target.value);
     setEmail(event.target.value);
   };
 
   const passwordChangeHandler = (event) => {
-    // console.log(event.target.value);
     setPassword(event.target.value);
   };
 
@@ -80,17 +75,7 @@ export default function Connexion() {
           </Link>
           <div className="connexion__titre">Connexion</div>
         </div>
-        {/* {erreur && (
-          <div>
-            <ul className="ul-erreurs">
-              {Object.values(erreur).map((err) => (
-                <li key={err} className="erreurs">
-                  {err}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )} */}
+
         <form className="connexion__form" onSubmit={submitHandler}>
         {erreur && (<p className="erreurs">{erreur.message}</p>)}
           <div className="form__group field">

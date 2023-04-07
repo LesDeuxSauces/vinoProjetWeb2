@@ -2,12 +2,9 @@ import "./EspaceMembre.css";
 import { Route, Routes, BrowserRouter, useNavigate, Link, json, } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import bouteillePerso from '../../img/bouteille-perso.png';
-import etoiles from '../../img/star_rating.png';
-
-
-import { useParams } from "react-router-dom";
 import ModalInfos from "../ModalInfos/ModalInfos";
 import "../ModalInfos/ModalInfos.css";
+
 
 export default function EspaceMembre() {
   const api_url = "http://127.0.0.1:8000/api/";
@@ -19,6 +16,7 @@ export default function EspaceMembre() {
     password: "",
     user_id: id,
   });
+
   const [confirmationMessage, setConfirmationMessage] = useState({
     display: false,
     message: "",
@@ -33,7 +31,6 @@ export default function EspaceMembre() {
 
 
   useEffect(() => {
-    console.log("Dans useEffect");
     fetchUser();
     getBouteilles("bouteilles");
 
@@ -43,7 +40,6 @@ export default function EspaceMembre() {
       }, 2000);
     }
   }, [confirmationMessage, navigate]);
-
 
 
   /**
@@ -58,7 +54,7 @@ export default function EspaceMembre() {
     entete.append("Authorization", "Bearer " + token);
     const response = await fetch(api_url + `user/${id}`, { headers: entete });
     const data = await response.json();
-    console.log("récupération du data du user:", data);
+
     setuserValeur((precedantState) => ({
       ...precedantState,
       name: data[0].name || '',
@@ -92,9 +88,6 @@ export default function EspaceMembre() {
   }
 
 
-
-
-
   const getBouteilles = async (choix) => {
     const token = localStorage.getItem('token');
     const user_id = localStorage.getItem("user_id");
@@ -114,7 +107,6 @@ export default function EspaceMembre() {
     });
     const bouteilles = await response.json();
     setBouteilles(bouteilles);
-    console.log(bouteilles);
 
     const contenu = afficherContenu(bouteilles, choix);
     setContenuBody(contenu);
@@ -169,6 +161,7 @@ export default function EspaceMembre() {
     );
   }
 
+
   /**
    *  Fonction qui permet d'afficher les informations choisies par l'utilisateur (Infos, Bouteilles, Archives ou Notes)
    * @returns  contenuBody
@@ -192,7 +185,6 @@ export default function EspaceMembre() {
       </div>
     );
   }
-
 
 
   /**
@@ -262,23 +254,22 @@ export default function EspaceMembre() {
     );
   }
 
+
   /**
    * Affiche le formulaire pour modifier les informations personnelles de l'utilisateur
    *
    * @function
    */
   const modifierInfos = () => {
-    console.log('Modifier infos');
     setAfficheFormulaire(true); // Affiche le formulaire
   };
-
-
 
 
   function handleSubmit(evt) {
     evt.preventDefault();
     modifierUser();
   }
+
 
   function handleChange(evt) {
     const { target } = evt;
@@ -291,10 +282,7 @@ export default function EspaceMembre() {
   }
 
 
-
-
   async function modifierUser() {
-    console.log(userValeur);
     const user_id = localStorage.getItem("user_id");
     const response = await putUser(userValeur, user_id);
     const res = await response.json()
@@ -302,7 +290,6 @@ export default function EspaceMembre() {
       setValiderNom(res.status)
 
     } else {
-
       showMessage(
         <span>
           Vous avez bien modifié les informations de :
@@ -312,6 +299,7 @@ export default function EspaceMembre() {
       );
     }
   }
+  
 
   async function putUser(userValeur, id) {
     const entete = new Headers();

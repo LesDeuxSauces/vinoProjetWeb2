@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./Bouteille.css";
 import { useParams } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
-import iconeSupprimer from '../../img/icone-supprimer.svg';
 import iconeBalai from '../../img/icone-balai.svg';
 import Autosuggest from 'react-autosuggest';
 import ModalInfos from "../ModalInfos/ModalInfos";
@@ -28,20 +27,17 @@ export default function BouteilleCreate() {
     display: false,
     message: "",
   });
-
   const [validerNom, setValiderNom] = useState("")
   const [validerQuantite, setvaliderQuantite] = useState("")
   const [validerType, setvaliderType] = useState("")
 
 
   useEffect(() => {
-    // 
     dataBouteillesAPI();
     fetch(api_url + "types")
       .then((response) => response.json())
       .then((data) => {
         setTypes(data.types);
-
       });
   }, []);
 
@@ -58,10 +54,8 @@ export default function BouteilleCreate() {
       })
   }
 
-
   const onSuggestionsFetchRequested = ({ value }) => {
     setBouteilleSAQ(filtreBouteille(value));
-
   }
   /**
    * Filtre les bouteilles en fonction de la valeur de recherche saisie par l'utilisateur.
@@ -221,14 +215,13 @@ export default function BouteilleCreate() {
   }
 
 
-
   /**
    * Ajoutez une bouteille au cellier spécifié en utilisant la fonction PostCellierHasBouteille.
    *
    */
   const ajouterBouteille = async () => {
-    bouteilleValeur.cellier_id = idCellier;
 
+    bouteilleValeur.cellier_id = idCellier;
     const bouteilleExisteDeja = await verifierBouteilleExistante(bouteilleValeur.cellier_id, bouteilleValeur.id); // je vérifie si la bouteille existe déjà dans le cellier
 
     if (bouteilleExisteDeja) { // si la bouteille existe déjà, j'affiche un message d'erreur et je ne fais pas l'ajout
@@ -306,10 +299,10 @@ export default function BouteilleCreate() {
         display: true,
         message: "Bouteille ajoutée avec succès.",
       });
-
     }
 
   }
+  
   /**
    * Réinitialise l'état des variables liées à la bouteille sélectionnée et désactive la sélection.
    */

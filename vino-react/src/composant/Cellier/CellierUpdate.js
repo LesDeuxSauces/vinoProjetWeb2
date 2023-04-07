@@ -25,7 +25,6 @@ export default function CellierUpdate() {
     entete.append("Authorization", "Bearer " + token);
     const response = await fetch(api_url + `cellier/${idCellier}`, { headers: entete });
     const data = await response.json();
-    console.log(data);
     setCellierValeur((precedantState) => ({
       ...precedantState,
       nom: data.cellier.nom || '', // on modifie la valeur de la propriété nom
@@ -35,7 +34,6 @@ export default function CellierUpdate() {
     display: false,
     message: "",
   });
-
 
 
   useEffect(() => {
@@ -117,9 +115,9 @@ export default function CellierUpdate() {
       headers: entete,
     });
 
-
     return response;
   }
+
 
   /**
    *  Affiche un message de confirmation suite à la modification du cellier
@@ -139,7 +137,6 @@ export default function CellierUpdate() {
     }, 2000);
   }
 
-
   return (
     <div>
       <div className="cellier__titre">Modifier le cellier</div>
@@ -153,7 +150,6 @@ export default function CellierUpdate() {
             type="text"
             value={cellierValeur.nom}
             onChange={handleChange}
-
           />
           <label className="form__label">Nom</label>
           {nomValider && <p className="erreurChamps">  Champ obligatoire</p>}

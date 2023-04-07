@@ -38,24 +38,6 @@ button {
   outline: inherit;
 }
 
-
-/**********************/
-
-/* 
-body {
-  margin: 0;
-  background: #151616;
-  font-family: roboto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-} */
-/* 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */
-
-
 :root {
   --nav-size: 60px;
   --border: 1px solid var(--blanc-color);
@@ -132,8 +114,6 @@ a {
   --button-size: calc(var(--nav-size) * 0.5);
   width:60px;
   height: auto;
-  /* background-color: var(--blanc-color); */
-  /* border-radius: 50%; */
   padding: 5px;
   margin: 2px;
   display: flex;
@@ -180,17 +160,14 @@ a {
   height: 70px;
   display: flex;
   align-items: center;
-  /* border-radius: var(--border-radius); */
   transition: background var(--speed);
   padding: 0.5rem;
   border-bottom: var(--border);
-  
 }
 
 .menu-item .icon-button {
   margin-right: 0.5rem;
 }
-
 
 .menu-item .icon-button:hover {
   filter: none;
@@ -200,13 +177,11 @@ a {
   margin-right: 0.5rem;
 }
 
-
 .menu-item .icon-buttonMain:hover {
   filter: none;
 }
 
 .menu-item:hover {
-  /* background-color: #525357; */
   opacity: 0.9;
   cursor: pointer;
 }
@@ -233,10 +208,10 @@ a {
   transition: all var(--speed) ease;
 }
 
-
 .menu-secondary-enter {
   transform: translateX(110%);
 }
+
 .menu-secondary-enter-active {
   transform: translateX(0%);
   transition: all var(--speed) ease;

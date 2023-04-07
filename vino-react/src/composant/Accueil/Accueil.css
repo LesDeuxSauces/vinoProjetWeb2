@@ -64,10 +64,9 @@
 loading : source: https://codepen.io/Jacksondacoder/pen/VwGXNNO
 ******************* */
 .center {
-  /* margin: auto; */
   width: 60%;
-  /* padding: 10px; */
 }
+
 .loader {
   width: 16px;
   height: 16px;

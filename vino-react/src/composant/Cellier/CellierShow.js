@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import "./Cellier.css";
-import imageBouteille from "../../img/AlbertBichot-Chablis.png";
 import iconeAjouter from "../../img/icone-ajout.svg";
 import iconeModifier from "../../img/icone-modifier.svg";
 import iconeSupprimer from "../../img/icone-supprimer.svg";
 import iconeInfos from "../../img/icone-infos.svg";
-import iconeNbrBouteille from "../../img/icone-nbr-bouteille.svg";
 import Modal from "../Modal/Modal";
 import logoSaq from "../../img/logo-saq-no-text.png";
 import bouteillePerso from "../../img/bouteille-perso.png";
@@ -209,7 +207,6 @@ export default function CellierShow() {
         listeBouteilles = ( // affiche les bouteilles
           <>
             {bouteillesFiltrees.map((bouteille) => { // balayage de la liste des bouteilles
-              // console.log(bouteille);
               return (
                 <li className="" key={bouteille.id}>
                   <div
@@ -280,7 +277,6 @@ export default function CellierShow() {
                               >
                                 -
                               </button>
-                              {/* <img src={iconeNbrBouteille} alt="Nombre de bouteilles" className="icone-nbr-bouteille" />  */}
                               <p className="bouteille__quantite">
                                 {bouteille.pivot.quantite}
                               </p>
@@ -337,7 +333,6 @@ export default function CellierShow() {
         listeBouteilles = <p>Aucune bouteille disponible</p>;
       }
     }
-    // console.log(listeBouteilles);
     return listeBouteilles;
   }
 
@@ -676,14 +671,6 @@ export default function CellierShow() {
           </button>
         )}
 
-        {/* {(iconeBalaiVisible || rechercheValeur !== "") && (
-          <img
-            className="bouteille__supprimer cellier__cartes--iconeBalais"
-            src={iconeBalai}
-            alt="Supprimer la bouteille"
-            onClick={() => rechargerPage()}
-          />
-        )} */}
       </div>
 
       <ul className="bouteille">{afficherBouteilles()}</ul>

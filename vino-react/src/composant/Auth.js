@@ -1,7 +1,5 @@
 import { redirect, useLocation } from 'react-router-dom';
 
-
-
 export function checkAuthLoader() {
 
   const token = localStorage.getItem("token");

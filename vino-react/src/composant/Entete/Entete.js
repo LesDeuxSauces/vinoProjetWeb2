@@ -1,8 +1,6 @@
 import "./Entete.css";
 import logoVino from "../../img/vinoLogo-blanc.svg";
 import { Link, json, Outlet, Form } from "react-router-dom";
-import { ReactComponent as CaretIcon } from "../../img/caret.svg";
-import { ReactComponent as CogIcon } from "../../img/cog.svg";
 import { ReactComponent as ChevronIcon } from "../../img/chevron.svg";
 import { ReactComponent as ChevronLeftIcon } from "../../img/chevronLeft.svg";
 import { ReactComponent as BoltIcon } from "../../img/bolt.svg";
@@ -17,22 +15,22 @@ import { CSSTransition } from "react-transition-group";
  * @param {*} handler  // fonction qui sera appelée lors du clic en dehors de l'élément
  */
 function useOnClickOutside(ref, handler) {
-  useEffect(() => {
-    const listener = (event) => {
-      if (!ref.current || ref.current.contains(event.target)) {
-        return;
-      }
-      handler(event);
-    };
+    useEffect(() => {
+        const listener = (event) => {
+            if (!ref.current || ref.current.contains(event.target)) {
+                return;
+            }
+            handler(event);
+        };
 
-    document.addEventListener("mousedown", listener);
-    document.addEventListener("touchstart", listener);
+        document.addEventListener("mousedown", listener);
+        document.addEventListener("touchstart", listener);
 
-    return () => {
-      document.removeEventListener("mousedown", listener);
-      document.removeEventListener("touchstart", listener);
-    };
-  }, [ref, handler]);
+        return () => {
+            document.removeEventListener("mousedown", listener);
+            document.removeEventListener("touchstart", listener);
+        };
+    }, [ref, handler]);
 }
 
 
@@ -59,7 +57,6 @@ export default function Entete(props) {
     }, []);
 
 
-
     /**
      * Récupérer les celliers de l'utilisateur
      */
@@ -76,12 +73,11 @@ export default function Entete(props) {
         });
         const celliers = await responseCelliers.json();
 
-        console.log("cellier:", celliers);
         setCelliers(celliers);
     }
 
+
     function afficheCelliers() { // fonction qui affiche les celliers
-        console.log(celliers);
         return celliers.map((cellier) => { // boucle qui parcourt le tableau des celliers avec la propriété quantité pour l'affichage de la donnée
             return (
                 <Link to={`/cellier/${cellier.id}`}>
@@ -120,9 +116,8 @@ export default function Entete(props) {
         const [open, setOpen] = useState(false);
         const navItemRef = useRef(); // référence pour le nav-item
 
-      
         useOnClickOutside(navItemRef, () => { // détecter le clic en dehors de l'élément
-          setOpen(false);
+            setOpen(false);
         });
 
         return (
@@ -149,14 +144,11 @@ export default function Entete(props) {
 
         function calcHeight(el) {
             const height = el.offsetHeight + 30;
-            console.log(height);
             setMenuHeight(height);
         }
 
-        function DropdownItem(props) {
 
-            console.log(localStorage);
-            console.log(props);
+        function DropdownItem(props) {
             return (
                 <a
                     href="#"
