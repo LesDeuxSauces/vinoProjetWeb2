@@ -110,10 +110,13 @@ export default function CellierList(props) {
   }
 
 
-
+/**
+ *  Fonction qui affiche les celliers de l'utilisateur
+ * @returns  liste des celliers de l'utilisateur
+ */
   function afficheCelliers() {
     // console.log(celliers);
-    return celliers.map((cellier) => {
+    return celliers.map((cellier) => { // boucle qui parcourt le tableau des celliers
       return (
         <li className="cellier__carte" key={cellier.id}>
           <div className="cellier__carte__content">
@@ -155,7 +158,8 @@ export default function CellierList(props) {
   }
 
 
-  const confirmation = (choix) => {
+
+  const confirmation = (choix) => { // fonction qui supprime le cellier
     if (choix) {
       setDialog({ message: "", isLoading: false, produit: "" });
       let cellier_id = idCellierRef.current;
@@ -172,7 +176,7 @@ export default function CellierList(props) {
             throw new Error('une erreur est survenue');
           } else {
             fetchCellierUser(setCelliers);
-            showMessage(
+            showMessage( // fonction qui affiche un message modale de confirmation de suppression
               <span>
                 Vous avez supprimé le cellier:
                 <br />
@@ -186,7 +190,7 @@ export default function CellierList(props) {
           // console.log(evt);
         });
     } else {
-      setDialog({ message: "", isLoading: false, produit: "" });
+      setDialog({ message: "", isLoading: false, produit: "" }); // si l'utilisateur ne confirme pas la suppression, on ferme le modale
     }
   }
 

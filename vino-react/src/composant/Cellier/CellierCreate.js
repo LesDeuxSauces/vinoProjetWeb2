@@ -23,7 +23,11 @@ export default function CellierCreate() {
 
   }
 
-  async function PostCreateCellierUser(data) {
+  /**
+   *  Créer un cellier pour l'utilisateur
+   * @param {*} data  objet contenant les données du formulaire
+   */
+  async function PostCreateCellierUser(data) { 
     let entete = new Headers();
     const token = localStorage.getItem("token");
     entete.append("Content-Type", "application/json");
@@ -56,21 +60,22 @@ export default function CellierCreate() {
   }
 
 
-
-
-
+/**
+ *  Gestion de la modification du nom du cellier
+ * @param {*} evt  événement de modification du nom du cellier
+ */
   function handleNomChange(evt) {
     // gestion de la modification du nom du cellier
     setNom(evt.target.value); // on met à jour l'état du nom du cellier
   }
 
-  function showMessage(message) {
+  function showMessage(message) { // affiche un message de confirmation
     setConfirmationMessage({
       display: true,
       message,
     });
 
-    setTimeout(() => {
+    setTimeout(() => {    // on cache le message après 2 secondes
       setConfirmationMessage({
         display: false,
         message: "",

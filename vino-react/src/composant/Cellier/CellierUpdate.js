@@ -5,6 +5,9 @@ import ModalInfos from "../ModalInfos/ModalInfos";
 import "../ModalInfos/ModalInfos.css";
 
 
+/**
+ *  Composant permettant de modifier un cellier
+ */
 export default function CellierUpdate() {
   const api_url = "http://127.0.0.1:8000/api/";
   const { idCellier } = useParams();
@@ -25,10 +28,10 @@ export default function CellierUpdate() {
     console.log(data);
     setCellierValeur((precedantState) => ({
       ...precedantState,
-      nom: data.cellier.nom || '',
+      nom: data.cellier.nom || '', // on modifie la valeur de la propriété nom
     }));
   }
-  const [confirmationMessage, setConfirmationMessage] = useState({
+  const [confirmationMessage, setConfirmationMessage] = useState({ // on crée un état pour le message de confirmation
     display: false,
     message: "",
   });
@@ -42,31 +45,43 @@ export default function CellierUpdate() {
   /**
    * Affiche le message de confirmation puis redirige vers la liste des celliers
    */
-  useEffect(() => {
+  useEffect(() => { // on affiche le message de confirmation
     if (confirmationMessage.display) {
       setTimeout(() => {
         navigate("/cellier");
-        window.location.reload();
-      }, 2000);
+        window.location.reload(); // on recharge la page pour afficher le nouveau cellier
+      }, 2000);  // on attend 2 secondes avant de rediriger vers la liste des celliers
     }
   }, [confirmationMessage]);
 
 
+  /**
+   * @param {*} evt  événement de soumission du formulaire
+   */
   function handleSubmit(evt) {
     evt.preventDefault();
   }
 
-  function handleChange(evt) {
-    const { target } = evt;
-    const { name, value } = target;
 
-    const nouvellesValeurs = {
-      ...cellierValeur,
-      [name]: value,
+  /**
+   *  
+   * @param {*} evt  événement de modification d'un champ du formulaire
+   */
+  function handleChange(evt) {
+    const { target } = evt;  // on récupère l'élément qui a déclenché l'événement
+    const { name, value } = target; // on récupère le nom et la valeur du champ modifié
+
+    const nouvellesValeurs = { 
+      ...cellierValeur, 
+      [name]: value, 
     };
-    setCellierValeur(nouvellesValeurs);
+    setCellierValeur(nouvellesValeurs); // on met à jour l'état avec les nouvelles valeurs
   }
 
+
+  /**
+   * Envoie les données du formulaire au serveur
+   */
   async function modifierCellier() {
     const response = await putCellier(cellierValeur, idCellier);
     const res = await response.json()
@@ -85,7 +100,12 @@ export default function CellierUpdate() {
   }
 
 
-
+/**
+ *  Envoie les données du formulaire au serveur
+ * @param {*} cellierValeur  Valeurs du formulaire
+ * @param {*} idCellier  Identifiant du cellier à modifier
+ * @returns 
+ */
   async function putCellier(cellierValeur, idCellier) {
     const entete = new Headers();
     const token = localStorage.getItem("token");

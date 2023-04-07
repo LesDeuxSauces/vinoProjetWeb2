@@ -18,23 +18,23 @@ import "@fortawesome/fontawesome-free/css/all.css";
 
 export default function CellierShow() {
   const navigate = useNavigate();
-  const [cellier, setCellier] = useState({});
-  const [clickCountPrix, setClickCountPrix] = useState(1);
-  const [clickCountQuantite, setClickCountQuantite] = useState(1);
-  const [clickCountMillesime, setClickCountMillesime] = useState(1);
-  const [btnPrixClass, setBtnPrixClass] = useState("filtre__btn");
-  const [btnQuantiteClass, setBtnQuantiteClass] = useState("filtre__btn");
-  const [btnMillesimeClass, setBtnMillesimeClass] = useState("filtre__btn");
-  const [arrowPrixDirection, setArrowPrixDirection] = useState("null");
-  const [arrowQuantiteDirection, setArrowQuantiteDirection] = useState("null");
+  const [cellier, setCellier] = useState({}); // création d'un state pour les celliers
+  const [clickCountPrix, setClickCountPrix] = useState(1); // création d'un state pour le compteur de clic sur le bouton prix
+  const [clickCountQuantite, setClickCountQuantite] = useState(1); // création d'un state pour le compteur de clic sur le bouton quantité
+  const [clickCountMillesime, setClickCountMillesime] = useState(1); // création d'un state pour le compteur de clic sur le bouton millesime
+  const [btnPrixClass, setBtnPrixClass] = useState("filtre__btn"); // création d'un state pour la classe du bouton prix
+  const [btnQuantiteClass, setBtnQuantiteClass] = useState("filtre__btn"); // création d'un state pour la classe du bouton quantité
+  const [btnMillesimeClass, setBtnMillesimeClass] = useState("filtre__btn"); // création d'un state pour la classe du bouton millesime
+  const [arrowPrixDirection, setArrowPrixDirection] = useState("null"); // création d'un state pour la direction de la flèche du bouton prix 
+  const [arrowQuantiteDirection, setArrowQuantiteDirection] = useState("null"); // création d'un state pour la direction de la flèche du bouton quantité
   const [arrowMillesimeDirection, setArrowMillesimeDirection] =
     useState("null");
-  const [dialog, setDialog] = useState({
+  const [dialog, setDialog] = useState({ // création d'un state pour la boîte de dialogue
     message: "",
     isLoading: false,
     produit: "",
   });
-  const [flip, setFlip] = useState({}); // pour la carte tournante
+  const [flip, setFlip] = useState({}); // création d'un state pour la rotation des cartes
   const { id } = useParams();
   const idCellier = id;
   const idBouteilleRef = useRef();
@@ -85,7 +85,7 @@ export default function CellierShow() {
     }
   }, [cellier.bouteilles, rechercheValeur]);
 
-  const fetchCellier = async (filtre) => {
+  const fetchCellier = async (filtre) => { // fonction pour récupérer les données du cellier
     const token = localStorage.getItem("token");
     const response = await fetch("http://127.0.0.1:8000/api/cellier/" + id, {
       method: "GET",
@@ -96,8 +96,8 @@ export default function CellierShow() {
     });
     const data = await response.json();
     nomCellierRef.current = data.cellier.nom;
-    switch (filtre) {
-      case "prix":
+    switch (filtre) { // fonction pour trier les bouteilles selon le filtre choisi
+      case "prix": // si le filtre choisi est le prix
         if (clickCountPrix === 1) {
           data.bouteilles.sort((a, b) => {
             return b.prix - a.prix;
@@ -111,7 +111,7 @@ export default function CellierShow() {
         }
         break;
 
-      case "quantite":
+      case "quantite": // si le filtre choisi est la quantité
         if (clickCountQuantite === 1) {
           data.bouteilles.sort((a, b) => {
             return b.pivot.quantite - a.pivot.quantite;
@@ -125,7 +125,7 @@ export default function CellierShow() {
         }
         break;
 
-      case "millesime":
+      case "millesime": // si le filtre choisi est le millesime
         if (clickCountMillesime === 1) {
           data.bouteilles.sort((a, b) => {
             return b.annee - a.annee;
@@ -140,17 +140,21 @@ export default function CellierShow() {
         break;
 
       default:
-        setCellier(data);
+        setCellier(data); // si aucun filtre n'est choisi, on affiche les bouteilles dans l'ordre d'ajout
     }
   };
 
+  /**
+   *  Fonction qui permet d'afficher un message de confirmation
+   * @param {*} message 
+   */
   function showMessage(message) {
     setConfirmationMessage({
       display: true,
       message,
     });
 
-    setTimeout(() => {
+    setTimeout(() => { // fonction qui permet d'afficher le message de confirmation pendant 2 secondes
       setConfirmationMessage({
         display: false,
         message: "",
@@ -201,10 +205,10 @@ export default function CellierShow() {
           // pays.startsWith(recherche)
         );
       });
-      if (bouteillesFiltrees && bouteillesFiltrees.length > 0) {
-        listeBouteilles = (
+      if (bouteillesFiltrees && bouteillesFiltrees.length > 0) { // si il y a des bouteilles qui correspondent à la recherche
+        listeBouteilles = ( // affiche les bouteilles
           <>
-            {bouteillesFiltrees.map((bouteille) => {
+            {bouteillesFiltrees.map((bouteille) => { // balayage de la liste des bouteilles
               // console.log(bouteille);
               return (
                 <li className="" key={bouteille.id}>
@@ -356,6 +360,10 @@ export default function CellierShow() {
     }
   }
 
+  /**
+   *  fonction pour mettre à jour la liste des bouteilles
+   * @returns  liste des bouteilles
+   */
   async function updateBouteilles() {
     const token = localStorage.getItem("token");
     return fetch("http://127.0.0.1:8000/api/cellier/" + idCellier, {
@@ -365,9 +373,9 @@ export default function CellierShow() {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((response) => response.json())
-      .then((data) => {
-        setCellier(data);
+      .then((response) => response.json()) // on convertit la réponse en json
+      .then((data) => { // on récupère les données
+        setCellier(data); // on met à jour le state cellier
       });
   }
 
@@ -454,25 +462,32 @@ export default function CellierShow() {
     }
   };
 
+  /**
+   *  Fonction qui permet de modifier la quantité d'une bouteille
+   * @param {} evt  événement
+   * @param {*} id  id de la bouteille
+   * @param {*} quantite  quantité de la bouteille
+   * @param {*} bool  vrai ou faux
+   */
   function handleQuantite(evt, id, quantite, bool) {
     evt.stopPropagation(); // on stoppe la propagation de l'événement
   
-    let cellier_id = idCellier;
-    let bouteille_id = id;
-    let nouvelleQuantite;
+    let cellier_id = idCellier; // id du cellier
+    let bouteille_id = id; // id de la bouteille
+    let nouvelleQuantite; // nouvelle quantité de la bouteille
   
     quantite = parseInt(quantite, 10); // conversion la quantité en nombre entier
-    if (bool === false) {
-      nouvelleQuantite = quantite - 1;
+    if (bool === false) { // si boolen est faux
+      nouvelleQuantite = quantite - 1; // on soustrait 1 à la quantité sinon on ajout e  1
     } else if (bool === true) {
       nouvelleQuantite = quantite + 1;
     }
   
-    const token = localStorage.getItem("token");
-    let url = `//127.0.0.1:8000/api/celliers_has_bouteilles?cellier_id=${cellier_id}&bouteille_id=${bouteille_id}&quantite=${nouvelleQuantite}`;
+    const token = localStorage.getItem("token"); 
+    let url = `//127.0.0.1:8000/api/celliers_has_bouteilles?cellier_id=${cellier_id}&bouteille_id=${bouteille_id}&quantite=${nouvelleQuantite}`; 
   
     fetch(url, {
-      method: "PUT",
+      method: "PUT", // on utilise la méthode PUT pour modifier la quantité
       headers: {
         "Content-type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -482,18 +497,18 @@ export default function CellierShow() {
         if (!response.ok) {
           throw new Error("une erreur est survenue");
         } else {
-          setCellier((prevCellier) => {
-            const updatedBouteilles = prevCellier.bouteilles.map((bouteille) => {
-              if (bouteille.id === bouteille_id) {
+          setCellier((prevCellier) => { // on utilise la fonction setCellier pour modifier le state. (prevCellier est l'état précédent de cellier.)
+            const updatedBouteilles = prevCellier.bouteilles.map((bouteille) => { // on parcourt le tableau de bouteilles
+              if (bouteille.id === bouteille_id) { // si l'id de la bouteille est égal à l'id de la bouteille
                 return {
-                  ...bouteille,
-                  pivot: { ...bouteille.pivot, quantite: nouvelleQuantite },
+                  ...bouteille, // on copie l'état précédent de la bouteille
+                  pivot: { ...bouteille.pivot, quantite: nouvelleQuantite }, // on modifie la quantité de la bouteille
                 };
               }
-              return bouteille;
+              return bouteille; // on retourne la bouteille
             });
   
-            return { ...prevCellier, bouteilles: updatedBouteilles };
+            return { ...prevCellier, bouteilles: updatedBouteilles }; // on retourne le state modifié
           });
         }
       })
@@ -524,11 +539,11 @@ export default function CellierShow() {
    * Fonction qui, suite au clic sur un des filtres, change dynamiquement le filtrage et le visuel (fleches et background).
    */
   function handleFilterPrix() {
-    const filtre = "prix";
-    fetchCellier(filtre);
-    setClickCountPrix(clickCountPrix + 1);
+    const filtre = "prix"; // on définit le filtre
+    fetchCellier(filtre); // on appelle la fonction fetchCellier avec le filtre en paramètre
+    setClickCountPrix(clickCountPrix + 1); // on incrémente le compteur de clic
 
-    switch (clickCountPrix) {
+    switch (clickCountPrix) { // on change le visuel en fonction du compteur de clic
       case 1:
         setArrowPrixDirection("down");
         setBtnPrixClass("filtre__btn__negative");
