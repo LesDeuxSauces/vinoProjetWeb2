@@ -7,7 +7,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CellierController;
 use App\Http\Controllers\BouteilleController;
 use App\Http\Controllers\CelliersHasBouteillesController;
-use App\Models\CelliersHasBouteilles;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
   return $request->user();
 });
 
-// Routes pour les bouteilles
-// Route::group(['namespace' => 'App\Http\Controllers'], function () {
-//   Route::apiResource('bouteille', BouteilleController::class);
-// });
+
 
 // Route pour les cellier 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
@@ -72,15 +68,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
   Route::apiResource('bouteille', BouteilleController::class);
 });
 
-// Routes Publique, pour enregistrer et connecter un utilisateur
+// Routes publiques, pour enregistrer et connecter un utilisateur
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'authentification']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');;
 
-
-
-
-// Routes Publique, pour avoir pays, types et les bouteilles de la SAQ
+// Routes publiques, pour avoir pays, types et les bouteilles de la SAQ
 Route::get('/bouteillessaq',[BouteilleController::class, 'bouteillesSAQ']);
 Route::get('/types', [BouteilleController::class, 'afficherTypes']);
 Route::get('bouteillescompletes', [BouteilleController::class, 'index']);

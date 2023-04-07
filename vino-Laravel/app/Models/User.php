@@ -17,6 +17,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    // Les attributs que l'on peut remplir dans la table "users"
     protected $fillable = [
         'name',
         'email',
@@ -44,11 +45,8 @@ class User extends Authenticatable
 
     public function userHasCellier()
     {
-      return $this->hasMany(Cellier::class);
+        return $this->hasMany(Cellier::class);
     }
 
-    // public function userHasBouteille()
-    // {
-    //   return $this->hasMany(Bouteille::class);
-    // }
+
 }

@@ -9,6 +9,7 @@ class Bouteille extends Model
 {
     use HasFactory;
 
+    // Les attributs que l'on peut remplir dans la table "bouteilles"
     protected $fillable = [
         'id' ,
         'nom' ,
