@@ -66,17 +66,7 @@ export default function Inscription(props) {
           </Link>
           <div className="inscription__titre">Créer un compte</div>
         </div>
-        {/* {erreur && (
-          <div>
-            <ul className="ul-erreurs">
-              {Object.values(erreur).map((err) => (
-                <li key={err} className="erreurs">
-                  {err}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )} */}
+
         <form className="inscription__form" onSubmit={submitHandler}>
           <div className="form__group field">
             <input

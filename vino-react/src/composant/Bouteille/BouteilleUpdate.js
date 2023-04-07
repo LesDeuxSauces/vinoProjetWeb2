@@ -10,7 +10,6 @@ export default function BouteilleUpdate() {
   const api_url = "http://127.0.0.1:8000/api/";
   const { idCellier, id } = useParams();
   const navigate = useNavigate();
-  const [pays, setPays] = useState([]);
   const [types, setTypes] = useState([{ types: [] }]);
   const [bouteilleValeur, setBouteilleValeur] = useState({
     nom: "",
@@ -22,7 +21,6 @@ export default function BouteilleUpdate() {
     pays: "",
     type_id: "",
     code_saq: "",
-    // quantite: "",
   });
   const [confirmationMessage, setConfirmationMessage] = useState({
     display: false,
@@ -30,9 +28,6 @@ export default function BouteilleUpdate() {
   });
 
   const [validerNom, setValiderNom] = useState("")
-
-
-
 
   async function fetchTypes() {
     const entete = new Headers();
@@ -52,7 +47,6 @@ export default function BouteilleUpdate() {
     entete.append("Authorization", "Bearer " + token);
     const response = await fetch(api_url + `bouteille/${id}`, { headers: entete });
     const data = await response.json();
-    console.log("récupération du data de la bouteille:", data);
     setBouteilleValeur((precedantState) => ({
       ...precedantState,
       nom: data.data.nom || '',
@@ -74,11 +68,10 @@ export default function BouteilleUpdate() {
   }, []);
 
 
-
-
   function handleSubmit(evt) {
     evt.preventDefault();
   }
+
 
   function handleChange(evt) {
     const { target } = evt;
@@ -92,7 +85,6 @@ export default function BouteilleUpdate() {
   }
 
 
-
   async function modifierBouteille() {
     bouteilleValeur.cellier_id = idCellier;
     const response = await putCellierHasBouteille(bouteilleValeur, id);
@@ -101,7 +93,6 @@ export default function BouteilleUpdate() {
       setValiderNom(res.status)
 
     } else {
-
       showMessage(
         <span>
           Vous avez modifié la bouteille:
@@ -111,6 +102,7 @@ export default function BouteilleUpdate() {
       );
     }
   }
+
 
   async function putCellierHasBouteille(bouteilleValeur, id) {
     const entete = new Headers();
@@ -126,6 +118,7 @@ export default function BouteilleUpdate() {
     return response;
   }
 
+
   useEffect(() => {
     if (confirmationMessage.display) {
       setTimeout(() => {
@@ -133,8 +126,6 @@ export default function BouteilleUpdate() {
       }, 2000);
     }
   }, [confirmationMessage, navigate, idCellier]);
-
-
 
 
   /**
@@ -154,7 +145,6 @@ export default function BouteilleUpdate() {
       });
     }, 2000);
   }
-
 
 
   return (
@@ -195,8 +185,6 @@ export default function BouteilleUpdate() {
             ))}
           </select>
 
-
-
           <div className="form__group field">
             <input
               placeholder="Millésime"
@@ -211,7 +199,6 @@ export default function BouteilleUpdate() {
           </div>
         </div>
 
-
         <div className="form__group field">
           <input
             placeholder="Pays"
@@ -222,12 +209,10 @@ export default function BouteilleUpdate() {
             value={bouteilleValeur.pays}
             onChange={handleChange}
           />
-
           <label className="form__label">Pays</label>
         </div>
+
         <div className="ajouter__bouteille--form--row">
-
-
           <div className="form__group field">
             <input
               placeholder="Format 750ml, 1L"
@@ -241,6 +226,7 @@ export default function BouteilleUpdate() {
             <label className="form__label">Format 750ml, 1L</label>
           </div>
         </div>
+
         <div className="ajouter__bouteille--form--row">
           <div className="form__group field">
             <input

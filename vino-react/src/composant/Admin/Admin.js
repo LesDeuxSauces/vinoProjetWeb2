@@ -30,7 +30,6 @@ export default function Admin() {
             .then((data) => {
                 setCelliers(data.length)
             })
-        console.log(nouveaute, "las nuevas");
     }, [chargement])
 
      /**
@@ -38,7 +37,6 @@ export default function Admin() {
      * * @returns {Promise<void>} Une promesse qui se résout et renvoie toutes les bouteilles de la SAQ.
      */
     async function misaJourSAQComplete() {
-        console.log("bouteilles completes");
         setMessageProgresse('Cette mise à jour peut prendre 15 minutes Veuillez patienter ')
         setCompteur(0)
         setNouveaute('');
@@ -53,9 +51,9 @@ export default function Admin() {
             await fetchAndUpdateBouteilles(quantite);
         }
         // fetchAndUpdateBouteilles(value);
-
     }
-     /**
+
+    /**
      * Fonction qui permet faire le mis à jour sur la base de données avec les dernières bouteilles
      * * @returns {Promise<void>} Une promesse qui se résout et renvoie les dernières bouteilles de la SAQ.
      */
@@ -68,7 +66,6 @@ export default function Admin() {
         const res = await response.json()
         let value = JSON.parse(res)
         fetchAndUpdateBouteilles(value);
-
     }
 
 /**
@@ -170,7 +167,6 @@ export default function Admin() {
             <div className="barre__chargement">
                 {chargement && chargement ? (
                     <>
-                        {/* <p className="texte_chargeur">Mis à jour en cours</p> */}
                         <p className="texte_chargeur">{messageProgresse}</p>
                         <div className="chargeur_bd"></div>
                     </>

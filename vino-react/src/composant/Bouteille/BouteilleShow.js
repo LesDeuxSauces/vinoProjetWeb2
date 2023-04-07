@@ -22,8 +22,6 @@ export default function BouteilleShow() {
       }
 
       const data = await response.json();
-
-      console.log(data); // ok
       setBouteille(data.data);
     };
 

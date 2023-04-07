@@ -18,7 +18,6 @@
     justify-content: center;
 }
 
-
 .inscription__form {
     display: flex;
     flex-direction: column;
@@ -27,7 +26,6 @@
     padding: 20px;
     margin: 20px;
 }
-
 
 .inscription__titre {
     color: var(--rouge-color);
@@ -69,7 +67,6 @@
     padding: 1rem;
     font-size: 1.5rem;
     font-weight: bold;
-    /* font-family: 'Source Sans Pro', sans-serif; */
     font-family: 'Montserrat', sans-serif;
     cursor: pointer;
     background-color: var(--rouge-color);
@@ -91,7 +88,7 @@
 }
 
 .logo__inscription--hover:hover{
-  transform: scale(1.1);
-  transition-duration: 0.2s;
-  cursor: pointer;
+    transform: scale(1.1);
+    transition-duration: 0.2s;
+    cursor: pointer;
 }

@@ -8,7 +8,6 @@ function PageErreur(){
     <>
     <Entete/>
     <main>
-      
       <img src={erreur} alt="Image d'Erreur" />
       <h1>Oopsi, cette page ne semble pas exister</h1>
     </main>

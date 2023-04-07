@@ -1,5 +1,5 @@
 .connexion__header {
-  background-image:  linear-gradient( rgba(0, 0, 0, 0.35) 100%, rgba(0, 0, 0, 0) 10% ), url('../../img/foto.jpg');
+    background-image:  linear-gradient( rgba(0, 0, 0, 0.35) 100%, rgba(0, 0, 0, 0) 10% ), url('../../img/foto.jpg');
     background-size: cover;
     display: flex;
     flex-direction: column;
@@ -18,7 +18,6 @@
     justify-content: center;
 }
 
-
 .connexion__form {
     display: flex;
     flex-direction: column;
@@ -27,7 +26,6 @@
     padding: 20px;
     margin: 20px;
 }
-
 
 .connexion__titre {
     color: var(--rouge-color);
@@ -90,9 +88,9 @@
 }
 
 .logo__connection--hover:hover{
-  transform: scale(1.1);
-  transition-duration: 0.2s;
-  cursor: pointer;
+    transform: scale(1.1);
+    transition-duration: 0.2s;
+    cursor: pointer;
 }
 
 .erreurs{

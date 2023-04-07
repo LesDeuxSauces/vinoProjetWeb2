@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./Cellier.css";
-import iconeEdit from "../../img/edit-icone-blanc.svg";
 import iconeAjout from "../../img/icone-ajout.svg";
 import barilsDeVin from '../../img/barils-de-vin.svg';
-import bouteilleIcone from '../../img/bouteille-icone.svg';
 import Modal from '../Modal/Modal';
 import iconeSupprimerBlanc from '../../img/icone-supprimer-blanc.png';
 import bouteilleIconeFill from '../../img/bouteille-icone-fill.png';
@@ -29,11 +26,10 @@ export default function CellierList(props) {
   const [dataCharge, setDataCharge] = useState(false); // création d'un etat pour indiquer si les données sont chargées
 
 
-
-
   useEffect(() => { // fonction qui s'exécute au chargement de la page
     fetchCellierUser(setCelliers); // appel de la fonction qui récupère les celliers de l'utilisateur
   }, []); // le tableau vide indique que la fonction ne doit s'exécuter qu'une seule fois
+
 
   /**
    * Récupérer les celliers de l'utilisateur
@@ -58,8 +54,6 @@ export default function CellierList(props) {
     );
     const quantiteData = await responseQuantite.json();
 
-    // console.log('les celliers de celliers_has_bouteilles:', quantiteData);
-
     // Fusionner les données de tous les celliers avec ceux qui ont des bouteilles
     const celliersAvecQuantite = celliersData.map((cellier) => { // boucle qui parcourt le tableau des celliers
       const quantiteCellier = quantiteData.find(
@@ -71,7 +65,6 @@ export default function CellierList(props) {
       };
     });
 
-    // console.log("cellier:", celliersAvecQuantite);
     setCelliers(celliersAvecQuantite);
     setDataCharge(true); // indique que les données sont chargées
   }
@@ -94,7 +87,6 @@ export default function CellierList(props) {
   }
 
   function showMessage(message) {
-    console.log("showmessage:", message);
     setConfirmationMessage({
       display: true,
       message,
@@ -115,7 +107,6 @@ export default function CellierList(props) {
  * @returns  liste des celliers de l'utilisateur
  */
   function afficheCelliers() {
-    // console.log(celliers);
     return celliers.map((cellier) => { // boucle qui parcourt le tableau des celliers
       return (
         <li className="cellier__carte" key={cellier.id}>
@@ -187,7 +178,7 @@ export default function CellierList(props) {
           }
         })
         .catch((evt) => {
-          // console.log(evt);
+          //console.log(evt);
         });
     } else {
       setDialog({ message: "", isLoading: false, produit: "" }); // si l'utilisateur ne confirme pas la suppression, on ferme le modale
