@@ -18,7 +18,7 @@
 ![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white) ![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
 
 ## Description
-Vino est une application web transactionnelle permettant à ses utilisateurs de gérer leur(s) cellier(s) de vin. Ce projet a été réalisé dans le cadre d'un cours de développement web en utilisant la méthodologie de gestion de projet Agile/Scrum. Le site est compatible avec les principales plateformes (Mac, PC, Android et iOS) et les principaux navigateurs (Edge, Chrome, Firefox et Safari).
+Vino est une application web permettant à ses utilisateurs de gérer leur(s) cellier(s) de vin. Ce projet a été réalisé dans le cadre d'un cours de développement web en utilisant la méthodologie de gestion de projet Agile/Scrum. Le site est compatible avec les principales plateformes (Mac, PC, Android et iOS) et les principaux navigateurs (Edge, Chrome, Firefox et Safari).
 
 ## Lien vers le projet:
 🌐 [https://vino.lesdeuxsauces.com/](https://vino.lesdeuxsauces.com/)
@@ -29,6 +29,17 @@ Vino est une application web transactionnelle permettant à ses utilisateurs de 
 )
 
 ---
+
+## login et mot de passe pour essayer le projet:
+- utilisateur:
+courriel: vino@vino.com
+mot de passe: Aa123456
+
+- admin:
+courriel: admin@vino.com
+mot de passe: Aa123456
+
+🌐 [https://vino.lesdeuxsauces.com/admin](https://vino.lesdeuxsauces.com/admin)
 
 <!-- ### Technologie utilisée
 Le projet a été développé en utilisant les technologies suivantes:
