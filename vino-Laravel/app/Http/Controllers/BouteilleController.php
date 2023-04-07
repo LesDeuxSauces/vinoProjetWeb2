@@ -15,7 +15,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 use Symfony\Component\Process\Exception\ProcessFailedException;
-// use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Process;
 use Symfony\Component\Console\Output\Output;
 
@@ -30,14 +29,17 @@ class BouteilleController extends Controller
 
   public function index()
   {
+    // Vérifier si au moins une bouteille a été trouvée
     $bouteille = Bouteille::all();
-    if ($bouteille->count() > 0) {
 
+    if ($bouteille->count() > 0) {
+      // Retourner une réponse avec les informations de toutes les bouteilles
       return response()->json([
         'status' => 200,
         'bouteilles' => $bouteille
       ], 200);
     } else {
+      // Retourner une réponse indiquant qu'aucune bouteille n'a été trouvée
       return response()->json([
         'status' => 200,
         'bouteilles' => 'aucune bouteille n\'a été ajoutée'
@@ -64,7 +66,7 @@ class BouteilleController extends Controller
   public function store(Request $request)
   {
 
-
+    // Validation des données de la requête
     $validation = Validator::make($request->all(), [
 
       'nom' => 'required',
@@ -73,6 +75,8 @@ class BouteilleController extends Controller
       'cellier_id' => 'required',
 
     ]);
+
+    // Si la validation échoue, retourne une réponse avec les erreurs de validation
     // 422, input error dans la validation 
     if ($validation->fails()) {
 
@@ -82,6 +86,8 @@ class BouteilleController extends Controller
       ], 422);
     } else {
 
+      // Si la validation est réussie et si le code SAQ est fourni,
+      // crée une nouvelle entrée dans la table cellierHasBouteilles
       if ($request->code_saq != '') {
 
         $cellierHasBouteille = CelliersHasBouteilles::create([
@@ -90,20 +96,23 @@ class BouteilleController extends Controller
           'cellier_id' => $request->cellier_id
         ]);
 
+        // Si l'ajout est réussi, retourne une réponse avec le statut 200 et le message "la bouteille a été ajoutée"
         if ($cellierHasBouteille) {
           return response()->json([
             "status" => 200,
             'message' => 'la bouteille a été ajoutée'
-
           ], 200);
+
+        // Sinon, retourne une réponse avec le statut 500 et le message "l'ajout n'a pas fonctionné"
         } else {
           return response()->json([
             'status' => 500,
             'message' => 'l\'ajout n\'a pas fonctionné'
           ], 500);
         }
-      } else {
 
+      } else {
+        // Si le code SAQ n'est pas fourni, crée une nouvelle entrée dans la table de bouteilles et une nouvelle entrée dans la table cellierHasBouteilles
         $bouteille = new Bouteille;
         $bouteille = Bouteille::create([
           'nom' => $request->nom,
@@ -123,12 +132,14 @@ class BouteilleController extends Controller
           'cellier_id' => $request->cellier_id
         ]);
 
+        // Si la bouteille a bien été créée, renvoyer une réponse JSON avec un statut 200 et un message de confirmation
         if ($bouteille) {
           return response()->json([
             'status' => 200,
             'message' => 'la bouteille a été ajoutée'
           ], 200);
         } else {
+          // Sinon, renvoyer une réponse JSON avec un statut 500 et un message d'erreur
           return response()->json([
             'status' => 500,
             'message' => 'l\'ajout n\'a pas fonctionné'
@@ -165,7 +176,7 @@ class BouteilleController extends Controller
   public function update(Request $request, Bouteille $bouteille)
   {
 
-    // ajout de condition afin de ne pas pouvoir forcer la moidification d'une bouteille de la SAQ
+    // ajout de condition afin de ne pas pouvoir forcer la modification d'une bouteille de la SAQ
     if ($bouteille->code_saq) {
       return response()->json([
         'status' => 400,
@@ -173,9 +184,12 @@ class BouteilleController extends Controller
       ], 400);
     }
 
+    // Validation des données reçues
     $validation = Validator::make($request->all(), [
       'nom' => 'required',
     ]);
+
+    // Si la validation échoue, renvoie une réponse avec un code d'erreur 422 et les messages d'erreur
     if ($validation->fails()) {
       return response()->json([
 
@@ -186,17 +200,18 @@ class BouteilleController extends Controller
       ], 422);
     } else {
 
+      // Met à jour la bouteille avec les données reçues
       $bouteille->update([
         'nom' => $request->nom,
         'format' => $request->format,
         'prix' => $request->prix,
         'annee' => $request->annee,
-
         'pays' => $request->pays,
         'type_id' => $request->type_id,
       ]);
     }
 
+    // Renvoie une réponse JSON avec un code de succès 200 et un message indiquant que la mise à jour a réussi
     return response()->json([
       'status' => 200,
       'message' => 'La bouteille a été mise à jour avec succès'
@@ -241,6 +256,7 @@ class BouteilleController extends Controller
    */
   public function ajouterBouteilleSAQ(Request $request)
   {
+    // Obtenir l'ID du type de vin à partir du champ "type" de la requête
     $type_id = '';
     switch ($request->type) {
       case 'rouge':
@@ -258,6 +274,7 @@ class BouteilleController extends Controller
         break;
     }
 
+    // Créer une nouvelle instance de la classe Bouteille et l'ajouter à la base de données
     $bouteilleSAQ = new Bouteille;
     $bouteilleSAQ = Bouteille::create([
       'nom' => $request->nom,
@@ -271,6 +288,7 @@ class BouteilleController extends Controller
       'type_id' => $type_id,
     ]);
 
+    // Vérifier si l'ajout a été effectué avec succès
     if ($bouteilleSAQ) {
       return response()->json([
         'status' => 200,
