@@ -1,5 +1,8 @@
 import { redirect, json } from "react-router-dom";
 
+/**
+ * Fonction action du routeur qui permet le logout de l'utilisateur et sa redirection
+ */
 export function action() {
   
   logoutUser();
