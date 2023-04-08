@@ -10,6 +10,10 @@ import {
 import React, { useEffect, useState } from "react";
 import logoVino from "../../img/vinoLogo-rouge.svg";
 
+/**
+ * Composant de connexion utilisateur
+ */
+
 export default function Connexion() {
   const api_url = "http://127.0.0.1:8000/api/";
   const navigate = useNavigate();

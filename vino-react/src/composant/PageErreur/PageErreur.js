@@ -2,6 +2,10 @@ import Entete from "../Entete/Entete";
 import "./PageErreur.css";
 import erreur from "../../img/404.png";
 
+/**
+ * Fonction qui retourne une erreur 404 si l'url recherché est inexistante.
+ */
+
 function PageErreur(){
 
   return (

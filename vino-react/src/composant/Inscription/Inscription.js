@@ -3,6 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Inscription.css";
 import logoVino from "../../img/vinoLogo-rouge.svg";
 
+
+/**
+ * Composant d'inscription utilisateur
+ */
+
 export default function Inscription(props) {
   const api_url = "http://127.0.0.1:8000/api/";
   const navigate = useNavigate();
