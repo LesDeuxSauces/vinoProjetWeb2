@@ -30,7 +30,7 @@ Vino est une application web permettant à ses utilisateurs de gérer leur(s) ce
 
 ---
 
-## login et mot de passe pour essayer le projet:
+## login et mot de passe pour essayer le projet en ligne:
 - utilisateur:
 courriel: vino@vino.com
 mot de passe: Aa123456
@@ -50,3 +50,25 @@ Le projet a été développé en utilisant les technologies suivantes:
 
 ## Auteurs
 Le projet a été réalisé par Delalle Corentin, Favreau Tommy, Lopez Coronado Rosemberg, Charbonnier Eric dans le cadre du projet web 2 de l'AEC Conception et programmation de sites Web du Collège de Maisonneuve.
+
+
+## Configuration du projet en LOCAL
+
+Avant de pouvoir exécuter le projet localement, veuillez suivre ces étapes de configuration :
+
+1. Ajustez le fichier `.env` : Assurez-vous de configurer correctement le fichier `.env` de votre projet Laravel pour accéder à la base de données. Vous devrez spécifier les informations de connexion appropriées, telles que le nom de la base de données, l'utilisateur et le mot de passe.
+
+2. Lancer le serveur Laravel : Ouvrez votre terminal ou votre invite de commande, accédez au répertoire racine de votre projet Laravel et exécutez la commande `php artisan serve` pour démarrer le serveur Laravel en local. Cela permettra à votre application Laravel d'être accessible à l'adresse `http://localhost:8000` (ou une autre URL spécifiée par le serveur).
+
+3. Démarrer la partie React : Dans un autre terminal ou une autre fenêtre de commande, accédez au répertoire de la partie React de votre projet et exécutez la commande `npm start` pour démarrer le serveur de développement de React. Cela permettra à votre application React d'être accessible à l'adresse `http://localhost:3000` (ou une autre URL spécifiée par le serveur de développement).
+
+## Utilisation
+
+Une fois que vous avez configuré et démarré les serveurs, vous pouvez accéder à votre application en ouvrant votre navigateur et en visitant les URL suivantes :
+
+- Pour la partie Laravel : [http://localhost:8000](http://localhost:8000)
+- Pour la partie React : [http://localhost:3000](http://localhost:3000)
+
+Assurez-vous que les deux serveurs sont en cours d'exécution simultanément pour que votre application fonctionne correctement.
+
+
