@@ -33,11 +33,11 @@ Vino est une application web permettant à ses utilisateurs de gérer leur(s) ce
 ## login et mot de passe pour essayer le projet:
 - utilisateur:
 courriel: vino@vino.com
-mot de passe: 123456
+mot de passe: Aa123456
 
 - admin:
 courriel: admin@vino.com
-mot de passe: 123456
+mot de passe: Aa123456
 
 🌐 [https://vino.lesdeuxsauces.com/admin](https://vino.lesdeuxsauces.com/admin)
 
