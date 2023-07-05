@@ -209,7 +209,7 @@
 
 .bouteille {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(217px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   row-gap: 9px;
   width: 100%;
   justify-items: center;
@@ -234,8 +234,9 @@
 }
 
 .bouteille__img {
-  height: 120px;
+  height: 93px;
   margin-right: auto;
+  margin-bottom: 20px;
 }
 
 .bouteille__nom {
@@ -252,10 +253,10 @@
 
 .bouteille p {
   color: black;
-  display: flex;
+  /* display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 }
 
 .bouteille__infos {
@@ -351,7 +352,7 @@
   top: 13%;
   right: 10px;
   transform: translateY(-50%);
-  width: 40px;
+  width: 30px;
 }
 
 .icone-nbr-bouteille {
@@ -488,8 +489,8 @@ https://codepen.io/Koverzneva/pen/GRXoomy
 .flip-container,
 .bouteille__carte--avant,
 .bouteille__carte--arriere {
-  width: 215px;
-  height: 215px;
+  width: 175px;
+  height: 180px;
 }
 
 .flip-container .bouteille__carte--tourner {
@@ -521,6 +522,5 @@ https://codepen.io/Koverzneva/pen/GRXoomy
   transform: rotateY(180deg);
   background-color: whitesmoke;
   line-height: 1.5;
-  letter-spacing: 0.1em;
   align-items: flex-start;
 }
